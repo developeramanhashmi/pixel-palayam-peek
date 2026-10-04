@@ -42,7 +42,7 @@ function Lightbox({ images, index, setIndex }: { images: Img[]; index: number; s
     document.body.style.overflow = "hidden";
     return () => { document.removeEventListener("keydown", k); document.body.style.overflow = ""; };
   }, [go, setIndex]);
-  const img = images[index];
+  const img = images[index]!;
   const ctl = "absolute z-10 rounded-full bg-ink/60 p-3 text-ink-foreground transition-colors hover:bg-gold hover:text-ink";
   return (
     <div role="dialog" aria-modal="true" aria-label={t.images[img.key]}

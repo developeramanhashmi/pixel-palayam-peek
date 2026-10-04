@@ -13,7 +13,7 @@ type Errors = Partial<Record<keyof Enquiry, string>>;
 
 const field = "w-full rounded-sm border bg-card px-4 py-3 text-base outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold";
 
-export function BookingForm({ initialRoom }: { initialRoom?: RoomType }) {
+export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefined }) {
   const { t } = useI18n();
   const b = t.booking;
   const [v, setV] = useState<Enquiry>({ name: "", address: "", contact: "", room: initialRoom ?? "", rooms: "1", guests: "", notes: "" });

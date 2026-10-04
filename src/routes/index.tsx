@@ -60,7 +60,7 @@ function Home() {
         <SectionHeading eyebrow={t.home.whyEyebrow} title={t.home.whyTitle} center />
         <ul className="grid gap-px overflow-hidden border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {t.features.map((f, i) => {
-            const I = icons[i];
+            const I = icons[i]!;
             return (
               <li key={i} className="bg-background p-8 md:p-10">
                 <I className="h-7 w-7 text-gold" strokeWidth={1.25} />
