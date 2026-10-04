@@ -61,7 +61,41 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType }) {
     );
   }
 
-  const F = ({ k, label, children, optional }: { k: keyof Enquiry; label: string; children: React.ReactNode; optional?: boolean }) => (
+  const aria = (k: keyof Enquiry) => ({ id: `f-${k}`, "aria-invalid": !!errors[k], "aria-describedby": errors[k] ? `e-${k}` : undefined, className: cn(field, errors[k] && "border-destructive") });
+
+  return (
+    <form noValidate onSubmit={submit} className="space-y-12 border bg-card p-6 md:p-12">
+      <fieldset className="space-y-5">
+        <legend className="mb-6 font-serif text-2xl">{b.guestInfo}</legend>
+        <Field errors={errors} b={b} k="name" label={b.name}><input {...aria("name")} autoComplete="name" value={v.name} onChange={set("name")} /></Field>
+        <Field errors={errors} b={b} k="address" label={b.address}><input {...aria("address")} autoComplete="street-address" value={v.address} onChange={set("address")} /></Field>
+        <Field errors={errors} b={b} k="contact" label={b.contact}><input {...aria("contact")} type="tel" inputMode="tel" autoComplete="tel" value={v.contact} onChange={set("contact")} /></Field>
+      </fieldset>
+      <fieldset className="space-y-5">
+        <legend className="mb-6 font-serif text-2xl">{b.roomReq}</legend>
+        <Field errors={errors} b={b} k="room" label={b.roomType}>
+          <select {...aria("room")} value={v.room} onChange={set("room")}>
+            <option value="">{b.selectRoom}</option>
+            <option value="ac">{t.rooms.ac}</option>
+            <option value="nonac">{t.rooms.nonac}</option>
+          </select>
+        </Field>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field errors={errors} b={b} k="rooms" label={b.numRooms}><input {...aria("rooms")} type="number" min={1} inputMode="numeric" value={v.rooms} onChange={set("rooms")} /></Field>
+          <Field errors={errors} b={b} k="guests" label={b.numGuests}><input {...aria("guests")} type="number" min={1} inputMode="numeric" value={v.guests} onChange={set("guests")} /></Field>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend className="mb-6 font-serif text-2xl">{b.additional}</legend>
+        <Field errors={errors} b={b} k="notes" label={b.notes} optional><textarea {...aria("notes")} rows={4} placeholder={b.notesPh} value={v.notes} onChange={set("notes")} /></Field>
+      </fieldset>
+      <button type="submit" className={btn("primary", "w-full sm:w-auto sm:px-12")}>{b.submit}</button>
+    </form>
+  );
+}
+
+function Field({ k, label, children, optional, errors, b }: { k: keyof Enquiry; label: string; children: React.ReactNode; optional?: boolean; errors: Errors; b: { optional: string } }) {
+  return (
     <div>
       <label htmlFor={`f-${k}`} className="mb-2 block text-sm font-semibold">
         {label} {optional ? <span className="font-normal text-muted-foreground">({b.optional})</span> : <span className="text-gold" aria-hidden="true">*</span>}
@@ -69,36 +103,5 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType }) {
       {children}
       {errors[k] && <p id={`e-${k}`} className="mt-1.5 text-sm text-destructive">{errors[k]}</p>}
     </div>
-  );
-  const aria = (k: keyof Enquiry) => ({ id: `f-${k}`, "aria-invalid": !!errors[k], "aria-describedby": errors[k] ? `e-${k}` : undefined, className: cn(field, errors[k] && "border-destructive") });
-
-  return (
-    <form noValidate onSubmit={submit} className="space-y-12 border bg-card p-6 md:p-12">
-      <fieldset className="space-y-5">
-        <legend className="mb-6 font-serif text-2xl">{b.guestInfo}</legend>
-        <F k="name" label={b.name}><input {...aria("name")} autoComplete="name" value={v.name} onChange={set("name")} /></F>
-        <F k="address" label={b.address}><input {...aria("address")} autoComplete="street-address" value={v.address} onChange={set("address")} /></F>
-        <F k="contact" label={b.contact}><input {...aria("contact")} type="tel" inputMode="tel" autoComplete="tel" value={v.contact} onChange={set("contact")} /></F>
-      </fieldset>
-      <fieldset className="space-y-5">
-        <legend className="mb-6 font-serif text-2xl">{b.roomReq}</legend>
-        <F k="room" label={b.roomType}>
-          <select {...aria("room")} value={v.room} onChange={set("room")}>
-            <option value="">{b.selectRoom}</option>
-            <option value="ac">{t.rooms.ac}</option>
-            <option value="nonac">{t.rooms.nonac}</option>
-          </select>
-        </F>
-        <div className="grid gap-5 sm:grid-cols-2">
-          <F k="rooms" label={b.numRooms}><input {...aria("rooms")} type="number" min={1} inputMode="numeric" value={v.rooms} onChange={set("rooms")} /></F>
-          <F k="guests" label={b.numGuests}><input {...aria("guests")} type="number" min={1} inputMode="numeric" value={v.guests} onChange={set("guests")} /></F>
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend className="mb-6 font-serif text-2xl">{b.additional}</legend>
-        <F k="notes" label={b.notes} optional><textarea {...aria("notes")} rows={4} placeholder={b.notesPh} value={v.notes} onChange={set("notes")} /></F>
-      </fieldset>
-      <button type="submit" className={btn("primary", "w-full sm:w-auto sm:px-12")}>{b.submit}</button>
-    </form>
   );
 }
