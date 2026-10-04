@@ -48,10 +48,10 @@ function Lightbox({ images, index, setIndex }: { images: Img[]; index: number; s
     <div role="dialog" aria-modal="true" aria-label={t.images[img.key]}
       className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95 animate-in fade-in duration-200"
       onClick={() => setIndex(null)}
-      onTouchStart={(e) => (touch.current = e.touches[0].clientX)}
+      onTouchStart={(e) => (touch.current = e.touches[0]!.clientX)}
       onTouchEnd={(e) => {
         if (touch.current === null) return;
-        const dx = e.changedTouches[0].clientX - touch.current;
+        const dx = e.changedTouches[0]!.clientX - touch.current;
         if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
         touch.current = null;
       }}>
