@@ -5,7 +5,7 @@ import { useI18n, type Lang } from "@/lib/i18n";
 import { btn } from "./ui";
 import { cn } from "@/lib/utils";
 
-export function LanguageSelector({ light }: { light?: boolean }) {
+export function LanguageSelector({ light, drop = "down" }: { light?: boolean; drop?: "up" | "down" }) {
   const { lang, setLang, t } = useI18n();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
