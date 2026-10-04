@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X, Check } from "lucide-react";
 import { useI18n, type Lang } from "@/lib/i18n";
@@ -68,7 +68,8 @@ export function Header() {
     { to: "/gallery", l: t.nav.gallery },
     { to: "/contact", l: t.nav.contact },
   ] as const;
-  const solid = scrolled || open;
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const solid = scrolled || open || pathname.startsWith("/booking");
 
   return (
     <header className={cn("fixed inset-x-0 top-0 z-40 transition-all duration-300", solid ? "border-b bg-background/95 backdrop-blur" : "bg-transparent")}>
