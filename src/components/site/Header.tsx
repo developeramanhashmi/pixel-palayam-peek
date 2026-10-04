@@ -30,7 +30,7 @@ export function LanguageSelector({ light, drop = "down" }: { light?: boolean; dr
         {lang.toUpperCase()} <ChevronDown className="h-3.5 w-3.5" />
       </button>
       {open && (
-        <ul role="listbox" className="absolute bottom-full right-0 z-50 mb-2 w-36 overflow-hidden rounded-sm border bg-popover py-1 text-sm text-popover-foreground shadow-lg">
+        <ul role="listbox" className={cn("absolute right-0 z-50 w-36 overflow-hidden rounded-sm border bg-popover py-1 text-sm text-popover-foreground shadow-lg", drop === "up" ? "bottom-full mb-2" : "top-full mt-2")}>
           {opts.map((o) => (
             <li key={o.v}>
               <button
@@ -158,7 +158,7 @@ export function Header() {
         <div className="shrink-0 border-t px-4 py-4">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">{t.nav.language}</span>
-            <LanguageSelector />
+            <LanguageSelector drop="up" />
           </div>
           <Link to="/booking" onClick={() => setOpen(false)} className={btn("gold", "mt-4 w-full px-4 py-2.5")}>
             {t.nav.book}
