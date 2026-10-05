@@ -11,4 +11,5 @@
 
 - Business contact details (phone, WhatsApp, maps) live only in src/lib/site-config.ts — single place to update.
 - All user-facing copy lives in src/lib/i18n.tsx (en + te dictionaries) — every new string needs both languages.
-- Enquiry form is client-only in Phase 1; no reservation/payment system — scope rule from client brief.
+- Booking enquiries are stored through a validated TanStack server function in Lovable Cloud; anonymous visitors may submit only, and RLS prevents public reads.
+- The enquiry form remains an enquiry workflow only; do not add reservations, payments, availability, or guest accounts without an explicit phase update.

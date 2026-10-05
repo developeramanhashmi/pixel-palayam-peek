@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { Link, useServerFn } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/site-config";
