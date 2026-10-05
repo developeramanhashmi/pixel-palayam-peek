@@ -1,13 +1,13 @@
 import { useState, type FormEvent } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useServerFn } from "@tanstack/react-router";
 import { CheckCircle2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/site-config";
 import { btn, WhatsAppIcon } from "./ui";
 import type { RoomType } from "./sections";
 import { cn } from "@/lib/utils";
+import { submitEnquiry } from "@/lib/enquiries.functions";
 
-// Enquiry data shape — kept separate so a real submission backend can be added later.
 export type Enquiry = { name: string; address: string; contact: string; room: RoomType | ""; rooms: string; guests: string; notes: string };
 type Errors = Partial<Record<keyof Enquiry, string>>;
 
@@ -19,6 +19,9 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
   const [v, setV] = useState<Enquiry>({ name: "", address: "", contact: "", room: initialRoom ?? "", rooms: "1", guests: "", notes: "" });
   const [errors, setErrors] = useState<Errors>({});
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitFailed, setSubmitFailed] = useState(false);
+  const submitEnquiryFn = useServerFn(submitEnquiry);
   const set = (k: keyof Enquiry) => (e: { target: { value: string } }) => setV((p) => ({ ...p, [k]: e.target.value }));
 
   const validate = (): Errors => {
@@ -27,21 +30,44 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     if (!v.address.trim()) e.address = b.errAddress;
     if (!/^\+?[0-9\s-]{10,15}$/.test(v.contact.trim())) e.contact = b.errContact;
     if (!v.room) e.room = b.errRoom;
-    if (!(Number(v.rooms) >= 1)) e.rooms = b.errRooms;
-    if (!(Number(v.guests) >= 1)) e.guests = b.errGuests;
+    if (!Number.isInteger(Number(v.rooms)) || Number(v.rooms) < 1 || Number(v.rooms) > 50) e.rooms = b.errRooms;
+    if (!Number.isInteger(Number(v.guests)) || Number(v.guests) < 1 || Number(v.guests) > 500) e.guests = b.errGuests;
     return e;
   };
 
-  const submit = (ev: FormEvent) => {
+  const submit = async (ev: FormEvent) => {
     ev.preventDefault();
+    setSubmitFailed(false);
     const e = validate();
     setErrors(e);
     if (Object.keys(e).length) {
       document.getElementById(`f-${Object.keys(e)[0]}`)?.focus();
       return;
     }
-    setDone(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setSubmitting(true);
+    try {
+      const result = await submitEnquiryFn({
+        data: {
+          guest_name: v.name.trim(),
+          address: v.address.trim(),
+          contact_number: v.contact.trim(),
+          room_type: v.room === "ac" ? "AC" : "NON_AC",
+          number_of_rooms: Number(v.rooms),
+          total_guests: Number(v.guests),
+          additional_requirements: v.notes.trim() || undefined,
+        },
+      });
+      if (!result.success) {
+        setSubmitFailed(true);
+        return;
+      }
+      setDone(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {
+      setSubmitFailed(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (done) {
@@ -67,9 +93,9 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     <form noValidate onSubmit={submit} className="space-y-12 border bg-card p-6 md:p-12">
       <fieldset className="space-y-5">
         <legend className="mb-6 font-serif text-2xl">{b.guestInfo}</legend>
-        <Field errors={errors} b={b} k="name" label={b.name}><input {...aria("name")} autoComplete="name" value={v.name} onChange={set("name")} /></Field>
-        <Field errors={errors} b={b} k="address" label={b.address}><input {...aria("address")} autoComplete="street-address" value={v.address} onChange={set("address")} /></Field>
-        <Field errors={errors} b={b} k="contact" label={b.contact}><input {...aria("contact")} type="tel" inputMode="tel" autoComplete="tel" value={v.contact} onChange={set("contact")} /></Field>
+        <Field errors={errors} b={b} k="name" label={b.name}><input {...aria("name")} autoComplete="name" maxLength={100} value={v.name} onChange={set("name")} /></Field>
+        <Field errors={errors} b={b} k="address" label={b.address}><input {...aria("address")} autoComplete="street-address" maxLength={500} value={v.address} onChange={set("address")} /></Field>
+        <Field errors={errors} b={b} k="contact" label={b.contact}><input {...aria("contact")} type="tel" inputMode="tel" autoComplete="tel" maxLength={16} value={v.contact} onChange={set("contact")} /></Field>
       </fieldset>
       <fieldset className="space-y-5">
         <legend className="mb-6 font-serif text-2xl">{b.roomReq}</legend>
@@ -81,15 +107,16 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           </select>
         </Field>
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field errors={errors} b={b} k="rooms" label={b.numRooms}><input {...aria("rooms")} type="number" min={1} inputMode="numeric" value={v.rooms} onChange={set("rooms")} /></Field>
-          <Field errors={errors} b={b} k="guests" label={b.numGuests}><input {...aria("guests")} type="number" min={1} inputMode="numeric" value={v.guests} onChange={set("guests")} /></Field>
+          <Field errors={errors} b={b} k="rooms" label={b.numRooms}><input {...aria("rooms")} type="number" min={1} max={50} step={1} inputMode="numeric" value={v.rooms} onChange={set("rooms")} /></Field>
+          <Field errors={errors} b={b} k="guests" label={b.numGuests}><input {...aria("guests")} type="number" min={1} max={500} step={1} inputMode="numeric" value={v.guests} onChange={set("guests")} /></Field>
         </div>
       </fieldset>
       <fieldset>
         <legend className="mb-6 font-serif text-2xl">{b.additional}</legend>
-        <Field errors={errors} b={b} k="notes" label={b.notes} optional><textarea {...aria("notes")} rows={4} placeholder={b.notesPh} value={v.notes} onChange={set("notes")} /></Field>
+        <Field errors={errors} b={b} k="notes" label={b.notes} optional><textarea {...aria("notes")} rows={4} maxLength={2000} placeholder={b.notesPh} value={v.notes} onChange={set("notes")} /></Field>
       </fieldset>
-      <button type="submit" className={btn("primary", "w-full sm:w-auto sm:px-12")}>{b.submit}</button>
+      {submitFailed && <p className="text-sm text-destructive" role="alert">{b.errorSubmit}</p>}
+      <button type="submit" disabled={submitting} className={btn("primary", "w-full sm:w-auto sm:px-12")}>{submitting ? b.sending : b.submit}</button>
     </form>
   );
 }
