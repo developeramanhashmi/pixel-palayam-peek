@@ -1,29 +1,48 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, BedDouble, Snowflake, ShieldCheck } from "lucide-react";
+import { CheckCircle2, BedDouble, Snowflake, ShieldCheck, Phone, ArrowRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { whatsappHref } from "@/lib/site-config";
+import { siteConfig, telHref, whatsappHref } from "@/lib/site-config";
 import { btn, WhatsAppIcon } from "./ui";
 import type { RoomType } from "./sections";
 import { cn } from "@/lib/utils";
 import { submitEnquiry } from "@/lib/enquiries.functions";
+import { useServerFn } from "@tanstack/react-start";
 
-export type Enquiry = { name: string; address: string; contact: string; room: RoomType | ""; rooms: string; guests: string; notes: string };
+export type Enquiry = {
+  name: string;
+  address: string;
+  contact: string;
+  room: RoomType | "";
+  rooms: string;
+  guests: string;
+  notes: string;
+};
 type Errors = Partial<Record<keyof Enquiry, string>>;
 
-const fieldClass = "w-full rounded-md border border-input bg-background px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold";
+const fieldClass =
+  "w-full rounded-md border border-input bg-background px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold";
 
 export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefined }) {
   const { t } = useI18n();
   const b = t.booking;
-  const [v, setV] = useState<Enquiry>({ name: "", address: "", contact: "", room: initialRoom ?? "", rooms: "1", guests: "", notes: "" });
+  const [v, setV] = useState<Enquiry>({
+    name: "",
+    address: "",
+    contact: "",
+    room: initialRoom ?? "",
+    rooms: "1",
+    guests: "",
+    notes: "",
+  });
   const [errors, setErrors] = useState<Errors>({});
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitFailed, setSubmitFailed] = useState(false);
   const submitEnquiryFn = useServerFn(submitEnquiry);
-  const set = (k: keyof Enquiry) => (e: { target: { value: string } }) => setV((p) => ({ ...p, [k]: e.target.value }));
+
+  const set = (k: keyof Enquiry) => (e: { target: { value: string } }) =>
+    setV((p) => ({ ...p, [k]: e.target.value }));
 
   const validate = (): Errors => {
     const e: Errors = {};
@@ -31,8 +50,10 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     if (!v.address.trim()) e.address = b.errAddress;
     if (!/^\+?[0-9\s-]{10,15}$/.test(v.contact.trim())) e.contact = b.errContact;
     if (v.room !== "ac" && v.room !== "nonac") e.room = b.errRoom;
-    if (!Number.isInteger(Number(v.rooms)) || Number(v.rooms) < 1 || Number(v.rooms) > 50) e.rooms = b.errRooms;
-    if (!Number.isInteger(Number(v.guests)) || Number(v.guests) < 1 || Number(v.guests) > 500) e.guests = b.errGuests;
+    if (!Number.isInteger(Number(v.rooms)) || Number(v.rooms) < 1 || Number(v.rooms) > 50)
+      e.rooms = b.errRooms;
+    if (!Number.isInteger(Number(v.guests)) || Number(v.guests) < 1 || Number(v.guests) > 500)
+      e.guests = b.errGuests;
     return e;
   };
 
@@ -45,9 +66,31 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
       document.getElementById(`f-${Object.keys(e)[0]}`)?.focus();
       return;
     }
+
     setSubmitting(true);
     try {
-      const result = await submitEnquiryFn({
+      // 1. Send to Web3Forms for instant email notification
+      if (siteConfig.web3FormsKey && siteConfig.web3FormsKey !== "YOUR_WEB3FORMS_ACCESS_KEY") {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: siteConfig.web3FormsKey,
+            subject: `New Room Enquiry: ${v.name} (${v.room === "ac" ? "AC Room" : "Non-AC Room"})`,
+            from_name: "Veerapandiyar Guest House",
+            guest_name: v.name.trim(),
+            contact_number: v.contact.trim(),
+            city_address: v.address.trim(),
+            room_type: v.room === "ac" ? "AC Deluxe Room" : "Non-AC Standard Room",
+            rooms_count: v.rooms,
+            total_guests: v.guests,
+            requirements: v.notes.trim() || "None",
+          }),
+        }).catch((err) => console.warn("Web3Forms note:", err));
+      }
+
+      // 2. Also try database
+      await submitEnquiryFn({
         data: {
           guest_name: v.name.trim(),
           address: v.address.trim(),
@@ -57,34 +100,82 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           total_guests: Number(v.guests),
           additional_requirements: v.notes.trim() || undefined,
         },
-      });
-      if (!result.success) {
-        setSubmitFailed(true);
-        return;
-      }
+      }).catch((dbErr) => console.warn("DB note:", dbErr));
+
       setDone(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
-      setSubmitFailed(true);
+      // If error occurs, still mark done so user can confirm via WhatsApp
+      setDone(true);
     } finally {
       setSubmitting(false);
     }
   };
 
+  // Structured Interactive WhatsApp Receipt Message
+  const waReceiptMessage = `🏨 *NEW STAY ENQUIRY*
+*Veerapandiyar Guest House, Periyapalayam*
+──────────────────────
+👤 *Guest Name:* ${v.name}
+📞 *Contact:* ${v.contact}
+📍 *Address:* ${v.address}
+
+🛏️ *Room Type:* ${v.room === "ac" ? "❄️ AC Deluxe Room" : "🌿 Non-AC Room"}
+🚪 *Rooms Needed:* ${v.rooms}
+👥 *Total Guests:* ${v.guests}
+📝 *Notes:* ${v.notes || "None"}
+──────────────────────
+🙏 _Please confirm room availability & tariff._`;
+
   if (done) {
-    const msg = [t.common.waGreeting, "", `${b.name}: ${v.name}`, `${b.address}: ${v.address}`, `${b.contact}: ${v.contact}`,
-      `${b.roomType}: ${v.room ? t.rooms[v.room] : ""}`, `${b.numRooms}: ${v.rooms}`, `${b.numGuests}: ${v.guests}`, v.notes ? `${b.notes}: ${v.notes}` : ""]
-      .filter(Boolean).join("\n");
     return (
-      <div className="mx-auto max-w-xl rounded-2xl border border-border/80 bg-card p-8 text-center shadow-2xl md:p-14 page-in" role="status">
-        <CheckCircle2 className="mx-auto h-16 w-16 text-gold" strokeWidth={1.25} />
-        <h2 className="mt-6 font-serif text-3xl md:text-4xl text-foreground">{b.thanks}</h2>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">{b.success}</p>
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <a href={whatsappHref(msg)} target="_blank" rel="noopener noreferrer" className={btn("primary", "px-6 py-3")}>
-            <WhatsAppIcon className="h-4 w-4 mr-2" />{t.common.whatsapp}
+      <div className="mx-auto max-w-xl rounded-2xl border border-border/80 bg-card p-6 text-center shadow-2xl md:p-12 page-in">
+        <CheckCircle2 className="mx-auto h-16 w-16 text-gold" strokeWidth={1.5} />
+        <h2 className="mt-4 font-serif text-3xl md:text-4xl text-foreground font-medium">
+          Enquiry Received!
+        </h2>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+          Thank you, <strong className="text-foreground">{v.name}</strong>. Your enquiry details have been noted.
+        </p>
+
+        {/* Voucher Preview Card */}
+        <div className="my-6 rounded-xl border border-border bg-muted/40 p-4 text-left text-xs space-y-2">
+          <div className="flex justify-between border-b pb-2 font-semibold text-foreground">
+            <span>Room: {v.room === "ac" ? "AC Deluxe" : "Non-AC Standard"}</span>
+            <span>{v.rooms} Room(s) • {v.guests} Guests</span>
+          </div>
+          <div className="text-muted-foreground">
+            <p><strong>Contact:</strong> {v.contact}</p>
+            <p><strong>Address:</strong> {v.address}</p>
+            {v.notes && <p><strong>Notes:</strong> {v.notes}</p>}
+          </div>
+        </div>
+
+        {/* Actions: Send to WhatsApp & Call */}
+        <div className="flex flex-col gap-3 sm:flex-row justify-center">
+          <a
+            href={whatsappHref(waReceiptMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg hover:brightness-105 active:scale-95 transition-all"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            <span>Confirm on WhatsApp</span>
           </a>
-          <Link to="/" className={btn("outline", "px-6 py-3")}>{t.common.backHome}</Link>
+
+          <a
+            href={telHref()}
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-6 py-3.5 text-xs font-semibold text-foreground hover:bg-muted active:scale-95 transition-all"
+          >
+            <Phone className="h-4 w-4 text-gold" />
+            <span>Call Guest House</span>
+          </a>
+        </div>
+
+        <div className="mt-6">
+          <Link to="/" className="text-xs text-muted-foreground hover:text-gold underline">
+            {t.common.backHome}
+          </Link>
         </div>
       </div>
     );
@@ -92,7 +183,6 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 
   return (
     <form noValidate onSubmit={submit} className="mx-auto max-w-2xl rounded-2xl border border-border/80 bg-card p-6 shadow-2xl md:p-10">
-      
       {/* 1. ROOM SELECTION CARDS */}
       <div>
         <label className="block text-xs font-bold uppercase tracking-[0.18em] text-gold">
@@ -112,7 +202,11 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           >
             <div className="flex w-full items-center justify-between">
               <Snowflake className="h-5 w-5 text-gold" />
-              {v.room === "ac" && <span className="rounded-full bg-gold px-2 py-0.5 text-[0.6rem] font-bold text-ink">Selected</span>}
+              {v.room === "ac" && (
+                <span className="rounded-full bg-gold px-2 py-0.5 text-[0.6rem] font-bold text-ink">
+                  Selected
+                </span>
+              )}
             </div>
             <span className="mt-3 text-sm font-bold text-foreground">{t.rooms.ac}</span>
             <span className="mt-1 text-[0.7rem] text-muted-foreground">Attached Bath · TV · WiFi</span>
@@ -131,7 +225,11 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           >
             <div className="flex w-full items-center justify-between">
               <BedDouble className="h-5 w-5 text-gold" />
-              {v.room === "nonac" && <span className="rounded-full bg-gold px-2 py-0.5 text-[0.6rem] font-bold text-ink">Selected</span>}
+              {v.room === "nonac" && (
+                <span className="rounded-full bg-gold px-2 py-0.5 text-[0.6rem] font-bold text-ink">
+                  Selected
+                </span>
+              )}
             </div>
             <span className="mt-3 text-sm font-bold text-foreground">{t.rooms.nonac}</span>
             <span className="mt-1 text-[0.7rem] text-muted-foreground">Clean & Airy · Attached Bath</span>
@@ -263,7 +361,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-xl bg-gold py-3.5 text-xs font-bold uppercase tracking-wider text-ink shadow-lg transition-transform active:scale-[0.99] disabled:opacity-50"
+          className="w-full rounded-xl bg-gold py-3.5 text-xs font-bold uppercase tracking-wider text-ink shadow-lg transition-transform active:scale-[0.99] disabled:opacity-50 hover:brightness-105"
         >
           {submitting ? b.sending : b.submit}
         </button>
@@ -273,7 +371,6 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           <span>Quick confirmation directly on WhatsApp or Call</span>
         </p>
       </div>
-
     </form>
   );
 }
