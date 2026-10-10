@@ -74,7 +74,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 
     try {
       // 1. Premium Formatted Email via Web3Forms
-      if (siteConfig.web3FormsKey && siteConfig.web3FormsKey !== "YOUR_WEB3FORMS_ACCESS_KEY") {
+      if (siteConfig.web3FormsKey && siteConfig.web3FormsKey !== "2e350fee-0a3f-42bf-933c-16d07391d47b") {
         await fetch("https://api.web3forms.com/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -95,7 +95,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
             "🗺️ Location Map": siteConfig.mapsUrl,
             "──────────────── ": "──────────────────────────────",
             "🌐 Website": siteUrl,
-            "⚡ Powered by": "DevgronixTech (https://devgronixtech.com)",
+            "⚡ Powered by": "DevgronixTech (https://devgronix.com)",
             message: `╔══════════════════════════════════════════════════════════╗
   🏨 VEERAPANDIYAR GUEST HOUSE — RESERVATION ENQUIRY
   📍 Near Bhavani Amman Temple, Periyapalayam
@@ -119,7 +119,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 
 ──────────────────────────────────────────────────────────
 🌐 Website: ${siteUrl}
-🚀 Email Powered by DevgronixTech (https://devgronixtech.com)`,
+🚀 Email Powered by DevgronixTech (https://devgronix.com)`,
           }),
         }).catch((err) => console.warn("Web3Forms note:", err));
       }
@@ -225,7 +225,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           <div className="flex items-center gap-1">
             <span>Powered by</span>
             <a
-              href="https://devgronixtech.com"
+              href="https://devgronix.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-gold hover:underline inline-flex items-center gap-0.5"
