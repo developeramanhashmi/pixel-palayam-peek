@@ -20,21 +20,53 @@ function Home() {
   const common = galleryImages.find((g) => g.key === "common")!;
   return (
     <>
-      <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink">
+            <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink">
         <img src={heroImage} alt={t.images.exterior} width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
         <div className="hero-overlay absolute inset-0" />
-        <div className="container-x relative pb-20 pt-32 md:pb-28 page-in">
-          <p className="mb-6 inline-flex items-center gap-2 border-b border-gold/60 pb-2 text-xs font-semibold uppercase tracking-[0.22em] text-gold">
-            <MapPin className="h-3.5 w-3.5" />{t.common.nearTemple}
+        <div className="container-x relative pb-28 pt-28 md:pb-28 page-in">
+          {/* Location badge: chota aur neat */}
+          <p className="mb-4 inline-flex items-center gap-1.5 border-b border-gold/50 pb-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold">
+            <MapPin className="h-3 w-3" />{t.common.nearTemple}
           </p>
-          <h1 className="max-w-3xl text-5xl leading-[1.02] text-ink-foreground md:text-7xl lg:text-8xl">{t.home.heroTitle}</h1>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-foreground/85">{t.home.heroText}</p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <Link to="/booking" className={btn("gold")}>{t.home.heroCta} <ArrowRight className="h-4 w-4" /></Link>
-            <a href={whatsappHref(t.common.waGreeting)} target="_blank" rel="noopener noreferrer" className={btn("outlineLight")}><WhatsAppIcon className="h-4 w-4" />{t.common.whatsapp}</a>
+
+          {/* Hero title: mobile par chota (text-3xl) aur desktop par formal (text-5xl lg:text-6xl) */}
+          <h1 className="max-w-2xl text-3xl font-serif leading-tight text-ink-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+            {t.home.heroTitle}
+          </h1>
+
+          {/* Hero description text: compact aur clean */}
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-foreground/80 sm:text-base">
+            {t.home.heroText}
+          </p>
+
+          {/* Desktop in-place buttons */}
+          <div className="mt-8 hidden gap-3 sm:flex">
+            <Link to="/booking" className={btn("gold")}>
+              {t.home.heroCta} <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a href={whatsappHref(t.common.waGreeting)} target="_blank" rel="noopener noreferrer" className={btn("outlineLight")}>
+              <WhatsAppIcon className="h-4 w-4" />{t.common.whatsapp}
+            </a>
           </div>
         </div>
+
+        {/* Mobile sticky bottom bar: screen ke niche chipak jayega */}
+        <div className="fixed bottom-0 inset-x-0 z-40 flex gap-2 border-t border-border/40 bg-background/95 p-3 backdrop-blur-md sm:hidden">
+          <Link to="/booking" className={btn("gold", "flex-1 justify-center py-2.5 text-xs")}>
+            {t.home.heroCta}
+          </Link>
+          <a
+            href={whatsappHref(t.common.waGreeting)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={btn("outline", "flex-1 justify-center py-2.5 text-xs")}
+          >
+            <WhatsAppIcon className="h-3.5 w-3.5 mr-1" />
+            {t.common.whatsapp}
+          </a>
+        </div>
       </section>
+
 
       <section className="container-x grid items-center gap-12 py-24 md:py-32 lg:grid-cols-2 lg:gap-20">
         <Reveal><img src={common.src} alt={t.images.common} loading="lazy" width={1280} height={960} className="aspect-[4/5] w-full object-cover" /></Reveal>
