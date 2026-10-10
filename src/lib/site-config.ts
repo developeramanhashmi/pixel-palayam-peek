@@ -3,10 +3,10 @@ export const siteConfig = {
   name: "Periyapalayam Veerapandiyar Guest House",
   shortName: "Veerapandiyar",
   // PLACEHOLDER — replace with the confirmed phone number (international format, digits only after +).
-  phone: "+910000000000",
-  phoneDisplay: "+91 00000 00000",
+  phone: "+917401338883",
+  phoneDisplay: "+91 74013 38883",
   // PLACEHOLDER — replace with the confirmed WhatsApp number (digits only, with country code).
-  whatsapp: "910000000000",
+  whatsapp: "917401338883",
   mapsQuery: "Bhavani Amman Temple, Periyapalayam",
   get mapsUrl() {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(this.mapsQuery)}`;
