@@ -4,6 +4,8 @@ import { ChevronDown, Menu, X, Check } from "lucide-react";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { btn } from "./ui";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/Periyapalayam_Veerapandiyar_Guest_House_Emblem-removebg-preview (1).png";
+
 
 export function LanguageSelector({ light, drop = "down" }: { light?: boolean; drop?: "up" | "down" }) {
   const { lang, setLang, t } = useI18n();
@@ -75,10 +77,18 @@ export function Header() {
     <>
       <header className={cn("fixed inset-x-0 top-0 z-40 transition-all duration-300", solid ? "border-b bg-background/95 backdrop-blur" : "bg-transparent")}>
         <div className="container-x flex h-16 items-center justify-between gap-4 md:h-20">
-          <Link to="/" className="flex min-w-0 flex-col leading-none" onClick={() => setOpen(false)}>
-            <span className={cn("truncate font-serif text-xl md:text-2xl", solid ? "text-foreground" : "text-ink-foreground")}>Veerapandiyar</span>
-            <span className="mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.25em] text-gold">Guest House · Periyapalayam</span>
+          <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+            <img src={logo} alt="VP Logo" className="h-10 w-10 rounded-full object-cover border border-gold/40 shadow-sm" />
+            <div className="flex flex-col leading-tight">
+              <span className={cn("font-serif text-lg tracking-wide md:text-xl", solid ? "text-foreground" : "text-ink-foreground")}>
+                Veerapandiyar
+              </span>
+              <span className="text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-gold">
+                Guest House
+              </span>
+            </div>
           </Link>
+  
           <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
             {links.map((l) => (
               <Link
