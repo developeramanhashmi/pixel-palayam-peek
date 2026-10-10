@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BedDouble, Heart, MapPin, MessageCircle, Snowflake, Landmark } from "lucide-react";
 import { ArrowRight, BedDouble, Heart, MapPin, MessageCircle, Snowflake, Landmark, Star } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/site-config";
