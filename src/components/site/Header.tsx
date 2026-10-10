@@ -4,7 +4,7 @@ import { ChevronDown, Menu, X, Check } from "lucide-react";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { btn } from "./ui";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/Periyapalayam_Veerapandiyar_Guest_House_Emblem-removebg-preview (1).png";
+import logo from "@/assets/logo.png";
 
 
 export function LanguageSelector({ light, drop = "down" }: { light?: boolean; drop?: "up" | "down" }) {
