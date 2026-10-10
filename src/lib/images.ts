@@ -2,7 +2,7 @@ import hero from "@/assets/WhatsApp Image 2026-09-30 at 08.52.43.jpeg";
 import ac from "@/assets/WhatsApp Image 2026-09-30 at 08.54.12.jpeg";
 import nonac from "@/assets/nonac-room.jpg";
 import temple from "@/assets/temple.jpg";
-import common from "@/assets/common.jpg";
+import common from "@/assets/WhatsApp Image 2026-09-30 at 08.52.43.jpeg";
 import corridor from "@/assets/corridor.jpg";
 import surroundings from "@/assets/surroundings.jpg";
 
