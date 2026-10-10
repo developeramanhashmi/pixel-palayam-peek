@@ -1,10 +1,9 @@
 import hero from "@/assets/WhatsApp Image 2026-09-30 at 08.52.43.jpeg";
 import ac from "@/assets/WhatsApp Image 2026-09-30 at 08.54.12.jpeg";
-import nonac from "@/assets/nonac-room.jpg";
+import nonac from "@/assets/WhatsApp Image 2026-09-30 at 08.54.13.jpeg";
 import temple from "@/assets/temple.jpg";
-import common from "@/assets/WhatsApp Image 2026-09-30 at 08.52.43.jpeg";
-import corridor from "@/assets/corridor.jpg";
-import surroundings from "@/assets/surroundings.jpg";
+import common from "@/assets/WhatsApp Image 2026-09-30 at 08.54.14.jpeg";
+import corridor from "@/assets/WhatsApp Image 2026-10-09 at 21.51.01.jpeg";
 
 export type GalleryCategory = "exterior" | "acRooms" | "nonacRooms" | "common" | "surroundings";
 export type ImageKey = "exterior" | "ac" | "nonac" | "common" | "corridor" | "temple" | "surroundings";
