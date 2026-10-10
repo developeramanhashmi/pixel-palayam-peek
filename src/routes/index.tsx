@@ -18,6 +18,7 @@ const icons = [BedDouble, Snowflake, MapPin, Landmark, Heart, MessageCircle];
 function Home() {
   const { t } = useI18n();
   const common = galleryImages.find((g) => g.key === "common")!;
+
   return (
     <>
       <section className="relative flex min-h-[92svh] items-center overflow-hidden bg-ink py-20 sm:min-h-[100svh] sm:items-end sm:py-24">
@@ -30,42 +31,39 @@ function Home() {
           className="absolute inset-0 h-full w-full object-cover object-center"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/65 to-ink/40" />
 
-        <div className="container-x relative z-10 w-full pt-16 pb-12 sm:pt-28 sm:pb-20">
+        <div className="container-x relative z-10 w-full pt-16 pb-16 sm:pt-28 sm:pb-24 page-in">
           
-          {/* 1. TOP MICRO BADGES: Khali jagah bharega & trust dikhayega */}
+          {/* Top Micro-Badges: Fills space and builds trust */}
           <div className="mb-5 flex flex-wrap items-center gap-2">
-            {/* Google Rating */}
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/70 px-3 py-1 text-[0.7rem] font-medium text-ink-foreground backdrop-blur-md">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/75 px-3 py-1 text-[0.7rem] font-medium text-ink-foreground backdrop-blur-md">
               <Star className="h-3 w-3 fill-gold text-gold" />
               <span><strong className="text-gold">4.5</strong> Google Rating</span>
             </div>
 
-            {/* Room Types */}
             <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-ink/60 px-3 py-1 text-[0.7rem] font-medium text-ink-foreground/90 backdrop-blur-md">
               <Snowflake className="h-3 w-3 text-gold" />
               <span>AC & Non-AC Rooms</span>
             </div>
 
-            {/* Temple Distance */}
             <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-ink/60 px-3 py-1 text-[0.7rem] font-medium text-ink-foreground/80 backdrop-blur-md">
               <MapPin className="h-3 w-3 text-gold" />
-              <span>Near Bhavani Amman Temple</span>
+              <span>{t.common.nearTemple}</span>
             </div>
           </div>
 
-          {/* 2. MAIN TITLE: Classy & formal hospitality font */}
+          {/* Main Title */}
           <h1 className="max-w-2xl font-serif text-3xl font-normal leading-[1.15] tracking-tight text-ink-foreground sm:text-5xl lg:text-6xl">
             {t.home.heroTitle}
           </h1>
 
-          {/* 3. SUBTEXT: Clean, readable spacing */}
+          {/* Subtext */}
           <p className="mt-3.5 max-w-lg text-sm font-light leading-relaxed text-ink-foreground/80 sm:text-base">
             {t.home.heroText}
           </p>
 
-          {/* Desktop in-place buttons (Mobile par hide rahenge) */}
+          {/* Desktop in-place buttons */}
           <div className="mt-8 hidden items-center gap-4 sm:flex">
             <Link to="/booking" className={btn("gold", "px-6 py-3 shadow-lg")}>
               {t.home.heroCta} <ArrowRight className="h-4 w-4 ml-1" />
@@ -83,30 +81,26 @@ function Home() {
 
         </div>
 
-        {/* 4. MOBILE STICKY FLOATING DOCK (Hollow, floating glass capsule) */}
-        <div className="fixed bottom-3 inset-x-3 z-40 sm:hidden">
-          <div className="mx-auto flex max-w-sm items-center gap-2 rounded-2xl border border-white/15 bg-ink/80 p-2 shadow-2xl backdrop-blur-xl">
-            <a
-              href={whatsappHref(t.common.waGreeting)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 py-2.5 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20 active:scale-[0.98]"
-            >
-              <WhatsAppIcon className="h-3.5 w-3.5" />
-              <span>WhatsApp</span>
-            </a>
-            <Link
-              to="/booking"
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gold py-2.5 text-xs font-semibold text-ink shadow-md transition-transform active:scale-[0.98]"
-            >
-              <span>{t.home.heroCta}</span>
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
+        {/* Mobile Sticky Bar: Full width, zero gap, screen ke bilkul bottom par sata hua */}
+        <div className="fixed bottom-0 inset-x-0 z-50 flex items-stretch border-t border-border/80 bg-background/95 shadow-2xl backdrop-blur-md sm:hidden">
+          <a
+            href={whatsappHref(t.common.waGreeting)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center gap-2 border-r border-border/60 py-3.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 active:bg-muted"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            <span>{t.common.whatsapp}</span>
+          </a>
+          <Link
+            to="/booking"
+            className="flex flex-1 items-center justify-center gap-1.5 bg-gold py-3.5 text-xs font-bold uppercase tracking-wider text-ink active:opacity-90"
+          >
+            <span>{t.home.heroCta}</span>
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </section>
-
-
 
       <section className="container-x grid items-center gap-12 py-24 md:py-32 lg:grid-cols-2 lg:gap-20">
         <Reveal><img src={common.src} alt={t.images.common} loading="lazy" width={1280} height={960} className="aspect-[4/5] w-full object-cover" /></Reveal>
