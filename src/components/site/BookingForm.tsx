@@ -30,7 +30,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     if (!v.name.trim()) e.name = b.errName;
     if (!v.address.trim()) e.address = b.errAddress;
     if (!/^\+?[0-9\s-]{10,15}$/.test(v.contact.trim())) e.contact = b.errContact;
-    if (!v.room) e.room = b.errRoom;
+    if (v.room !== "ac" && v.room !== "nonac") e.room = b.errRoom;
     if (!Number.isInteger(Number(v.rooms)) || Number(v.rooms) < 1 || Number(v.rooms) > 50) e.rooms = b.errRooms;
     if (!Number.isInteger(Number(v.guests)) || Number(v.guests) < 1 || Number(v.guests) > 500) e.guests = b.errGuests;
     return e;
