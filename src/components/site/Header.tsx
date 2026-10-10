@@ -112,16 +112,16 @@ export function Header() {
               alt="VP Logo"
               className="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover border border-gold/60 shadow-md"
             />
-            <div className="flex flex-col leading-tight">
+            <div className="flex flex-col items-start leading-tight">
               <span
                 className={cn(
-                  "font-serif text-lg sm:text-xl font-medium tracking-wide drop-shadow-sm transition-colors",
+                  "whitespace-nowrap font-serif text-lg sm:text-xl font-semibold tracking-wide drop-shadow-sm transition-colors",
                   solid ? "text-foreground" : "text-white"
                 )}
               >
                 Veerapandiyar
               </span>
-              <span className="text-[0.6rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.18em] text-gold">
+              <span className="whitespace-nowrap text-[0.6rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.18em] text-gold">
                 Guest House
               </span>
             </div>
