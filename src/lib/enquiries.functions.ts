@@ -8,14 +8,14 @@ const enquirySchema = z
     address: z.string().trim().min(1).max(500),
     contact_number: z.string().trim().regex(/^\+?[0-9][0-9 -]{8,14}$/),
     room_type: z.enum(["AC", "NON_AC"]),
-    number_of_rooms: z.number().int().positive(),
-    total_guests: z.number().int().positive(),
+    number_of_rooms: z.number().int().min(1).max(50),
+    total_guests: z.number().int().min(1).max(500),
     additional_requirements: z.string().trim().max(2000).optional(),
   })
   .strict();
 
 export const submitEnquiry = createServerFn({ method: "POST" })
-  .inputValidator((input) => enquirySchema.parse(input))
+  .validator((input) => enquirySchema.parse(input))
   .handler(async ({ data }) => {
     const url = process.env["SUPABASE_URL"];
     const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
