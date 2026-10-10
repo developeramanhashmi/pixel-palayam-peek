@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, BedDouble, Heart, MapPin, MessageCircle, Snowflake, Landmark } from "lucide-react";
+import { ArrowRight, BedDouble, Heart, MapPin, MessageCircle, Snowflake, Landmark, Star } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/site-config";
 import { galleryImages, heroImage } from "@/lib/images";
@@ -20,52 +21,92 @@ function Home() {
   const common = galleryImages.find((g) => g.key === "common")!;
   return (
     <>
-            <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink">
-        <img src={heroImage} alt={t.images.exterior} width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" fetchPriority="high" />
-        <div className="hero-overlay absolute inset-0" />
-        <div className="container-x relative pb-28 pt-28 md:pb-28 page-in">
-          {/* Location badge: chota aur neat */}
-          <p className="mb-4 inline-flex items-center gap-1.5 border-b border-gold/50 pb-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-gold">
-            <MapPin className="h-3 w-3" />{t.common.nearTemple}
-          </p>
+      <section className="relative flex min-h-[92svh] items-center overflow-hidden bg-ink py-20 sm:min-h-[100svh] sm:items-end sm:py-24">
+        {/* Background photo & dark cinematic overlay */}
+        <img
+          src={heroImage}
+          alt={t.images.exterior}
+          width={1920}
+          height={1088}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/40" />
 
-          {/* Hero title: mobile par chota (text-3xl) aur desktop par formal (text-5xl lg:text-6xl) */}
-          <h1 className="max-w-2xl text-3xl font-serif leading-tight text-ink-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+        <div className="container-x relative z-10 w-full pt-16 pb-12 sm:pt-28 sm:pb-20">
+          
+          {/* 1. TOP MICRO BADGES: Khali jagah bharega & trust dikhayega */}
+          <div className="mb-5 flex flex-wrap items-center gap-2">
+            {/* Google Rating */}
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/70 px-3 py-1 text-[0.7rem] font-medium text-ink-foreground backdrop-blur-md">
+              <Star className="h-3 w-3 fill-gold text-gold" />
+              <span><strong className="text-gold">4.5</strong> Google Rating</span>
+            </div>
+
+            {/* Room Types */}
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-ink/60 px-3 py-1 text-[0.7rem] font-medium text-ink-foreground/90 backdrop-blur-md">
+              <Snowflake className="h-3 w-3 text-gold" />
+              <span>AC & Non-AC Rooms</span>
+            </div>
+
+            {/* Temple Distance */}
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-ink/60 px-3 py-1 text-[0.7rem] font-medium text-ink-foreground/80 backdrop-blur-md">
+              <MapPin className="h-3 w-3 text-gold" />
+              <span>Near Bhavani Amman Temple</span>
+            </div>
+          </div>
+
+          {/* 2. MAIN TITLE: Classy & formal hospitality font */}
+          <h1 className="max-w-2xl font-serif text-3xl font-normal leading-[1.15] tracking-tight text-ink-foreground sm:text-5xl lg:text-6xl">
             {t.home.heroTitle}
           </h1>
 
-          {/* Hero description text: compact aur clean */}
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-foreground/80 sm:text-base">
+          {/* 3. SUBTEXT: Clean, readable spacing */}
+          <p className="mt-3.5 max-w-lg text-sm font-light leading-relaxed text-ink-foreground/80 sm:text-base">
             {t.home.heroText}
           </p>
 
-          {/* Desktop in-place buttons */}
-          <div className="mt-8 hidden gap-3 sm:flex">
-            <Link to="/booking" className={btn("gold")}>
-              {t.home.heroCta} <ArrowRight className="h-4 w-4" />
+          {/* Desktop in-place buttons (Mobile par hide rahenge) */}
+          <div className="mt-8 hidden items-center gap-4 sm:flex">
+            <Link to="/booking" className={btn("gold", "px-6 py-3 shadow-lg")}>
+              {t.home.heroCta} <ArrowRight className="h-4 w-4 ml-1" />
             </Link>
-            <a href={whatsappHref(t.common.waGreeting)} target="_blank" rel="noopener noreferrer" className={btn("outlineLight")}>
-              <WhatsAppIcon className="h-4 w-4" />{t.common.whatsapp}
+            <a
+              href={whatsappHref(t.common.waGreeting)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={btn("outlineLight", "px-6 py-3 border-white/25 hover:border-gold")}
+            >
+              <WhatsAppIcon className="h-4 w-4 mr-2" />
+              {t.common.whatsapp}
             </a>
           </div>
+
         </div>
 
-        {/* Mobile sticky bottom bar: screen ke niche chipak jayega */}
-        <div className="fixed bottom-0 inset-x-0 z-40 flex gap-2 border-t border-border/40 bg-background/95 p-3 backdrop-blur-md sm:hidden">
-          <Link to="/booking" className={btn("gold", "flex-1 justify-center py-2.5 text-xs")}>
-            {t.home.heroCta}
-          </Link>
-          <a
-            href={whatsappHref(t.common.waGreeting)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={btn("outline", "flex-1 justify-center py-2.5 text-xs")}
-          >
-            <WhatsAppIcon className="h-3.5 w-3.5 mr-1" />
-            {t.common.whatsapp}
-          </a>
+        {/* 4. MOBILE STICKY FLOATING DOCK (Hollow, floating glass capsule) */}
+        <div className="fixed bottom-3 inset-x-3 z-40 sm:hidden">
+          <div className="mx-auto flex max-w-sm items-center gap-2 rounded-2xl border border-white/15 bg-ink/80 p-2 shadow-2xl backdrop-blur-xl">
+            <a
+              href={whatsappHref(t.common.waGreeting)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 py-2.5 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20 active:scale-[0.98]"
+            >
+              <WhatsAppIcon className="h-3.5 w-3.5" />
+              <span>WhatsApp</span>
+            </a>
+            <Link
+              to="/booking"
+              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gold py-2.5 text-xs font-semibold text-ink shadow-md transition-transform active:scale-[0.98]"
+            >
+              <span>{t.home.heroCta}</span>
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
         </div>
       </section>
+
 
 
       <section className="container-x grid items-center gap-12 py-24 md:py-32 lg:grid-cols-2 lg:gap-20">
