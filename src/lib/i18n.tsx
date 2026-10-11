@@ -125,14 +125,14 @@ const en = {
 export type Dict = typeof en;
 
 const te: Dict = {
-  nav: { home: "హోమ్", about: "మా గురించి", rooms: "గదులు", gallery: "గ్యాలరీ", contact: "సంప్రదించండి", book: "ఇప్పుడే బుక్ చేయండి", menu: "మెనూ", close: "మెనూ మూసివేయండి", language: "భాష" },
+  nav: { home: "హోమ్", about: "మా గురించి", rooms: "గదులు", gallery: "గ్యాలరీ", contact: "సంప్రదించండి", book: "முன்பதிவு", menu: "మెనూ", close: "మెనూ మూసివేయండి", language: "భాష" },
   common: {
     nearTemple: "భవానీ అమ్మన్ ఆలయం సమీపంలో",
     address: "భవానీ అమ్మన్ ఆలయం సమీపంలో, పెరియపాళయం",
     whatsapp: "వాట్సాప్ చేయండి",
-    call: "కాల్ చేయండి",
+    call: "அழைக்கவும்",
     directions: "దారి చూడండి",
-    enquireNow: "బుక్ / విచారించండి",
+    enquireNow: "முன்பதிவு / விசாரணை",
     makeEnquiry: "విచారణ పంపండి",
     learnMore: "మరింత తెలుసుకోండి",
     backHome: "హోమ్‌కు వెళ్ళండి",
