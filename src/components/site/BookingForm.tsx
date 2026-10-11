@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   Phone,
   Calendar,
+  Clock,
   Users,
   ExternalLink,
   Sparkles,
@@ -25,7 +26,9 @@ export type Enquiry = {
   contact: string;
   room: RoomType | "";
   checkIn: string;
+  checkInTime: string;
   checkOut: string;
+  checkOutTime: string;
   rooms: string;
   guests: string;
   notes: string;
@@ -47,7 +50,9 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     contact: "",
     room: initialRoom ?? "ac",
     checkIn: todayStr,
+    checkInTime: "12:00",
     checkOut: "",
+    checkOutTime: "11:00",
     rooms: "1",
     guests: "2",
     notes: "",
@@ -89,6 +94,23 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     const roomTitle = v.room === "ac" ? "Deluxe AC Room (Air Conditioned)" : "Standard Non-AC Room";
     const cleanPhone = v.contact.replace(/\D/g, "");
 
+    const formatTime12 = (t: string) => {
+      if (!t) return "";
+      const [h, m] = t.split(":");
+      const numH = parseInt(h, 10);
+      if (isNaN(numH)) return t;
+      const ampm = numH >= 12 ? "PM" : "AM";
+      const h12 = numH % 12 || 12;
+      return `${h12}:${m} ${ampm}`;
+    };
+
+    const checkInDisplay = v.checkIn
+      ? `${v.checkIn}${v.checkInTime ? ` (Time: ${formatTime12(v.checkInTime)})` : ""}`
+      : "Immediate / Today";
+    const checkOutDisplay = v.checkOut
+      ? `${v.checkOut}${v.checkOutTime ? ` (Time: ${formatTime12(v.checkOutTime)})` : ""}`
+      : "Flexible / Not specified";
+
     try {
       // 1. Submit to Web3Forms using human-readable field labels so Web3Forms renders a clean, styled HTML table
       if (siteConfig.web3FormsKey && siteConfig.web3FormsKey !== "YOUR_WEB3FORMS_ACCESS_KEY") {
@@ -100,8 +122,8 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           "Phone / Mobile": v.contact.trim(),
           "City & Address": v.address.trim(),
           "Room Category": roomTitle,
-          "Check-In Date": v.checkIn || "Immediate / Today",
-          "Check-Out Date": v.checkOut || "Flexible / Not specified",
+          "Check-In Schedule": checkInDisplay,
+          "Check-Out Schedule": checkOutDisplay,
           "Number of Rooms": `${v.rooms} Room(s)`,
           "Total Guests": `${v.guests} Guest(s)`,
           "Special Requests": v.notes.trim() || "None",
@@ -130,8 +152,8 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           number_of_rooms: Number(v.rooms),
           total_guests: Number(v.guests),
           additional_requirements: [
-            v.checkIn ? `Check-in: ${v.checkIn}` : "",
-            v.checkOut ? `Check-out: ${v.checkOut}` : "",
+            v.checkIn ? `Check-in: ${v.checkIn}${v.checkInTime ? ` ${formatTime12(v.checkInTime)}` : ""}` : "",
+            v.checkOut ? `Check-out: ${v.checkOut}${v.checkOutTime ? ` ${formatTime12(v.checkOutTime)}` : ""}` : "",
             v.notes.trim() ? `Notes: ${v.notes.trim()}` : "",
           ]
             .filter(Boolean)
@@ -148,6 +170,16 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     }
   };
 
+  const formatTime12 = (t: string) => {
+    if (!t) return "";
+    const [h, m] = t.split(":");
+    const numH = parseInt(h, 10);
+    if (isNaN(numH)) return t;
+    const ampm = numH >= 12 ? "PM" : "AM";
+    const h12 = numH % 12 || 12;
+    return `${h12}:${m} ${ampm}`;
+  };
+
   // Structured Interactive WhatsApp Receipt Message
   const waReceiptMessage = `✨ *VEERAPANDIYAR GUEST HOUSE* ✨
 📍 _Near Bhavani Amman Temple, Periyapalayam_
@@ -161,8 +193,8 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 • *City / Address:* ${v.address.trim()}
 
 📅 *STAY DATES & ROOMS*
-• *Check-in Date:* ${v.checkIn || "Today / Immediate"}
-• *Check-out Date:* ${v.checkOut || "Flexible"}
+• *Check-in:* ${v.checkIn || "Today / Immediate"}${v.checkInTime ? ` (Approx: ${formatTime12(v.checkInTime)})` : ""}
+• *Check-out:* ${v.checkOut || "Flexible"}${v.checkOutTime ? ` (Approx: ${formatTime12(v.checkOutTime)})` : ""}
 • *Category:* ${v.room === "ac" ? "❄️ Deluxe AC Room" : "🌿 Standard Non-AC Room"}
 • *Rooms Required:* ${v.rooms} Room${Number(v.rooms) > 1 ? "s" : ""}
 • *Total Guests:* ${v.guests} Person${Number(v.guests) > 1 ? "s" : ""}
@@ -206,11 +238,17 @@ _DevgronixTech Secure Booking Engine_`;
           <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
             <div>
               <span className="text-muted-foreground">Check-in:</span>
-              <p className="font-medium text-foreground">{v.checkIn || "Today"}</p>
+              <p className="font-medium text-foreground">
+                {v.checkIn || "Today"}
+                {v.checkInTime && <span className="block text-xs text-muted-foreground">{formatTime12(v.checkInTime)}</span>}
+              </p>
             </div>
             <div>
               <span className="text-muted-foreground">Check-out:</span>
-              <p className="font-medium text-foreground">{v.checkOut || "Flexible"}</p>
+              <p className="font-medium text-foreground">
+                {v.checkOut || "Flexible"}
+                {v.checkOutTime && <span className="block text-xs text-muted-foreground">{formatTime12(v.checkOutTime)}</span>}
+              </p>
             </div>
             <div>
               <span className="text-muted-foreground">Rooms / Guests:</span>
@@ -272,7 +310,9 @@ _DevgronixTech Secure Booking Engine_`;
               contact: "",
               room: initialRoom ?? "ac",
               checkIn: todayStr,
+              checkInTime: "12:00",
               checkOut: "",
+              checkOutTime: "11:00",
               rooms: "1",
               guests: "2",
               notes: "",
@@ -293,11 +333,11 @@ _DevgronixTech Secure Booking Engine_`;
     >
       {/* Form Header */}
       <div className="space-y-1.5 border-b border-border/60 pb-5">
-        <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/10 px-3 py-1 text-xs font-semibold text-gold">
+        <div className="flex flex-wrap items-center justify-between gap-2.5">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/10 px-3 py-1 text-xs font-semibold text-gold shrink-0">
             <Sparkles className="h-3.5 w-3.5" /> Instant Reception Alert
           </span>
-          <span className="text-xs text-muted-foreground">Near Bhavani Amman Temple</span>
+          <span className="text-xs font-medium text-muted-foreground">Near Bhavani Amman Temple</span>
         </div>
         <h3 className="font-serif text-xl sm:text-2xl font-bold text-foreground">
           {b.title}
@@ -386,35 +426,75 @@ _DevgronixTech Secure Booking Engine_`;
         {errors.room && <p className="text-xs text-destructive">{errors.room}</p>}
       </div>
 
-      {/* 2. Check-In & Check-Out Dates */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <label htmlFor="f-checkIn" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-            <Calendar className="h-3.5 w-3.5 text-gold" /> Check-in Date *
-          </label>
-          <input
-            id="f-checkIn"
-            type="date"
-            min={todayStr}
-            value={v.checkIn}
-            onChange={set("checkIn")}
-            className={fieldClass}
-            required
-          />
+      {/* 2. Check-In & Check-Out Schedule (Date & Time) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Check-In Card */}
+        <div className="rounded-2xl border border-border/70 bg-background/50 p-3.5 space-y-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <Calendar className="h-3.5 w-3.5 text-gold" /> Check-in Schedule *
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div className="space-y-1">
+              <label htmlFor="f-checkIn" className="text-[11px] font-medium text-muted-foreground">
+                Date *
+              </label>
+              <input
+                id="f-checkIn"
+                type="date"
+                min={todayStr}
+                value={v.checkIn}
+                onChange={set("checkIn")}
+                className={fieldClass}
+                required
+              />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="f-checkInTime" className="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
+                <Clock className="h-3 w-3 text-gold" /> Approx Time
+              </label>
+              <input
+                id="f-checkInTime"
+                type="time"
+                value={v.checkInTime}
+                onChange={set("checkInTime")}
+                className={fieldClass}
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="space-y-1.5">
-          <label htmlFor="f-checkOut" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-            <Calendar className="h-3.5 w-3.5 text-muted-foreground" /> Check-out Date
-          </label>
-          <input
-            id="f-checkOut"
-            type="date"
-            min={v.checkIn || todayStr}
-            value={v.checkOut}
-            onChange={set("checkOut")}
-            className={fieldClass}
-          />
+        {/* Check-Out Card */}
+        <div className="rounded-2xl border border-border/70 bg-background/50 p-3.5 space-y-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <Calendar className="h-3.5 w-3.5 text-muted-foreground" /> Check-out Schedule
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div className="space-y-1">
+              <label htmlFor="f-checkOut" className="text-[11px] font-medium text-muted-foreground">
+                Date
+              </label>
+              <input
+                id="f-checkOut"
+                type="date"
+                min={v.checkIn || todayStr}
+                value={v.checkOut}
+                onChange={set("checkOut")}
+                className={fieldClass}
+              />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="f-checkOutTime" className="text-[11px] font-medium text-muted-foreground flex items-center gap-1">
+                <Clock className="h-3 w-3 text-muted-foreground" /> Approx Time
+              </label>
+              <input
+                id="f-checkOutTime"
+                type="time"
+                value={v.checkOutTime}
+                onChange={set("checkOutTime")}
+                className={fieldClass}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
