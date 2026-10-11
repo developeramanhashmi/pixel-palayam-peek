@@ -17,6 +17,8 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { siteConfig } from "@/lib/site-config";
 
+const SITE_URL = "https://www.periyapalayamrooms.in";
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -82,30 +84,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Periyapalayam Veerapandiyar Guest House | AC & Non-AC Rooms" },
+      { title: "Periyapalayam Veerapandiyar Guest House | AC & Non-AC Rooms Near Temple" },
       {
         name: "description",
         content:
           "Comfortable AC and Non-AC guest rooms at Periyapalayam Veerapandiyar Guest House, located near Bhavani Amman Temple. Call +91 74013 38883 for instant booking.",
       },
-      { name: "keywords", content: "Periyapalayam guest house, Bhavani Amman temple stay, rooms in Periyapalayam, Veerapandiyar guest house, AC rooms Periyapalayam" },
-      { property: "og:site_name", content: "Veerapandiyar Guest House" },
-      { property: "og:title", content: "Periyapalayam Veerapandiyar Guest House" },
+      {
+        name: "keywords",
+        content:
+          "Periyapalayam guest house, Bhavani Amman temple stay, rooms in Periyapalayam, Veerapandiyar guest house, AC rooms Periyapalayam, non ac lodge Periyapalayam",
+      },
+      { property: "og:site_name", content: "Periyapalayam Veerapandiyar Guest House" },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: `${SITE_URL}/` },
+      { property: "og:title", content: "Periyapalayam Veerapandiyar Guest House | AC & Non-AC Rooms" },
       {
         property: "og:description",
-        content: "Comfortable rooms near Bhavani Amman Temple in Periyapalayam. AC & Non-AC options available.",
+        content:
+          "Comfortable rooms near Bhavani Amman Temple in Periyapalayam. AC & Non-AC options with easy phone and WhatsApp booking.",
       },
-      { property: "og:type", content: "website" },
+      { property: "og:image", content: `${SITE_URL}/favicon.png` },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "geo.region", content: "IN-TN" },
+      { name: "geo.placename", content: "Periyapalayam" },
+      { name: "geo.position", content: "13.314415;80.0437654" },
+      { name: "ICBM", content: "13.314415, 80.0437654" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "canonical", href: `${SITE_URL}/` },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600&family=Noto+Serif+Telugu:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600&family=Noto+Serif+Tamil:wght@400;500&display=swap",
       },
     ],
     scripts: [
@@ -113,30 +127,89 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "LodgingBusiness",
-          name: siteConfig.name,
-          alternateName: "பெரியபாளையம் வீரபாண்டியார் கெஸ்ட் ஹவுஸ்",
-          description: "Comfortable AC and Non-AC room accommodation near Bhavani Amman Temple in Periyapalayam, Tamil Nadu.",
-          telephone: siteConfig.phone,
-          priceRange: "₹₹",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "Near Bhavani Amman Temple",
-            addressLocality: "Periyapalayam",
-            addressRegion: "Tamil Nadu",
-            postalCode: "601102",
-            addressCountry: "IN",
-          },
-          geo: {
-            "@type": "GeoCoordinates",
-            latitude: 13.314415,
-            longitude: 80.0437654,
-          },
-          hasMap: siteConfig.mapsUrl,
-          amenityFeature: [
-            { "@type": "LocationFeatureSpecification", name: "Air Conditioning", value: true },
-            { "@type": "LocationFeatureSpecification", name: "Near Temple", value: true },
-            { "@type": "LocationFeatureSpecification", name: "Family Accommodation", value: true },
+          "@graph": [
+            {
+              "@type": "LodgingBusiness",
+              "@id": `${SITE_URL}/#lodging`,
+              name: siteConfig.name,
+              alternateName: "பெரியபாளையம் வீரபாண்டியார் கெஸ்ட் ஹவுஸ்",
+              url: SITE_URL,
+              telephone: siteConfig.phone,
+              email: siteConfig.email,
+              priceRange: "₹₹",
+              currenciesAccepted: "INR",
+              paymentAccepted: "Cash, UPI",
+              checkinTime: "12:00",
+              checkoutTime: "11:00",
+              description:
+                "Comfortable AC and Non-AC room accommodation near Bhavani Amman Temple in Periyapalayam, Tamil Nadu.",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Near Bhavani Amman Temple",
+                addressLocality: "Periyapalayam",
+                addressRegion: "Tamil Nadu",
+                postalCode: "601102",
+                addressCountry: "IN",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: 13.314415,
+                longitude: 80.0437654,
+              },
+              hasMap: siteConfig.mapsUrl,
+              amenityFeature: [
+                { "@type": "LocationFeatureSpecification", name: "Air Conditioning", value: true },
+                { "@type": "LocationFeatureSpecification", name: "Near Bhavani Amman Temple", value: true },
+                { "@type": "LocationFeatureSpecification", name: "Family Accommodation (up to 8 per room)", value: true },
+                { "@type": "LocationFeatureSpecification", name: "24-Hour Front Desk Support", value: true },
+              ],
+            },
+            {
+              "@type": "FAQPage",
+              "@id": `${SITE_URL}/#faq`,
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "How far is Veerapandiyar Guest House from Bhavani Amman Temple?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Veerapandiyar Guest House is located right near Bhavani Amman Temple in Periyapalayam, making it a quick and convenient walk for devotees.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What room types are available at Veerapandiyar Guest House?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "We provide both Deluxe AC Rooms and Non-AC Rooms, suitable for families, pilgrim groups, and individual guests.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What are the check-in and check-out timings?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Standard check-in is at 12:00 PM and check-out is at 11:00 AM. 24-hour phone and reception support is available.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How many guests can stay in one room?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Each spacious room comfortably accommodates up to 8 guests. For larger devotee groups, multiple rooms can be booked together.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How do I book a room or check availability?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "You can book directly by calling +91 74013 38883, chatting on WhatsApp, or submitting the booking form at periyapalayamrooms.in.",
+                  },
+                },
+              ],
+            },
           ],
         }),
       },
