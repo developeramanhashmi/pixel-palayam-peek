@@ -3,9 +3,13 @@ export const siteConfig = {
   name: "Periyapalayam Veerapandiyar Guest House",
   shortName: "Veerapandiyar",
 
-  phone: "+917401338883",
-  phoneDisplay: "+91 74013 38883",
+  // Calling Phone Number (Client's calling contact)
+  phone: "+918428338999",
+  phoneDisplay: "+91 84283 38999",
+
+  // WhatsApp Only Number
   whatsapp: "+917401338883",
+
   email: "veerapandiyarguesthouse@gmail.com",
 
   web3FormsKey: "2e350fee-0a3f-42bf-933c-16d07391d47b",
