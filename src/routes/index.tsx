@@ -9,12 +9,13 @@ import {
   Landmark,
   Star,
   Phone,
+  Navigation,
 } from "lucide-react";
 import React from "react";
 import { useI18n } from "@/lib/i18n";
-import { siteConfig, telHref, whatsappHref } from "@/lib/site-config";
+import { siteConfig, telHref } from "@/lib/site-config";
 import { galleryImages, heroImage } from "@/lib/images";
-import { btn, Reveal, SectionHeading, WhatsAppIcon } from "@/components/site/ui";
+import { btn, Reveal, SectionHeading } from "@/components/site/ui";
 import { RoomCard } from "@/components/site/sections";
 import { GalleryGrid } from "@/components/site/Gallery";
 import { BookingForm } from "@/components/site/BookingForm";
@@ -24,7 +25,8 @@ export const Route = createFileRoute("/")({
   head: () =>
     seo(
       "Guest House near Bhavani Amman Temple, Periyapalayam | Veerapandiyar",
-      "Comfortable AC and Non-AC rooms at Periyapalayam Veerapandiyar Guest House, near Bhavani Amman Temple. Enquire by call or online booking form."
+      "Comfortable AC and Non-AC rooms at Periyapalayam Veerapandiyar Guest House, near Bhavani Amman Temple. Enquire by call or online booking form.",
+      "/"
     ),
   component: Home,
 });
@@ -45,17 +47,18 @@ function Home() {
 
   return (
     <>
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION - Brighter Building Visibility */}
       <section className="relative flex min-h-[88svh] items-end overflow-hidden bg-ink pb-10 pt-28 sm:min-h-[100svh] sm:pb-24 sm:pt-32">
         <img
           src={heroImage}
           alt={t.images.exterior}
           width={1920}
           height={1088}
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-cover object-top sm:object-center brightness-105 contrast-105"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 via-40% to-black/30" />
+        {/* Subtle bottom gradient only: Building remains bright, crisp & clearly visible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 via-32% to-transparent" />
 
         <div className="container-x relative z-10 w-full page-in">
           {/* Micro badges */}
@@ -96,27 +99,47 @@ function Home() {
               <Phone className="h-4 w-4 mr-2 text-gold" />
               {t.common.call}
             </a>
+            <a
+              href={siteConfig.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={btn("outlineLight", "px-6 py-3 border-gold/40 text-gold hover:bg-gold/10")}
+            >
+              <MapPin className="h-4 w-4 mr-2 text-gold" />
+              Location
+            </a>
           </div>
         </div>
 
-        {/* Client-Specified Mobile Sticky Bar: WhatsApp removed, Highlighted Call + Gold Book Now */}
-        <div className="fixed bottom-3.5 inset-x-3.5 z-50 flex items-center justify-between gap-2.5 rounded-full border border-white/20 bg-ink/95 p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl sm:hidden">
-          {/* Highlighted Call Button */}
+        {/* Mobile Sticky Bar - Always Visible On Scroll: Call + Highlighted Location + Book Now */}
+        <div className="fixed bottom-3.5 inset-x-3.5 z-50 flex items-center justify-between gap-2 rounded-full border border-white/20 bg-ink/95 p-1.5 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl sm:hidden">
+          {/* Call Button */}
           <a
             href={telHref()}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-600 px-3 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md active:scale-95 transition-all hover:bg-emerald-500 text-center"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-emerald-600 px-2 py-2.5 text-[0.72rem] font-bold uppercase tracking-wider text-white shadow-md active:scale-95 transition-all hover:bg-emerald-500 text-center"
           >
-            <Phone className="h-4 w-4 shrink-0 fill-current" />
-            <span className="text-center truncate">{t.common.call}</span>
+            <Phone className="h-3.5 w-3.5 shrink-0 fill-current" />
+            <span className="truncate">{t.common.call}</span>
           </a>
 
-          {/* Preserved Gold Book Now Button (Centered) */}
+          {/* Highlighted Location Button */}
+          <a
+            href={siteConfig.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-amber-500 px-2 py-2.5 text-[0.72rem] font-bold uppercase tracking-wider text-ink shadow-lg active:scale-95 transition-all hover:brightness-110 text-center border border-amber-300/40"
+          >
+            <MapPin className="h-3.5 w-3.5 shrink-0 fill-current text-ink" />
+            <span className="truncate">Location</span>
+          </a>
+
+          {/* Book Now Button */}
           <a
             href="#book"
             onClick={scrollToBook}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-gold px-3 py-3 text-xs font-bold uppercase tracking-wider text-ink shadow-md active:scale-95 transition-all hover:brightness-105 text-center"
+            className="flex flex-1 items-center justify-center gap-1 rounded-full bg-gold px-2 py-2.5 text-[0.72rem] font-bold uppercase tracking-wider text-ink shadow-md active:scale-95 transition-all hover:brightness-105 text-center"
           >
-            <span className="text-center truncate">{t.nav.book}</span>
+            <span className="truncate">{t.nav.book}</span>
             <ArrowRight className="h-3.5 w-3.5 shrink-0" />
           </a>
         </div>
@@ -226,33 +249,42 @@ function Home() {
         </div>
       </section>
 
-      {/* 7. COMPACT LOCATION / DIRECTIONS SECTION */}
+      {/* 7. PROMINENT LOCATION SECTION (With இருப்பிடம் (Location) & Highlighted Location Button) */}
       <section className="border-t bg-muted/20 py-12 md:py-16">
         <div className="container-x">
-          <div className="flex flex-col items-center justify-between gap-6 rounded-2xl border border-border bg-card p-6 text-center sm:p-10 md:flex-row md:text-left">
+          <div className="flex flex-col items-center justify-between gap-6 rounded-2xl border border-border bg-card p-6 text-center sm:p-10 md:flex-row md:text-left shadow-sm">
             <div className="max-w-xl">
-              <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-gold">
-                <MapPin className="h-3.5 w-3.5" />
-                <span>Location</span>
+              {/* Large, clearly visible badge with Tamil & English: இருப்பிடம் (Location) */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/15 px-4 py-1.5 text-sm font-bold text-gold">
+                <MapPin className="h-4 w-4 text-gold shrink-0" />
+                <span>இருப்பிடம் (Location)</span>
               </div>
-              <h2 className="mt-1 font-serif text-2xl font-semibold text-foreground sm:text-3xl">
+              <h2 className="mt-3 font-serif text-2xl font-semibold text-foreground sm:text-3xl">
                 Stay Close to Bhavani Amman Temple
               </h2>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
                 Near Bhavani Amman Temple, Periyapalayam. Our guest house is located right next to the temple — a convenient base for your visit.
               </p>
             </div>
-            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-              <a href="#book" onClick={scrollToBook} className={btn("gold", "w-full justify-center sm:w-auto")}>
+
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+              <a
+                href="#book"
+                onClick={scrollToBook}
+                className={btn("outline", "w-full justify-center sm:w-auto px-6 py-3 text-sm font-semibold")}
+              >
                 Enquire Now
               </a>
+
+              {/* Highlighted Location Button in English */}
               <a
                 href={siteConfig.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={btn("outline", "w-full justify-center sm:w-auto")}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-7 py-3 text-sm font-bold uppercase tracking-wider text-ink shadow-lg transition-all hover:brightness-110 active:scale-95 w-full sm:w-auto"
               >
-                Get Directions
+                <Navigation className="h-4 w-4 fill-current shrink-0" />
+                <span>Location</span>
               </a>
             </div>
           </div>
