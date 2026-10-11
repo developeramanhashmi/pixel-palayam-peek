@@ -88,57 +88,26 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     setSubmitting(true);
     const roomTitle = v.room === "ac" ? "Deluxe AC Room (Air Conditioned)" : "Standard Non-AC Room";
     const cleanPhone = v.contact.replace(/\D/g, "");
-    const siteUrl = typeof window !== "undefined" ? window.location.origin : "https://veerapandiyarguesthouse.com";
-
-    // Clean human-readable message block for email body
-    const formattedEmailCard = [
-      "========================================",
-      "VEERAPANDIYAR GUEST HOUSE - ROOM BOOKING",
-      "Near Bhavani Amman Temple, Periyapalayam",
-      "========================================",
-      "",
-      `GUEST NAME: ${v.name.trim()}`,
-      `PHONE: ${v.contact.trim()}`,
-      `CITY / ADDRESS: ${v.address.trim()}`,
-      "",
-      `ROOM CATEGORY: ${roomTitle}`,
-      `CHECK-IN DATE: ${v.checkIn || "Immediate / Today"}`,
-      `CHECK-OUT DATE: ${v.checkOut || "Not specified"}`,
-      `NUMBER OF ROOMS: ${v.rooms} Room(s)`,
-      `TOTAL GUESTS: ${v.guests} Guest(s)`,
-      `SPECIAL NOTES: ${v.notes.trim() || "None"}`,
-      "",
-      "DIRECT ACTIONS FOR RECEPTION:",
-      `• Call Guest: tel:${v.contact.trim()}`,
-      `• WhatsApp Guest: https://wa.me/${cleanPhone}`,
-      `• Temple Location: ${siteConfig.mapsUrl}`,
-      "",
-      "----------------------------------------",
-      `Website: ${siteUrl}`,
-      "Email powered by DevgronixTech (https://devgronixtech.com)",
-      "========================================",
-    ].join("\n");
 
     try {
-      // 1. Submit to Web3Forms using clean, standard alphanumeric keys to pass spam filters
+      // 1. Submit to Web3Forms using human-readable field labels so Web3Forms renders a clean, styled HTML table
       if (siteConfig.web3FormsKey && siteConfig.web3FormsKey !== "YOUR_WEB3FORMS_ACCESS_KEY") {
         const payload = {
           access_key: siteConfig.web3FormsKey,
-          subject: `New Booking: ${v.name.trim()} - ${v.room === "ac" ? "AC Deluxe" : "Non-AC"} (${v.rooms} Room)`,
-          from_name: "Veerapandiyar Guest House",
-          name: v.name.trim(),
-          phone: v.contact.trim(),
-          city_address: v.address.trim(),
-          room_type: roomTitle,
-          check_in_date: v.checkIn || "Today",
-          check_out_date: v.checkOut || "Flexible",
-          rooms_count: v.rooms,
-          total_guests: v.guests,
-          special_requests: v.notes.trim() || "None",
-          direct_call_link: `tel:${v.contact.trim()}`,
-          direct_whatsapp_link: `https://wa.me/${cleanPhone}`,
-          powered_by: "DevgronixTech (https://devgronixtech.com)",
-          message: formattedEmailCard,
+          subject: `🛎️ New Booking: ${v.name.trim()} • ${roomTitle} (${v.rooms} Room)`,
+          from_name: "Veerapandiyar Guest House Reception",
+          "Guest Name": v.name.trim(),
+          "Phone / Mobile": v.contact.trim(),
+          "City & Address": v.address.trim(),
+          "Room Category": roomTitle,
+          "Check-In Date": v.checkIn || "Immediate / Today",
+          "Check-Out Date": v.checkOut || "Flexible / Not specified",
+          "Number of Rooms": `${v.rooms} Room(s)`,
+          "Total Guests": `${v.guests} Guest(s)`,
+          "Special Requests": v.notes.trim() || "None",
+          "WhatsApp Link": `https://wa.me/${cleanPhone}`,
+          "Direct Call Link": `tel:${v.contact.trim()}`,
+          "Powered By": "DevgronixTech (https://devgronixtech.com)",
         };
 
         const res = await fetch("https://api.web3forms.com/submit", {
@@ -200,346 +169,401 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 • *Special Requests:* ${v.notes.trim() || "None"}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🙏 _Hello! I have submitted this enquiry on your official website. Please confirm room availability and booking tariff._
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 _Powered by DevgronixTech_`;
+⚡ _Instant enquiry via Veerapandiyar Guest House Website_
+_DevgronixTech Secure Booking Engine_`;
 
   if (done) {
     return (
-      <div className="mx-auto max-w-xl rounded-2xl border border-gold/40 bg-card p-6 text-center shadow-2xl md:p-10 page-in">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gold/15 border border-gold/40 text-gold shadow-inner">
-          <CheckCircle2 className="h-9 w-9 text-gold" strokeWidth={2} />
+      <div className="rounded-3xl border border-gold/30 bg-card p-6 sm:p-10 shadow-xl text-center space-y-6">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gold/15 text-gold">
+          <CheckCircle2 className="h-9 w-9" />
         </div>
-        <h2 className="mt-4 font-serif text-3xl md:text-4xl text-foreground font-medium">
-          Enquiry Received!
-        </h2>
-        <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-          Thank you, <strong className="text-foreground">{v.name}</strong>. Your reservation request has been submitted.
-        </p>
 
-        {/* Voucher Preview Card */}
-        <div className="my-6 rounded-xl border border-border/80 bg-muted/40 p-5 text-left text-xs space-y-3 shadow-sm">
-          <div className="flex items-center justify-between border-b border-border/60 pb-3 font-semibold text-foreground">
-            <span className="text-sm font-serif text-gold">
-              {v.room === "ac" ? "❄️ Deluxe AC Room" : "🌿 Standard Non-AC Room"}
-            </span>
-            <span className="rounded-full bg-gold/15 px-2.5 py-0.5 text-[0.68rem] text-gold border border-gold/30">
-              {v.rooms} Room(s) • {v.guests} Guest(s)
+        <div className="space-y-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-semibold text-gold">
+            <Sparkles className="h-3.5 w-3.5" /> Booking Request Received
+          </span>
+          <h3 className="font-serif text-2xl sm:text-3xl font-bold text-foreground">
+            {b.successTitle}
+          </h3>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
+            {b.successMsg}
+          </p>
+        </div>
+
+        {/* Guest Booking Pass Card */}
+        <div className="mx-auto max-w-md rounded-2xl border border-border/80 bg-background/95 p-5 text-left shadow-sm space-y-3">
+          <div className="flex items-center justify-between border-b border-border/60 pb-3">
+            <div>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">Guest</p>
+              <p className="font-semibold text-foreground">{v.name}</p>
+            </div>
+            <span className="rounded-full bg-gold/15 px-3 py-1 text-xs font-semibold text-gold uppercase tracking-wider">
+              {v.room === "ac" ? "Deluxe AC" : "Standard Non-AC"}
             </span>
           </div>
-          <div className="grid gap-1.5 text-muted-foreground">
-            <p><strong className="text-foreground">Dates:</strong> Check-in: {v.checkIn || "Today"} {v.checkOut ? `→ Check-out: ${v.checkOut}` : ""}</p>
-            <p><strong className="text-foreground">Contact:</strong> {v.contact}</p>
-            <p><strong className="text-foreground">City/Address:</strong> {v.address}</p>
-            {v.notes && <p><strong className="text-foreground">Notes:</strong> {v.notes}</p>}
+
+          <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+            <div>
+              <span className="text-muted-foreground">Check-in:</span>
+              <p className="font-medium text-foreground">{v.checkIn || "Today"}</p>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Check-out:</span>
+              <p className="font-medium text-foreground">{v.checkOut || "Flexible"}</p>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Rooms / Guests:</span>
+              <p className="font-medium text-foreground">
+                {v.rooms} Room(s) • {v.guests} Guest(s)
+              </p>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Contact:</span>
+              <p className="font-medium text-foreground">{v.contact}</p>
+            </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col gap-3 sm:flex-row justify-center">
-          <a
-            href={whatsappHref(waReceiptMessage)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg hover:brightness-105 active:scale-95 transition-all"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            <span>Confirm on WhatsApp</span>
-          </a>
-
-          <a
-            href={telHref()}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-gold/40 bg-background px-6 py-3.5 text-xs font-semibold text-foreground hover:bg-muted active:scale-95 transition-all"
-          >
-            <Phone className="h-4 w-4 text-gold" />
-            <span>Call Guest House</span>
-          </a>
-        </div>
-
-        {/* Branding Footer */}
-        <div className="mt-8 pt-4 border-t border-border/50 flex flex-col items-center gap-1.5 text-[0.72rem] text-muted-foreground">
-          <div className="flex items-center gap-1">
-            <span>Powered by</span>
+        {/* Immediate Reception Contact Actions */}
+        <div className="space-y-3 pt-2 max-w-md mx-auto">
+          <p className="text-xs text-muted-foreground font-medium">
+            For instant confirmation, you can also send this booking voucher directly to reception:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <a
-              href="https://devgronixtech.com"
+              href={whatsappHref(waReceiptMessage)}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-gold hover:underline inline-flex items-center gap-0.5"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow hover:bg-emerald-700 transition-all active:scale-[0.98]"
             >
-              DevgronixTech <ExternalLink className="h-2.5 w-2.5" />
+              <WhatsAppIcon className="h-4 w-4" />
+              WhatsApp Reception
+            </a>
+            <a
+              href={telHref()}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-gold/40 bg-gold/10 px-5 py-3 text-sm font-semibold text-gold hover:bg-gold/20 transition-all active:scale-[0.98]"
+            >
+              <Phone className="h-4 w-4" />
+              Call Reception
             </a>
           </div>
-          <Link to="/" className="text-muted-foreground hover:text-gold underline mt-1">
-            {t.common.backHome}
-          </Link>
         </div>
+
+        {/* Agency Branding Tag */}
+        <div className="pt-4 border-t border-border/60 text-xs text-muted-foreground flex items-center justify-center gap-1.5">
+          <span>Booking Engine powered by</span>
+          <a
+            href="https://devgronixtech.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-gold hover:underline inline-flex items-center gap-1"
+          >
+            DevgronixTech <ExternalLink className="h-3 w-3" />
+          </a>
+        </div>
+
+        <button
+          onClick={() => {
+            setDone(false);
+            setV({
+              name: "",
+              address: "",
+              contact: "",
+              room: initialRoom ?? "ac",
+              checkIn: todayStr,
+              checkOut: "",
+              rooms: "1",
+              guests: "2",
+              notes: "",
+            });
+          }}
+          className="text-xs text-muted-foreground underline hover:text-foreground transition-colors pt-2 block mx-auto"
+        >
+          Submit another booking enquiry
+        </button>
       </div>
     );
   }
 
   return (
     <form
-      noValidate
       onSubmit={submit}
-      className="mx-auto max-w-2xl rounded-2xl border border-border/80 bg-card p-4.5 shadow-2xl sm:p-7 md:p-10"
+      className="relative rounded-3xl border border-border/80 bg-card/95 p-5 sm:p-8 md:p-10 shadow-2xl backdrop-blur-sm space-y-6"
     >
-      {/* 1. ROOM TYPE RADIO BUTTON CARDS */}
-      <div>
+      {/* Form Header */}
+      <div className="space-y-1.5 border-b border-border/60 pb-5">
         <div className="flex items-center justify-between">
-          <label className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-gold">
-            1. Select Room Type
-          </label>
-          <span className="text-[0.7rem] text-muted-foreground">Bhavani Amman Temple View</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/10 px-3 py-1 text-xs font-semibold text-gold">
+            <Sparkles className="h-3.5 w-3.5" /> Instant Reception Alert
+          </span>
+          <span className="text-xs text-muted-foreground">Near Bhavani Amman Temple</span>
         </div>
+        <h3 className="font-serif text-xl sm:text-2xl font-bold text-foreground">
+          {b.title}
+        </h3>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          {b.subtitle}
+        </p>
+      </div>
 
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {/* Deluxe AC Radio Card */}
-          <label
+      {/* 1. Premium Room Type Selector (Radio Cards) */}
+      <div className="space-y-2">
+        <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+          <BedDouble className="h-3.5 w-3.5 text-gold" /> {b.lblRoom} *
+        </label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* AC Option */}
+          <button
+            type="button"
+            onClick={() => setV((p) => ({ ...p, room: "ac" }))}
             className={cn(
-              "relative flex cursor-pointer flex-col rounded-xl border-2 p-4 transition-all shadow-sm",
+              "flex items-center justify-between p-4 rounded-2xl border text-left transition-all active:scale-[0.98]",
               v.room === "ac"
-                ? "border-gold bg-gold/10 ring-1 ring-gold/40 shadow-gold/10"
-                : "border-border/70 bg-card hover:border-gold/40 hover:bg-muted/20"
+                ? "border-gold bg-gold/10 shadow-md ring-2 ring-gold/30"
+                : "border-border/80 bg-background/60 hover:border-gold/50"
             )}
           >
-            <input
-              type="radio"
-              name="room_type"
-              value="ac"
-              checked={v.room === "ac"}
-              onChange={() => setV((p) => ({ ...p, room: "ac" }))}
-              className="sr-only"
-            />
-            <div className="flex w-full items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div
-                  className={cn(
-                    "flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-all",
-                    v.room === "ac" ? "border-gold bg-gold" : "border-muted-foreground/40 bg-transparent"
-                  )}
-                >
-                  {v.room === "ac" && <div className="h-1.5 w-1.5 rounded-full bg-ink" />}
-                </div>
-                <span className="text-sm font-bold text-foreground">Deluxe AC Room</span>
+            <div className="flex items-center gap-3">
+              <div
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-xl",
+                  v.room === "ac" ? "bg-gold text-primary-foreground" : "bg-muted text-muted-foreground"
+                )}
+              >
+                <Snowflake className="h-5 w-5" />
               </div>
-              <Snowflake className="h-4 w-4 text-gold" />
+              <div>
+                <p className="font-semibold text-sm text-foreground">Deluxe AC Room</p>
+                <p className="text-xs text-muted-foreground">Air conditioned comfort</p>
+              </div>
             </div>
-            <p className="mt-2 text-[0.72rem] text-muted-foreground leading-relaxed pl-7">
-              Air Conditioned • Attached Bath • TV & WiFi
-            </p>
-          </label>
+            <div
+              className={cn(
+                "h-5 w-5 rounded-full border-2 flex items-center justify-center",
+                v.room === "ac" ? "border-gold bg-gold text-primary-foreground" : "border-muted-foreground/40"
+              )}
+            >
+              {v.room === "ac" && <div className="h-2 w-2 rounded-full bg-primary-foreground" />}
+            </div>
+          </button>
 
-          {/* Standard Non-AC Radio Card */}
-          <label
+          {/* Non-AC Option */}
+          <button
+            type="button"
+            onClick={() => setV((p) => ({ ...p, room: "nonac" }))}
             className={cn(
-              "relative flex cursor-pointer flex-col rounded-xl border-2 p-4 transition-all shadow-sm",
+              "flex items-center justify-between p-4 rounded-2xl border text-left transition-all active:scale-[0.98]",
               v.room === "nonac"
-                ? "border-gold bg-gold/10 ring-1 ring-gold/40 shadow-gold/10"
-                : "border-border/70 bg-card hover:border-gold/40 hover:bg-muted/20"
+                ? "border-gold bg-gold/10 shadow-md ring-2 ring-gold/30"
+                : "border-border/80 bg-background/60 hover:border-gold/50"
             )}
           >
-            <input
-              type="radio"
-              name="room_type"
-              value="nonac"
-              checked={v.room === "nonac"}
-              onChange={() => setV((p) => ({ ...p, room: "nonac" }))}
-              className="sr-only"
-            />
-            <div className="flex w-full items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div
-                  className={cn(
-                    "flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-all",
-                    v.room === "nonac" ? "border-gold bg-gold" : "border-muted-foreground/40 bg-transparent"
-                  )}
-                >
-                  {v.room === "nonac" && <div className="h-1.5 w-1.5 rounded-full bg-ink" />}
-                </div>
-                <span className="text-sm font-bold text-foreground">Standard Non-AC</span>
+            <div className="flex items-center gap-3">
+              <div
+                className={cn(
+                  "flex h-10 w-10 items-center justify-center rounded-xl",
+                  v.room === "nonac" ? "bg-gold text-primary-foreground" : "bg-muted text-muted-foreground"
+                )}
+              >
+                <BedDouble className="h-5 w-5" />
               </div>
-              <BedDouble className="h-4 w-4 text-gold" />
+              <div>
+                <p className="font-semibold text-sm text-foreground">Standard Non-AC</p>
+                <p className="text-xs text-muted-foreground">Budget pilgrim stay</p>
+              </div>
             </div>
-            <p className="mt-2 text-[0.72rem] text-muted-foreground leading-relaxed pl-7">
-              Airy & Clean • Ceiling Fan • Attached Bath
-            </p>
-          </label>
+            <div
+              className={cn(
+                "h-5 w-5 rounded-full border-2 flex items-center justify-center",
+                v.room === "nonac" ? "border-gold bg-gold text-primary-foreground" : "border-muted-foreground/40"
+              )}
+            >
+              {v.room === "nonac" && <div className="h-2 w-2 rounded-full bg-primary-foreground" />}
+            </div>
+          </button>
         </div>
-        {errors.room && <p className="mt-1.5 text-xs text-destructive">{errors.room}</p>}
+        {errors.room && <p className="text-xs text-destructive">{errors.room}</p>}
       </div>
 
-      <div className="my-6 border-t border-border/60" />
-
-      {/* 2. DATES & ROOM OCCUPANCY */}
-      <div>
-        <label className="block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-gold mb-3">
-          2. Stay Dates & Rooms
-        </label>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-          <div>
-            <label htmlFor="f-checkin" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
-              <Calendar className="h-3.5 w-3.5 text-gold" /> Check-in Date
-            </label>
-            <input
-              id="f-checkin"
-              type="date"
-              min={todayStr}
-              value={v.checkIn}
-              onChange={set("checkIn")}
-              className={fieldClass}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="f-checkout" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
-              <Calendar className="h-3.5 w-3.5 text-gold" /> Check-out Date
-            </label>
-            <input
-              id="f-checkout"
-              type="date"
-              min={v.checkIn || todayStr}
-              value={v.checkOut}
-              onChange={set("checkOut")}
-              className={fieldClass}
-            />
-          </div>
-        </div>
-
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:gap-4">
-          <div>
-            <label htmlFor="f-rooms" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
-              <BedDouble className="h-3.5 w-3.5 text-gold" /> {b.numRooms}
-            </label>
-            <input
-              id="f-rooms"
-              type="number"
-              min={1}
-              max={50}
-              value={v.rooms}
-              onChange={set("rooms")}
-              className={fieldClass}
-            />
-            {errors.rooms && <p className="mt-1 text-xs text-destructive">{errors.rooms}</p>}
-          </div>
-
-          <div>
-            <label htmlFor="f-guests" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
-              <Users className="h-3.5 w-3.5 text-gold" /> {b.numGuests}
-            </label>
-            <input
-              id="f-guests"
-              type="number"
-              min={1}
-              max={500}
-              placeholder="e.g. 2"
-              value={v.guests}
-              onChange={set("guests")}
-              className={cn(fieldClass, errors.guests && "border-destructive")}
-            />
-            {errors.guests && <p className="mt-1 text-xs text-destructive">{errors.guests}</p>}
-          </div>
-        </div>
-      </div>
-
-      <div className="my-6 border-t border-border/60" />
-
-      {/* 3. GUEST CONTACT INFORMATION */}
-      <div className="space-y-3.5">
-        <label className="block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-gold">
-          3. Contact Information
-        </label>
-
-        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
-          <div>
-            <label htmlFor="f-name" className="mb-1.5 block text-xs font-medium text-foreground">
-              {b.name} <span className="text-gold">*</span>
-            </label>
-            <input
-              id="f-name"
-              type="text"
-              autoComplete="name"
-              maxLength={100}
-              placeholder="e.g. Ramesh Kumar"
-              value={v.name}
-              onChange={set("name")}
-              className={cn(fieldClass, errors.name && "border-destructive")}
-            />
-            {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
-          </div>
-
-          <div>
-            <label htmlFor="f-contact" className="mb-1.5 block text-xs font-medium text-foreground">
-              {b.contact} (WhatsApp) <span className="text-gold">*</span>
-            </label>
-            <input
-              id="f-contact"
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel"
-              maxLength={16}
-              placeholder="e.g. 9876543210"
-              value={v.contact}
-              onChange={set("contact")}
-              className={cn(fieldClass, errors.contact && "border-destructive")}
-            />
-            {errors.contact && <p className="mt-1 text-xs text-destructive">{errors.contact}</p>}
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="f-address" className="mb-1.5 block text-xs font-medium text-foreground">
-            {b.address} (City / Town) <span className="text-gold">*</span>
+      {/* 2. Check-In & Check-Out Dates */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <label htmlFor="f-checkIn" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <Calendar className="h-3.5 w-3.5 text-gold" /> Check-in Date *
           </label>
           <input
-            id="f-address"
-            type="text"
-            autoComplete="street-address"
-            maxLength={500}
-            placeholder="e.g. Chennai / Tiruvallur"
-            value={v.address}
-            onChange={set("address")}
-            className={cn(fieldClass, errors.address && "border-destructive")}
+            id="f-checkIn"
+            type="date"
+            min={todayStr}
+            value={v.checkIn}
+            onChange={set("checkIn")}
+            className={fieldClass}
+            required
           />
-          {errors.address && <p className="mt-1 text-xs text-destructive">{errors.address}</p>}
         </div>
 
-        <div>
-          <label htmlFor="f-notes" className="mb-1.5 block text-xs font-medium text-foreground">
-            {b.notes} <span className="text-muted-foreground font-normal">({b.optional})</span>
+        <div className="space-y-1.5">
+          <label htmlFor="f-checkOut" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <Calendar className="h-3.5 w-3.5 text-muted-foreground" /> Check-out Date
           </label>
-          <textarea
-            id="f-notes"
-            rows={2}
-            maxLength={2000}
-            placeholder="e.g. Expected arrival time or special assistance needed"
-            value={v.notes}
-            onChange={set("notes")}
+          <input
+            id="f-checkOut"
+            type="date"
+            min={v.checkIn || todayStr}
+            value={v.checkOut}
+            onChange={set("checkOut")}
             className={fieldClass}
           />
         </div>
       </div>
 
-      {submitFailed && (
-        <p className="mt-4 text-xs text-destructive" role="alert">
-          {b.errorSubmit}
-        </p>
-      )}
-
-      {/* 4. SUBMIT BUTTON & TRUST BADGE */}
-      <div className="mt-7 space-y-3">
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full rounded-xl bg-gold py-4 text-xs font-bold uppercase tracking-wider text-ink shadow-lg transition-transform active:scale-[0.99] disabled:opacity-50 hover:brightness-105 cursor-pointer"
-        >
-          {submitting ? "Sending Request..." : "Request Room Reservation"}
-        </button>
-
-        <div className="flex items-center justify-center gap-1.5 text-center text-[0.72rem] text-muted-foreground">
-          <ShieldCheck className="h-3.5 w-3.5 text-gold shrink-0" />
-          <span>Immediate response via WhatsApp & Call • No online payment required</span>
+      {/* 3. Rooms and Guests Counter */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <label htmlFor="f-rooms" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <BedDouble className="h-3.5 w-3.5 text-gold" /> {b.lblRooms} *
+          </label>
+          <select
+            id="f-rooms"
+            value={v.rooms}
+            onChange={set("rooms")}
+            className={cn(fieldClass, errors.rooms && "border-destructive")}
+          >
+            {[1, 2, 3, 4, 5, 6, 8, 10].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? "Room" : "Rooms"}
+              </option>
+            ))}
+          </select>
+          {errors.rooms && <p className="text-xs text-destructive">{errors.rooms}</p>}
         </div>
+
+        <div className="space-y-1.5">
+          <label htmlFor="f-guests" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            <Users className="h-3.5 w-3.5 text-gold" /> {b.lblGuests} *
+          </label>
+          <select
+            id="f-guests"
+            value={v.guests}
+            onChange={set("guests")}
+            className={cn(fieldClass, errors.guests && "border-destructive")}
+          >
+            {[1, 2, 3, 4, 5, 6, 8, 10, 15, 20].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? "Guest" : "Guests"}
+              </option>
+            ))}
+          </select>
+          {errors.guests && <p className="text-xs text-destructive">{errors.guests}</p>}
+        </div>
+      </div>
+
+      {/* 4. Guest Contact Details */}
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <label htmlFor="f-name" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {b.lblName} *
+          </label>
+          <input
+            id="f-name"
+            type="text"
+            required
+            autoComplete="name"
+            value={v.name}
+            onChange={set("name")}
+            placeholder="e.g. Ramesh Kumar"
+            className={cn(fieldClass, errors.name && "border-destructive")}
+          />
+          {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label htmlFor="f-contact" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {b.lblContact} *
+            </label>
+            <input
+              id="f-contact"
+              type="tel"
+              required
+              autoComplete="tel"
+              value={v.contact}
+              onChange={set("contact")}
+              placeholder="e.g. 9876543210"
+              className={cn(fieldClass, errors.contact && "border-destructive")}
+            />
+            {errors.contact && <p className="text-xs text-destructive">{errors.contact}</p>}
+          </div>
+
+          <div className="space-y-1.5">
+            <label htmlFor="f-address" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {b.lblAddress} *
+            </label>
+            <input
+              id="f-address"
+              type="text"
+              required
+              value={v.address}
+              onChange={set("address")}
+              placeholder="e.g. Chennai / Tirupati"
+              className={cn(fieldClass, errors.address && "border-destructive")}
+            />
+            {errors.address && <p className="text-xs text-destructive">{errors.address}</p>}
+          </div>
+        </div>
+
+        <div className="space-y-1.5">
+          <label htmlFor="f-notes" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {b.lblNotes}
+          </label>
+          <textarea
+            id="f-notes"
+            rows={2}
+            value={v.notes}
+            onChange={set("notes")}
+            placeholder="Special requests, arrival time, or family requirements..."
+            className={fieldClass}
+          />
+        </div>
+      </div>
+
+      {/* 5. Trust / Security Note */}
+      <div className="flex items-center gap-2 rounded-xl bg-muted/40 p-3 text-xs text-muted-foreground">
+        <ShieldCheck className="h-4 w-4 text-gold shrink-0" />
+        <span>No advance payment required now. Pay directly at the reception during check-in.</span>
+      </div>
+
+      {/* 6. Submit Button */}
+      <button
+        type="submit"
+        disabled={submitting}
+        className="w-full rounded-2xl bg-gold px-6 py-4 text-base font-semibold text-primary-foreground shadow-lg hover:bg-gold-light transition-all active:scale-[0.99] disabled:opacity-50 flex items-center justify-center gap-2"
+      >
+        {submitting ? (
+          <>
+            <span className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+            <span>Sending to Reception...</span>
+          </>
+        ) : (
+          <>
+            <span>{b.btnSubmit}</span>
+            <Sparkles className="h-4 w-4" />
+          </>
+        )}
+      </button>
+
+      {/* Agency Footer Credit */}
+      <div className="pt-2 text-center text-xs text-muted-foreground/80 flex items-center justify-center gap-1">
+        <span>Powered by</span>
+        <a
+          href="https://devgronixtech.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-medium text-gold hover:underline"
+        >
+          DevgronixTech
+        </a>
       </div>
     </form>
   );
