@@ -1,6 +1,6 @@
 import hero from "@/assets/hero-bright.jpg";
 import ac from "@/assets/WhatsApp Image 2026-09-30 at 08.54.12.jpeg";
-import nonac from "@/assets/src/WhatsApp Image 2026-10-09 at 21.51.02.jpeg";
+import nonac from "@/assets/WhatsApp Image 2026-10-09 at 21.51.02.jpeg";
 import common from "@/assets/WhatsApp Image 2026-09-30 at 08.54.14.jpeg";
 import corridor from "@/assets/WhatsApp Image 2026-10-09 at 21.51.01.jpeg";
 import surroundings from "@/assets/WhatsApp Image 2026-10-09 at 21.51.02.jpeg";
