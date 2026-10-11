@@ -16,6 +16,7 @@ import { galleryImages, heroImage } from "@/lib/images";
 import { btn, Reveal, SectionHeading, WhatsAppIcon } from "@/components/site/ui";
 import { RoomCard } from "@/components/site/sections";
 import { GalleryGrid } from "@/components/site/Gallery";
+import { BookingForm } from "@/components/site/BookingForm";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -33,9 +34,17 @@ function Home() {
   const { t } = useI18n();
   const common = galleryImages.find((g) => g.key === "common")!;
 
+  const scrollToBook = (e: React.MouseEvent) => {
+    const el = document.getElementById("book");
+    if (el) {
+      e.preventDefault();
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
-      {/* 1. HERO SECTION (Mobile par text bottom me cleanly placed) */}
+      {/* 1. HERO SECTION */}
       <section className="relative flex min-h-[88svh] items-end overflow-hidden bg-ink pb-10 pt-28 sm:min-h-[100svh] sm:pb-24 sm:pt-32">
         <img
           src={heroImage}
@@ -77,9 +86,9 @@ function Home() {
 
           {/* Desktop CTAs */}
           <div className="mt-7 hidden items-center gap-4 sm:flex">
-            <Link to="/booking" className={btn("gold", "px-6 py-3 shadow-lg")}>
+            <a href="#book" onClick={scrollToBook} className={btn("gold", "px-6 py-3 shadow-lg")}>
               {t.home.heroCta} <ArrowRight className="h-4 w-4 ml-1" />
-            </Link>
+            </a>
             <a
               href={whatsappHref(t.common.waGreeting)}
               target="_blank"
@@ -114,14 +123,15 @@ function Home() {
             <span>WhatsApp</span>
           </a>
 
-          {/* Luxe Gold Booking Button */}
-          <Link
-            to="/booking"
+          {/* Luxe Gold Booking Button (Smooth scroll to open form) */}
+          <a
+            href="#book"
+            onClick={scrollToBook}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-gold py-2.5 text-xs font-bold uppercase tracking-wider text-ink shadow-md active:scale-95 transition-all hover:brightness-105"
           >
             <span>{t.nav.book}</span>
             <ArrowRight className="h-3 w-3" />
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -186,8 +196,27 @@ function Home() {
         </div>
       </section>
 
-      {/* 6. CLEAN COMPACT LOCATION & ENQUIRY SECTION */}
-      <section className="relative overflow-hidden bg-ink py-20 text-center text-ink-foreground md:py-28">
+      {/* 6. DIRECT BOOKING FORM SECTION (FULL OPEN ON HOMEPAGE) */}
+      <section id="book" className="scroll-mt-20 bg-secondary/80 py-16 sm:py-24 md:py-32">
+        <div className="container-x max-w-3xl">
+          <div className="mb-8 text-center sm:mb-12">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-gold">
+              Instant Reservation
+            </p>
+            <h2 className="font-serif text-3xl font-medium tracking-tight text-foreground sm:text-4xl md:text-5xl">
+              Book Your Stay Near the Temple
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
+              Select your room preference and enter your stay dates below for immediate room confirmation.
+            </p>
+          </div>
+
+          <BookingForm />
+        </div>
+      </section>
+
+      {/* 7. CLEAN COMPACT LOCATION SECTION */}
+      <section className="relative overflow-hidden bg-ink py-16 text-center text-ink-foreground md:py-24">
         <div className="container-x relative z-10 max-w-3xl">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-gold">
             Location
@@ -203,9 +232,13 @@ function Home() {
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link to="/booking" className={btn("gold", "w-full sm:w-auto px-8 py-3.5 shadow-lg")}>
+            <a
+              href="#book"
+              onClick={scrollToBook}
+              className={btn("gold", "w-full sm:w-auto px-8 py-3.5 shadow-lg")}
+            >
               {t.common.enquireNow} <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
+            </a>
             <a
               href={siteConfig.mapsUrl}
               target="_blank"
