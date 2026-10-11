@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "@/lib/i18n";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { siteConfig } from "@/lib/site-config";
 
 function NotFoundComponent() {
   return (
@@ -81,8 +82,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Periyapalayam Veerapandiyar Guest House" },
-      { name: "description", content: "Comfortable guest house near Bhavani Amman Temple, Periyapalayam." },
+      { title: "Periyapalayam Veerapandiyar Guest House | AC & Non-AC Rooms" },
+      {
+        name: "description",
+        content:
+          "Comfortable AC and Non-AC guest rooms at Periyapalayam Veerapandiyar Guest House, located near Bhavani Amman Temple. Call +91 74013 38883 for instant booking.",
+      },
+      { name: "keywords", content: "Periyapalayam guest house, Bhavani Amman temple stay, rooms in Periyapalayam, Veerapandiyar guest house, AC rooms Periyapalayam" },
+      { property: "og:site_name", content: "Veerapandiyar Guest House" },
+      { property: "og:title", content: "Periyapalayam Veerapandiyar Guest House" },
+      {
+        property: "og:description",
+        content: "Comfortable rooms near Bhavani Amman Temple in Periyapalayam. AC & Non-AC options available.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -94,6 +106,39 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600&family=Noto+Serif+Telugu:wght@400;500&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LodgingBusiness",
+          name: siteConfig.name,
+          alternateName: "பெரியபாளையம் வீரபாண்டியார் கெஸ்ட் ஹவுஸ்",
+          description: "Comfortable AC and Non-AC room accommodation near Bhavani Amman Temple in Periyapalayam, Tamil Nadu.",
+          telephone: siteConfig.phone,
+          priceRange: "₹₹",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Near Bhavani Amman Temple",
+            addressLocality: "Periyapalayam",
+            addressRegion: "Tamil Nadu",
+            postalCode: "601102",
+            addressCountry: "IN",
+          },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: 13.314415,
+            longitude: 80.0437654,
+          },
+          hasMap: siteConfig.mapsUrl,
+          amenityFeature: [
+            { "@type": "LocationFeatureSpecification", name: "Air Conditioning", value: true },
+            { "@type": "LocationFeatureSpecification", name: "Near Temple", value: true },
+            { "@type": "LocationFeatureSpecification", name: "Family Accommodation", value: true },
+          ],
+        }),
       },
     ],
   }),
