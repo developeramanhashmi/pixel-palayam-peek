@@ -1,6 +1,16 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { CheckCircle2, BedDouble, Snowflake, ShieldCheck, Phone, MapPin, ExternalLink } from "lucide-react";
+import {
+  CheckCircle2,
+  BedDouble,
+  Snowflake,
+  ShieldCheck,
+  Phone,
+  Calendar,
+  Users,
+  ExternalLink,
+  Sparkles,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { siteConfig, telHref, whatsappHref } from "@/lib/site-config";
 import { WhatsAppIcon } from "./ui";
@@ -14,6 +24,8 @@ export type Enquiry = {
   address: string;
   contact: string;
   room: RoomType | "";
+  checkIn: string;
+  checkOut: string;
   rooms: string;
   guests: string;
   notes: string;
@@ -21,20 +33,26 @@ export type Enquiry = {
 type Errors = Partial<Record<keyof Enquiry, string>>;
 
 const fieldClass =
-  "w-full rounded-md border border-input bg-background px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold";
+  "w-full rounded-xl border border-border/80 bg-background px-3.5 py-3 text-base sm:text-sm outline-none transition-all placeholder:text-muted-foreground/60 focus:border-gold focus:ring-2 focus:ring-gold/20";
 
 export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefined }) {
   const { t } = useI18n();
   const b = t.booking;
+
+  const todayStr = new Date().toISOString().split("T")[0];
+
   const [v, setV] = useState<Enquiry>({
     name: "",
     address: "",
     contact: "",
-    room: initialRoom ?? "",
+    room: initialRoom ?? "ac",
+    checkIn: todayStr,
+    checkOut: "",
     rooms: "1",
-    guests: "",
+    guests: "2",
     notes: "",
   });
+
   const [errors, setErrors] = useState<Errors>({});
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -68,63 +86,72 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     }
 
     setSubmitting(true);
-    const roomLabel = v.room === "ac" ? "Deluxe AC Room (❄️)" : "Standard Non-AC Room (🌿)";
+    const roomTitle = v.room === "ac" ? "Deluxe AC Room (Air Conditioned)" : "Standard Non-AC Room";
     const cleanPhone = v.contact.replace(/\D/g, "");
     const siteUrl = typeof window !== "undefined" ? window.location.origin : "https://veerapandiyarguesthouse.com";
 
+    // Clean human-readable message block for email body
+    const formattedEmailCard = [
+      "========================================",
+      "VEERAPANDIYAR GUEST HOUSE - ROOM BOOKING",
+      "Near Bhavani Amman Temple, Periyapalayam",
+      "========================================",
+      "",
+      `GUEST NAME: ${v.name.trim()}`,
+      `PHONE: ${v.contact.trim()}`,
+      `CITY / ADDRESS: ${v.address.trim()}`,
+      "",
+      `ROOM CATEGORY: ${roomTitle}`,
+      `CHECK-IN DATE: ${v.checkIn || "Immediate / Today"}`,
+      `CHECK-OUT DATE: ${v.checkOut || "Not specified"}`,
+      `NUMBER OF ROOMS: ${v.rooms} Room(s)`,
+      `TOTAL GUESTS: ${v.guests} Guest(s)`,
+      `SPECIAL NOTES: ${v.notes.trim() || "None"}`,
+      "",
+      "DIRECT ACTIONS FOR RECEPTION:",
+      `• Call Guest: tel:${v.contact.trim()}`,
+      `• WhatsApp Guest: https://wa.me/${cleanPhone}`,
+      `• Temple Location: ${siteConfig.mapsUrl}`,
+      "",
+      "----------------------------------------",
+      `Website: ${siteUrl}`,
+      "Email powered by DevgronixTech (https://devgronixtech.com)",
+      "========================================",
+    ].join("\n");
+
     try {
-      // 1. Premium Formatted Email via Web3Forms
-      if (siteConfig.web3FormsKey && siteConfig.web3FormsKey !== "2e350fee-0a3f-42bf-933c-16d07391d47b") {
-        await fetch("https://api.web3forms.com/submit", {
+      // 1. Submit to Web3Forms using clean, standard alphanumeric keys to pass spam filters
+      if (siteConfig.web3FormsKey && siteConfig.web3FormsKey !== "YOUR_WEB3FORMS_ACCESS_KEY") {
+        const payload = {
+          access_key: siteConfig.web3FormsKey,
+          subject: `New Booking: ${v.name.trim()} - ${v.room === "ac" ? "AC Deluxe" : "Non-AC"} (${v.rooms} Room)`,
+          from_name: "Veerapandiyar Guest House",
+          name: v.name.trim(),
+          phone: v.contact.trim(),
+          city_address: v.address.trim(),
+          room_type: roomTitle,
+          check_in_date: v.checkIn || "Today",
+          check_out_date: v.checkOut || "Flexible",
+          rooms_count: v.rooms,
+          total_guests: v.guests,
+          special_requests: v.notes.trim() || "None",
+          direct_call_link: `tel:${v.contact.trim()}`,
+          direct_whatsapp_link: `https://wa.me/${cleanPhone}`,
+          powered_by: "DevgronixTech (https://devgronixtech.com)",
+          message: formattedEmailCard,
+        };
+
+        const res = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            access_key: siteConfig.web3FormsKey,
-            subject: `🛎️ New Booking: ${v.name.trim()} • ${v.room === "ac" ? "❄️ AC Deluxe" : "🌿 Non-AC"} (${v.rooms} Room)`,
-            from_name: "Veerapandiyar Guest House Booking Desk",
-            "👤 Guest Name": v.name.trim(),
-            "📞 Contact Number": v.contact.trim(),
-            "📍 City / Address": v.address.trim(),
-            "🛏️ Selected Room": roomLabel,
-            "🚪 Total Rooms": `${v.rooms} Room(s)`,
-            "👥 Total Guests": `${v.guests} Person(s)`,
-            "📝 Special Notes": v.notes.trim() || "None",
-            "────────────────": "──────────────────────────────",
-            "📞 Call Guest Directly": `tel:${v.contact.trim()}`,
-            "💬 WhatsApp Guest": `https://wa.me/${cleanPhone}`,
-            "🗺️ Location Map": siteConfig.mapsUrl,
-            "──────────────── ": "──────────────────────────────",
-            "🌐 Website": siteUrl,
-            "⚡ Powered by": "DevgronixTech (https://devgronix.com)",
-            message: `╔══════════════════════════════════════════════════════════╗
-  🏨 VEERAPANDIYAR GUEST HOUSE — RESERVATION ENQUIRY
-  📍 Near Bhavani Amman Temple, Periyapalayam
-╚══════════════════════════════════════════════════════════╝
+          body: JSON.stringify(payload),
+        });
 
-👤 GUEST INFORMATION:
-• Full Name: ${v.name.trim()}
-• Phone / WhatsApp: ${v.contact.trim()}
-• City / Address: ${v.address.trim()}
-
-🛏️ RESERVATION DETAILS:
-• Room Category: ${roomLabel}
-• Rooms Count: ${v.rooms} Room(s)
-• Total Guests: ${v.guests} Guest(s)
-• Special Requirements: ${v.notes.trim() || "None"}
-
-⚡ QUICK ACTION LINKS:
-• Call Guest: tel:${v.contact.trim()}
-• WhatsApp Guest: https://wa.me/${cleanPhone}
-• View Directions: ${siteConfig.mapsUrl}
-
-──────────────────────────────────────────────────────────
-🌐 Website: ${siteUrl}
-🚀 Email Powered by DevgronixTech (https://devgronix.com)`,
-          }),
-        }).catch((err) => console.warn("Web3Forms note:", err));
+        const resData = await res.json().catch(() => null);
+        console.log("Web3Forms Response:", resData);
       }
 
-      // 2. Database Backup (Supabase)
+      // 2. Also save to Supabase database (combining check-in/out in notes to avoid schema mismatch)
       await submitEnquiryFn({
         data: {
           guest_name: v.name.trim(),
@@ -133,7 +160,13 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           room_type: v.room === "ac" ? "AC" : "NON_AC",
           number_of_rooms: Number(v.rooms),
           total_guests: Number(v.guests),
-          additional_requirements: v.notes.trim() || undefined,
+          additional_requirements: [
+            v.checkIn ? `Check-in: ${v.checkIn}` : "",
+            v.checkOut ? `Check-out: ${v.checkOut}` : "",
+            v.notes.trim() ? `Notes: ${v.notes.trim()}` : "",
+          ]
+            .filter(Boolean)
+            .join(" | ") || undefined,
         },
       }).catch((dbErr) => console.warn("DB note:", dbErr));
 
@@ -158,8 +191,10 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 • *Contact:* ${v.contact.trim()}
 • *City / Address:* ${v.address.trim()}
 
-🛏️ *STAY DETAILS*
-• *Room Category:* ${v.room === "ac" ? "❄️ Deluxe AC Room" : "🌿 Standard Non-AC Room"}
+📅 *STAY DATES & ROOMS*
+• *Check-in Date:* ${v.checkIn || "Today / Immediate"}
+• *Check-out Date:* ${v.checkOut || "Flexible"}
+• *Category:* ${v.room === "ac" ? "❄️ Deluxe AC Room" : "🌿 Standard Non-AC Room"}
 • *Rooms Required:* ${v.rooms} Room${Number(v.rooms) > 1 ? "s" : ""}
 • *Total Guests:* ${v.guests} Person${Number(v.guests) > 1 ? "s" : ""}
 • *Special Requests:* ${v.notes.trim() || "None"}
@@ -179,7 +214,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           Enquiry Received!
         </h2>
         <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-          Thank you, <strong className="text-foreground">{v.name}</strong>. Your reservation request has been sent to the desk.
+          Thank you, <strong className="text-foreground">{v.name}</strong>. Your reservation request has been submitted.
         </p>
 
         {/* Voucher Preview Card */}
@@ -193,6 +228,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
             </span>
           </div>
           <div className="grid gap-1.5 text-muted-foreground">
+            <p><strong className="text-foreground">Dates:</strong> Check-in: {v.checkIn || "Today"} {v.checkOut ? `→ Check-out: ${v.checkOut}` : ""}</p>
             <p><strong className="text-foreground">Contact:</strong> {v.contact}</p>
             <p><strong className="text-foreground">City/Address:</strong> {v.address}</p>
             {v.notes && <p><strong className="text-foreground">Notes:</strong> {v.notes}</p>}
@@ -225,7 +261,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           <div className="flex items-center gap-1">
             <span>Powered by</span>
             <a
-              href="https://devgronix.com"
+              href="https://devgronixtech.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-gold hover:underline inline-flex items-center gap-0.5"
@@ -242,69 +278,179 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
   }
 
   return (
-    <form noValidate onSubmit={submit} className="mx-auto max-w-2xl rounded-2xl border border-border/80 bg-card p-6 shadow-2xl md:p-10">
-      {/* 1. ROOM SELECTION CARDS */}
+    <form
+      noValidate
+      onSubmit={submit}
+      className="mx-auto max-w-2xl rounded-2xl border border-border/80 bg-card p-4.5 shadow-2xl sm:p-7 md:p-10"
+    >
+      {/* 1. ROOM TYPE RADIO BUTTON CARDS */}
       <div>
-        <label className="block text-xs font-bold uppercase tracking-[0.18em] text-gold">
-          {b.roomReq}
-        </label>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:gap-4">
-          <button
-            type="button"
-            onClick={() => setV((p) => ({ ...p, room: "ac" }))}
-            className={cn(
-              "flex flex-col items-start rounded-xl border-2 p-4 text-left transition-all",
-              v.room === "ac"
-                ? "border-gold bg-gold/10 shadow-sm"
-                : "border-border/60 bg-muted/20 hover:border-border"
-            )}
-          >
-            <div className="flex w-full items-center justify-between">
-              <Snowflake className="h-5 w-5 text-gold" />
-              {v.room === "ac" && (
-                <span className="rounded-full bg-gold px-2 py-0.5 text-[0.6rem] font-bold text-ink">
-                  Selected
-                </span>
-              )}
-            </div>
-            <span className="mt-3 text-sm font-bold text-foreground">{t.rooms.ac}</span>
-            <span className="mt-1 text-[0.7rem] text-muted-foreground">Attached Bath · TV · WiFi</span>
-          </button>
+        <div className="flex items-center justify-between">
+          <label className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-gold">
+            1. Select Room Type
+          </label>
+          <span className="text-[0.7rem] text-muted-foreground">Bhavani Amman Temple View</span>
+        </div>
 
-          <button
-            type="button"
-            onClick={() => setV((p) => ({ ...p, room: "nonac" }))}
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {/* Deluxe AC Radio Card */}
+          <label
             className={cn(
-              "flex flex-col items-start rounded-xl border-2 p-4 text-left transition-all",
-              v.room === "nonac"
-                ? "border-gold bg-gold/10 shadow-sm"
-                : "border-border/60 bg-muted/20 hover:border-border"
+              "relative flex cursor-pointer flex-col rounded-xl border-2 p-4 transition-all shadow-sm",
+              v.room === "ac"
+                ? "border-gold bg-gold/10 ring-1 ring-gold/40 shadow-gold/10"
+                : "border-border/70 bg-card hover:border-gold/40 hover:bg-muted/20"
             )}
           >
+            <input
+              type="radio"
+              name="room_type"
+              value="ac"
+              checked={v.room === "ac"}
+              onChange={() => setV((p) => ({ ...p, room: "ac" }))}
+              className="sr-only"
+            />
             <div className="flex w-full items-center justify-between">
-              <BedDouble className="h-5 w-5 text-gold" />
-              {v.room === "nonac" && (
-                <span className="rounded-full bg-gold px-2 py-0.5 text-[0.6rem] font-bold text-ink">
-                  Selected
-                </span>
-              )}
+              <div className="flex items-center gap-2.5">
+                <div
+                  className={cn(
+                    "flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-all",
+                    v.room === "ac" ? "border-gold bg-gold" : "border-muted-foreground/40 bg-transparent"
+                  )}
+                >
+                  {v.room === "ac" && <div className="h-1.5 w-1.5 rounded-full bg-ink" />}
+                </div>
+                <span className="text-sm font-bold text-foreground">Deluxe AC Room</span>
+              </div>
+              <Snowflake className="h-4 w-4 text-gold" />
             </div>
-            <span className="mt-3 text-sm font-bold text-foreground">{t.rooms.nonac}</span>
-            <span className="mt-1 text-[0.7rem] text-muted-foreground">Clean & Airy · Attached Bath</span>
-          </button>
+            <p className="mt-2 text-[0.72rem] text-muted-foreground leading-relaxed pl-7">
+              Air Conditioned • Attached Bath • TV & WiFi
+            </p>
+          </label>
+
+          {/* Standard Non-AC Radio Card */}
+          <label
+            className={cn(
+              "relative flex cursor-pointer flex-col rounded-xl border-2 p-4 transition-all shadow-sm",
+              v.room === "nonac"
+                ? "border-gold bg-gold/10 ring-1 ring-gold/40 shadow-gold/10"
+                : "border-border/70 bg-card hover:border-gold/40 hover:bg-muted/20"
+            )}
+          >
+            <input
+              type="radio"
+              name="room_type"
+              value="nonac"
+              checked={v.room === "nonac"}
+              onChange={() => setV((p) => ({ ...p, room: "nonac" }))}
+              className="sr-only"
+            />
+            <div className="flex w-full items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div
+                  className={cn(
+                    "flex h-4.5 w-4.5 items-center justify-center rounded-full border-2 transition-all",
+                    v.room === "nonac" ? "border-gold bg-gold" : "border-muted-foreground/40 bg-transparent"
+                  )}
+                >
+                  {v.room === "nonac" && <div className="h-1.5 w-1.5 rounded-full bg-ink" />}
+                </div>
+                <span className="text-sm font-bold text-foreground">Standard Non-AC</span>
+              </div>
+              <BedDouble className="h-4 w-4 text-gold" />
+            </div>
+            <p className="mt-2 text-[0.72rem] text-muted-foreground leading-relaxed pl-7">
+              Airy & Clean • Ceiling Fan • Attached Bath
+            </p>
+          </label>
         </div>
         {errors.room && <p className="mt-1.5 text-xs text-destructive">{errors.room}</p>}
       </div>
 
-      <div className="my-7 border-t border-border/60" />
+      <div className="my-6 border-t border-border/60" />
 
-      {/* 2. GUEST DETAILS */}
-      <div className="space-y-4">
-        <label className="block text-xs font-bold uppercase tracking-[0.18em] text-gold">
-          {b.guestInfo}
+      {/* 2. DATES & ROOM OCCUPANCY */}
+      <div>
+        <label className="block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-gold mb-3">
+          2. Stay Dates & Rooms
         </label>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+          <div>
+            <label htmlFor="f-checkin" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
+              <Calendar className="h-3.5 w-3.5 text-gold" /> Check-in Date
+            </label>
+            <input
+              id="f-checkin"
+              type="date"
+              min={todayStr}
+              value={v.checkIn}
+              onChange={set("checkIn")}
+              className={fieldClass}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="f-checkout" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
+              <Calendar className="h-3.5 w-3.5 text-gold" /> Check-out Date
+            </label>
+            <input
+              id="f-checkout"
+              type="date"
+              min={v.checkIn || todayStr}
+              value={v.checkOut}
+              onChange={set("checkOut")}
+              className={fieldClass}
+            />
+          </div>
+        </div>
+
+        <div className="mt-3 grid grid-cols-2 gap-3 sm:gap-4">
+          <div>
+            <label htmlFor="f-rooms" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
+              <BedDouble className="h-3.5 w-3.5 text-gold" /> {b.numRooms}
+            </label>
+            <input
+              id="f-rooms"
+              type="number"
+              min={1}
+              max={50}
+              value={v.rooms}
+              onChange={set("rooms")}
+              className={fieldClass}
+            />
+            {errors.rooms && <p className="mt-1 text-xs text-destructive">{errors.rooms}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="f-guests" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-foreground">
+              <Users className="h-3.5 w-3.5 text-gold" /> {b.numGuests}
+            </label>
+            <input
+              id="f-guests"
+              type="number"
+              min={1}
+              max={500}
+              placeholder="e.g. 2"
+              value={v.guests}
+              onChange={set("guests")}
+              className={cn(fieldClass, errors.guests && "border-destructive")}
+            />
+            {errors.guests && <p className="mt-1 text-xs text-destructive">{errors.guests}</p>}
+          </div>
+        </div>
+      </div>
+
+      <div className="my-6 border-t border-border/60" />
+
+      {/* 3. GUEST CONTACT INFORMATION */}
+      <div className="space-y-3.5">
+        <label className="block text-[0.7rem] font-bold uppercase tracking-[0.2em] text-gold">
+          3. Contact Information
+        </label>
+
+        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
           <div>
             <label htmlFor="f-name" className="mb-1.5 block text-xs font-medium text-foreground">
               {b.name} <span className="text-gold">*</span>
@@ -324,7 +470,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 
           <div>
             <label htmlFor="f-contact" className="mb-1.5 block text-xs font-medium text-foreground">
-              {b.contact} <span className="text-gold">*</span>
+              {b.contact} (WhatsApp) <span className="text-gold">*</span>
             </label>
             <input
               id="f-contact"
@@ -341,43 +487,9 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="f-rooms" className="mb-1.5 block text-xs font-medium text-foreground">
-              {b.numRooms}
-            </label>
-            <input
-              id="f-rooms"
-              type="number"
-              min={1}
-              max={50}
-              value={v.rooms}
-              onChange={set("rooms")}
-              className={fieldClass}
-            />
-            {errors.rooms && <p className="mt-1 text-xs text-destructive">{errors.rooms}</p>}
-          </div>
-          <div>
-            <label htmlFor="f-guests" className="mb-1.5 block text-xs font-medium text-foreground">
-              {b.numGuests}
-            </label>
-            <input
-              id="f-guests"
-              type="number"
-              min={1}
-              max={500}
-              placeholder="e.g. 4"
-              value={v.guests}
-              onChange={set("guests")}
-              className={cn(fieldClass, errors.guests && "border-destructive")}
-            />
-            {errors.guests && <p className="mt-1 text-xs text-destructive">{errors.guests}</p>}
-          </div>
-        </div>
-
         <div>
           <label htmlFor="f-address" className="mb-1.5 block text-xs font-medium text-foreground">
-            {b.address} <span className="text-gold">*</span>
+            {b.address} (City / Town) <span className="text-gold">*</span>
           </label>
           <input
             id="f-address"
@@ -398,9 +510,9 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           </label>
           <textarea
             id="f-notes"
-            rows={3}
+            rows={2}
             maxLength={2000}
-            placeholder={b.notesPh}
+            placeholder="e.g. Expected arrival time or special assistance needed"
             value={v.notes}
             onChange={set("notes")}
             className={fieldClass}
@@ -414,20 +526,20 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
         </p>
       )}
 
-      {/* 3. SUBMIT BUTTON & TRUST BADGE */}
-      <div className="mt-8 space-y-3">
+      {/* 4. SUBMIT BUTTON & TRUST BADGE */}
+      <div className="mt-7 space-y-3">
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-xl bg-gold py-3.5 text-xs font-bold uppercase tracking-wider text-ink shadow-lg transition-transform active:scale-[0.99] disabled:opacity-50 hover:brightness-105 cursor-pointer"
+          className="w-full rounded-xl bg-gold py-4 text-xs font-bold uppercase tracking-wider text-ink shadow-lg transition-transform active:scale-[0.99] disabled:opacity-50 hover:brightness-105 cursor-pointer"
         >
-          {submitting ? b.sending : b.submit}
+          {submitting ? "Sending Request..." : "Request Room Reservation"}
         </button>
 
-        <p className="flex items-center justify-center gap-1.5 text-center text-[0.72rem] text-muted-foreground">
-          <ShieldCheck className="h-3.5 w-3.5 text-gold" />
-          <span>Quick confirmation directly on WhatsApp or Call</span>
-        </p>
+        <div className="flex items-center justify-center gap-1.5 text-center text-[0.72rem] text-muted-foreground">
+          <ShieldCheck className="h-3.5 w-3.5 text-gold shrink-0" />
+          <span>Immediate response via WhatsApp & Call • No online payment required</span>
+        </div>
       </div>
     </form>
   );
