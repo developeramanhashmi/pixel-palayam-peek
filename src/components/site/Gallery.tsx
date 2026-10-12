@@ -1,47 +1,88 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { galleryImages } from "@/lib/images";
 import { cn } from "@/lib/utils";
 
 type Img = (typeof galleryImages)[number];
 
+const categoryLabels: Record<string, { en: string; ta: string }> = {
+  exterior: { en: "Exterior & Front", ta: "வெளிப்புற தோற்றம்" },
+  acRooms: { en: "AC Deluxe Room", ta: "ஏசி டீலக்ஸ் அறை" },
+  nonacRooms: { en: "Standard Room", ta: "சாதாரண அறை" },
+  common: { en: "Lobby & Facilities", ta: "வரவேற்பறை & வசதிகள்" },
+  surroundings: { en: "Temple Proximity", ta: "கோவில் வளாகம்" },
+};
+
 export function GalleryGrid({ images = galleryImages, limit }: { images?: Img[]; limit?: number }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [idx, setIdx] = useState<number | null>(null);
   const items = Array.isArray(images) && images.length > 0 ? images : galleryImages;
   const list = limit && limit > 0 ? items.slice(0, limit) : items;
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-        {list.map((img, i) => (
-          <li key={img.key} className={cn(i === 0 && "col-span-2 row-span-2")}>
-            <button
-              type="button"
-              onClick={() => setIdx(i)}
-              className="group block h-full w-full overflow-hidden"
-              aria-label={t.images[img.key]}
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {list.map((img, i) => {
+          const catMeta = categoryLabels[img.cat];
+          const badgeText = catMeta ? (lang === "ta" ? catMeta.ta : catMeta.en) : "";
+
+          return (
+            <div
+              key={`${img.key}-${i}`}
+              className="group relative overflow-hidden rounded-xl border border-border/60 bg-muted/30 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-xl"
             >
-              <img
-                src={img.src}
-                alt={t.images[img.key]}
-                loading="lazy"
-                width={1280}
-                height={960}
-                className="aspect-[4/3] h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.04] group-hover:brightness-90"
-              />
-            </button>
-          </li>
-        ))}
-      </ul>
+              <button
+                type="button"
+                onClick={() => setIdx(i)}
+                className="relative block h-full w-full overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-gold/60"
+                aria-label={t.images[img.key]}
+              >
+                <div className="aspect-[4/3] w-full overflow-hidden bg-black/10">
+                  <img
+                    src={img.src}
+                    alt={t.images[img.key]}
+                    loading="lazy"
+                    width={800}
+                    height={600}
+                    className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-108"
+                  />
+                </div>
+
+                {/* Dark Gradient Overlay on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col justify-between p-3" />
+
+                {/* Always-visible top category pill */}
+                {badgeText && (
+                  <div className="absolute left-2.5 top-2.5 z-10">
+                    <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-black/60 px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-white backdrop-blur-md">
+                      {badgeText}
+                    </span>
+                  </div>
+                )}
+
+                {/* Hover Details: Title & Zoom Action */}
+                <div className="absolute inset-x-2.5 bottom-2.5 z-10 flex items-center justify-between text-white opacity-0 transition-all duration-300 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0">
+                  <span className="text-xs font-medium line-clamp-1 drop-shadow-md pr-2">
+                    {t.images[img.key]}
+                  </span>
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold text-ink shadow-md transition-transform duration-200 group-hover:scale-110">
+                    <Maximize2 className="h-3.5 w-3.5 stroke-[2.5]" />
+                  </span>
+                </div>
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
       {idx !== null && <Lightbox images={list} index={idx} setIndex={setIdx} />}
     </>
   );
 }
 
 function Lightbox({ images, index, setIndex }: { images: Img[]; index: number; setIndex: (i: number | null) => void }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const touch = useRef<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const go = useCallback((d: number) => setIndex((index + d + images.length) % images.length), [index, images.length, setIndex]);
@@ -62,14 +103,16 @@ function Lightbox({ images, index, setIndex }: { images: Img[]; index: number; s
   }, [go, setIndex]);
 
   const img = images[index]!;
-  const ctl = "absolute z-10 rounded-full bg-ink/60 p-3 text-ink-foreground transition-colors hover:bg-gold hover:text-ink";
+  const catMeta = categoryLabels[img.cat];
+  const badgeText = catMeta ? (lang === "ta" ? catMeta.ta : catMeta.en) : "";
+  const ctl = "absolute z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-ink/70 border border-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-gold hover:text-ink hover:scale-105";
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label={t.images[img.key]}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/95 animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-lg animate-in fade-in duration-200"
       onClick={() => setIndex(null)}
       onTouchStart={(e) => (touch.current = e.touches[0]!.clientX)}
       onTouchEnd={(e) => {
@@ -80,19 +123,36 @@ function Lightbox({ images, index, setIndex }: { images: Img[]; index: number; s
       }}
     >
       <button ref={closeRef} className={cn(ctl, "right-4 top-4")} aria-label={t.galleryPage.close} onClick={() => setIndex(null)}>
-        <X className="h-5 w-5" />
+        <X className="h-5 w-5 sm:h-6 sm:w-6" />
       </button>
-      <button className={cn(ctl, "left-3 md:left-6")} aria-label={t.galleryPage.prev} onClick={(e) => { e.stopPropagation(); go(-1); }}>
-        <ChevronLeft className="h-5 w-5" />
+
+      <button className={cn(ctl, "left-3 sm:left-6")} aria-label={t.galleryPage.prev} onClick={(e) => { e.stopPropagation(); go(-1); }}>
+        <ChevronLeft className="h-6 w-6" />
       </button>
-      <figure className="max-h-full max-w-6xl px-4" onClick={(e) => e.stopPropagation()}>
-        <img key={img.key} src={img.src} alt={t.images[img.key]} className="max-h-[82vh] w-auto object-contain animate-in fade-in zoom-in-95 duration-300" />
-        <figcaption className="mt-4 text-center text-sm text-ink-foreground/75">
-          {t.images[img.key]} · {index + 1}/{images.length}
+
+      <figure className="max-h-full max-w-5xl px-4 py-8 flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+        <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-2xl">
+          <img
+            key={`${img.key}-${index}`}
+            src={img.src}
+            alt={t.images[img.key]}
+            className="max-h-[75vh] w-auto max-w-full object-contain animate-in fade-in zoom-in-95 duration-200"
+          />
+        </div>
+
+        <figcaption className="mt-4 flex flex-col sm:flex-row items-center gap-2 text-center text-sm text-ink-foreground/80">
+          {badgeText && (
+            <span className="rounded-full bg-gold/20 border border-gold/40 px-2.5 py-0.5 text-xs font-semibold text-gold">
+              {badgeText}
+            </span>
+          )}
+          <span className="font-medium text-white">{t.images[img.key]}</span>
+          <span className="text-xs text-white/50">({index + 1} / {images.length})</span>
         </figcaption>
       </figure>
-      <button className={cn(ctl, "right-3 md:right-6")} aria-label={t.galleryPage.next} onClick={(e) => { e.stopPropagation(); go(1); }}>
-        <ChevronRight className="h-5 w-5" />
+
+      <button className={cn(ctl, "right-3 sm:right-6")} aria-label={t.galleryPage.next} onClick={(e) => { e.stopPropagation(); go(1); }}>
+        <ChevronRight className="h-6 w-6" />
       </button>
     </div>
   );
