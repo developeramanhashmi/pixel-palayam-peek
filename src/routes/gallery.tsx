@@ -6,13 +6,17 @@ import { GalleryGrid } from "@/components/site/Gallery";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/gallery")({
-  head: () => seo("Photo Gallery | Veerapandiyar Guest House, Periyapalayam", "See photos of our rooms, guest house and surroundings near Bhavani Amman Temple, Periyapalayam."),
+  head: () =>
+    seo(
+      "Photo Gallery | Veerapandiyar Guest House, Periyapalayam",
+      "See photos of our rooms, guest house and surroundings near Bhavani Amman Temple, Periyapalayam."
+    ),
   component: Gallery,
 });
 
 function Gallery() {
   const { t } = useI18n();
-  const heroImg = galleryImages.find((g) => g.key === "common")?.src || galleryImages[0]?.src;
+  const heroImg = (galleryImages.find((g) => g.key === "common") || galleryImages[0])!.src;
 
   return (
     <>
