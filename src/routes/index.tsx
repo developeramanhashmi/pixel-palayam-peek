@@ -35,7 +35,7 @@ export const Route = createFileRoute("/")({
 const icons = [BedDouble, Snowflake, MapPin, Landmark, Heart, MessageCircle];
 
 function Home() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const common = galleryImages.find((g) => g.key === "common") || galleryImages[0];
 
   const scrollToBook = (e: React.MouseEvent) => {
@@ -141,7 +141,7 @@ function Home() {
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-ink shadow-[0_2px_12px_rgba(245,158,11,0.35)] transition-all active:scale-95 text-center border border-amber-300/40 leading-none"
           >
             <MapPin className="h-3.5 w-3.5 shrink-0 fill-current text-ink" />
-            <span className="whitespace-nowrap">Location</span>
+            <span className="whitespace-nowrap">{lang === "ta" ? "இடம்" : "Location"}</span>
           </a>
 
           {/* Book Now Button - Perfectly Centered Full Tamil Text */}
