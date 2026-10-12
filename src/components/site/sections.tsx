@@ -39,7 +39,7 @@ export function RoomCard({ type }: { type: RoomType }) {
 
   return (
     <Reveal className="group flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold/60 hover:shadow-xl">
-      {/* Image container with floating badges */}
+      {/* Clean photo without any overlay tags or badges */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
         <img
           src={img.src}
@@ -49,35 +49,6 @@ export function RoomCard({ type }: { type: RoomType }) {
           height={960}
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-black/30" />
-
-        {/* Top Badges */}
-        <div className="absolute left-3.5 top-3.5 right-3.5 flex items-center justify-between gap-2">
-          <span
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-md shadow-md",
-              isAc
-                ? "border border-gold/40 bg-ink/80 text-gold"
-                : "border border-white/20 bg-ink/75 text-ink-foreground"
-            )}
-          >
-            {isAc ? <Snowflake className="h-3.5 w-3.5" /> : <Wind className="h-3.5 w-3.5" />}
-            {isAc ? "AC Deluxe Room" : "Standard Non-AC Room"}
-          </span>
-
-          <span className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-ink/75 px-2.5 py-1 text-[0.7rem] font-medium text-ink-foreground backdrop-blur-md">
-            <MapPin className="h-3 w-3 text-gold" />
-            Near Temple
-          </span>
-        </div>
-
-        {/* Bottom image overlay chip */}
-        <div className="absolute bottom-3 left-3.5">
-          <span className="inline-flex items-center gap-1.5 rounded-md bg-ink/85 px-2.5 py-1 text-xs font-medium text-ink-foreground backdrop-blur-md">
-            <Users className="h-3.5 w-3.5 text-gold" />
-            Family & Devotees · Up to 8 Persons
-          </span>
-        </div>
       </div>
 
       {/* Card Content */}
@@ -146,10 +117,6 @@ export function RoomDetail({ type, reverse }: { type: RoomType; reverse?: boolea
           height={960}
           className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
         />
-        <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/80 px-3 py-1 text-xs font-semibold text-gold backdrop-blur-md">
-          {isAc ? <Snowflake className="h-3.5 w-3.5" /> : <Wind className="h-3.5 w-3.5" />}
-          {isAc ? "AC Deluxe" : "Standard Non-AC"}
-        </div>
       </div>
       <div>
         <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold mb-2">
