@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-serif: "Cormorant Garamond", "Noto Serif Telugu", Georgia, serif;
-  --font-sans: "Manrope", "Noto Sans Telugu", system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", "Noto Serif Tamil", Georgia, serif;
+  --font-sans: "Manrope", "Noto Sans Tamil", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: var(--radius);
@@ -89,4 +89,4 @@
 .reveal.in { animation: rise 0.8s cubic-bezier(.2,.7,.2,1) forwards; }
 .page-in { animation: rise 0.6s ease-out both; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; } .reveal.in, .page-in { animation: none; } }
-:lang(te) .eyebrow, :lang(te) [class*="tracking-"] { letter-spacing: 0.02em; text-transform: none; }
+:lang(ta) .eyebrow, :lang(ta) [class*="tracking-"] { letter-spacing: 0.02em; text-transform: none; }
