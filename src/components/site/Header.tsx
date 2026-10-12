@@ -22,7 +22,8 @@ export function LanguageSelector({ light, drop = "down" }: { light?: boolean; dr
     };
   }, []);
 
-  const opts: { v: Lang; l: string }[] = [{ v: "en", l: "English" }, { v: "te", l: "తెలుగు" }];
+  const opts: { v: Lang; l: string }[] = [{ v: "en", l: "English" }, { v: "ta", l: "தமிழ்" }];
+
 
   return (
     <div ref={ref} className="relative">
