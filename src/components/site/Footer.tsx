@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, Phone, ExternalLink, ShieldCheck, Clock, ArrowRight } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, type Lang } from "@/lib/i18n";
 import { siteConfig, telHref, whatsappHref } from "@/lib/site-config";
 import { WhatsAppIcon } from "./ui";
 import { cn } from "@/lib/utils";
@@ -76,7 +76,7 @@ export function Footer() {
           </ul>
         </div>
 
-        {/* Column 3: Stay & Booking */}
+        {/* Column 3: Stay & Rooms */}
         <div>
           <h2 className="eyebrow mb-4 font-sans tracking-wider">Stay & Rooms</h2>
           <ul className="space-y-2.5 text-sm text-ink-foreground/75 mb-5">
@@ -162,7 +162,7 @@ export function Footer() {
             <span className="text-[0.7rem] uppercase tracking-wider text-ink-foreground/50">
               {t.footer.language}:
             </span>
-            {(["en", "te"] as const).map((l) => (
+            {(["en", "ta"] as const).map((l) => (
               <button
                 key={l}
                 type="button"
@@ -175,7 +175,7 @@ export function Footer() {
                     : "border-white/10 text-ink-foreground/60 hover:text-ink-foreground hover:border-white/20"
                 )}
               >
-                {l === "en" ? "English" : "తెలుగు"}
+                {l === "en" ? "English" : "தமிழ்"}
               </button>
             ))}
           </div>
