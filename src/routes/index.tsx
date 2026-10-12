@@ -127,10 +127,10 @@ function Home() {
           {/* Call Button */}
           <a
             href={telHref()}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-2 py-2.5 text-[0.72rem] font-bold uppercase tracking-wider text-white shadow-[0_2px_12px_rgba(16,185,129,0.35)] transition-all active:scale-95 text-center"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-white shadow-[0_2px_12px_rgba(16,185,129,0.35)] transition-all active:scale-95 text-center leading-none"
           >
             <Phone className="h-3.5 w-3.5 shrink-0 fill-current" />
-            <span className="truncate">{t.common.call}</span>
+            <span className="whitespace-nowrap">{t.common.call}</span>
           </a>
 
           {/* Highlighted Location Button */}
@@ -138,20 +138,19 @@ function Home() {
             href={siteConfig.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-2 py-2.5 text-[0.72rem] font-bold uppercase tracking-wider text-ink shadow-[0_2px_12px_rgba(245,158,11,0.35)] transition-all active:scale-95 text-center border border-amber-300/40"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-ink shadow-[0_2px_12px_rgba(245,158,11,0.35)] transition-all active:scale-95 text-center border border-amber-300/40 leading-none"
           >
             <MapPin className="h-3.5 w-3.5 shrink-0 fill-current text-ink" />
-            <span className="truncate">Location</span>
+            <span className="whitespace-nowrap">Location</span>
           </a>
 
-          {/* Book Now Button */}
+          {/* Book Now Button - Perfectly Centered Full Tamil Text */}
           <a
             href="#book"
             onClick={scrollToBook}
-            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-gradient-to-r from-gold via-[#F6E7B4] to-gold px-2 py-2.5 text-[0.72rem] font-bold uppercase tracking-wider text-ink shadow-[0_2px_15px_rgba(212,175,55,0.45)] transition-all active:scale-95 text-center"
+            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-gold via-[#F6E7B4] to-gold px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-ink shadow-[0_2px_15px_rgba(212,175,55,0.45)] transition-all active:scale-95 text-center leading-none"
           >
-            <span className="truncate">{t.nav.book}</span>
-            <ArrowRight className="h-3.5 w-3.5 shrink-0" />
+            <span className="whitespace-nowrap">{t.nav.book}</span>
           </a>
         </div>
       </section>
