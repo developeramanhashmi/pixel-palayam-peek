@@ -36,7 +36,7 @@ const icons = [BedDouble, Snowflake, MapPin, Landmark, Heart, MessageCircle];
 
 function Home() {
   const { t } = useI18n();
-  const common = galleryImages.find((g) => g.key === "common")!;
+  const common = galleryImages.find((g) => g.key === "common") || galleryImages[0];
 
   const scrollToBook = (e: React.MouseEvent) => {
     const el = document.getElementById("book");
@@ -159,7 +159,7 @@ function Home() {
       <section className="container-x grid items-center gap-12 py-20 md:py-32 lg:grid-cols-2 lg:gap-20">
         <Reveal>
           <img
-            src={common.src}
+            src={common?.src}
             alt={t.images.common}
             loading="lazy"
             width={1280}
@@ -167,7 +167,7 @@ function Home() {
             className="w-full rounded-2xl object-cover shadow-2xl border border-border/40"
           />
         </Reveal>
-        <Reveal delay={150}>
+        <Reveal>
           <div>
             <SectionHeading eyebrow={t.home.welcomeEyebrow} title={t.home.welcomeTitle} />
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">
@@ -177,7 +177,7 @@ function Home() {
               {t.home.welcomeText2}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link to="/about" className={btn("secondary")}>
+              <Link to="/about" className={btn("outline")}>
                 {t.common.learnMore}
               </Link>
               <Link to="/rooms" className={btn("ghost")}>
@@ -194,23 +194,10 @@ function Home() {
           <SectionHeading
             eyebrow={t.home.roomsEyebrow}
             title={t.home.roomsTitle}
-            className="max-w-xl"
           />
           <div className="mt-12 grid gap-8 md:grid-cols-2">
-            <RoomCard
-              type="ac"
-              title={t.rooms.ac}
-              description={t.rooms.acDesc}
-              features={t.rooms.acFeatures}
-              cta={t.rooms.acCta}
-            />
-            <RoomCard
-              type="nonac"
-              title={t.rooms.nonac}
-              description={t.rooms.nonacDesc}
-              features={t.rooms.nonacFeatures}
-              cta={t.rooms.nonacCta}
-            />
+            <RoomCard type="ac" />
+            <RoomCard type="nonac" />
           </div>
         </div>
       </section>
@@ -228,7 +215,6 @@ function Home() {
           <SectionHeading
             eyebrow={t.home.whyEyebrow}
             title={t.home.whyTitle}
-            className="max-w-xl"
           />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {t.features.map((f, i) => {
@@ -257,11 +243,11 @@ function Home() {
             <SectionHeading eyebrow={t.home.galleryEyebrow} title={t.home.galleryTitle} />
             <Link
               to="/gallery"
-              className="group inline-flex items-center gap-2 rounded-lg border border-gold/40 bg-gold/10 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-gold shadow-sm transition-all duration-300 hover:border-gold hover:bg-gold hover:text-ink hover:shadow-[0_4px_16px_rgba(212,175,55,0.3)] self-start md:self-auto"
+              className="group inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-gold via-[#F6E7B4] to-gold bg-[length:200%_auto] px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-ink shadow-[0_4px_18px_rgba(212,175,55,0.38)] transition-all duration-300 hover:bg-[position:right_center] hover:shadow-[0_6px_24px_rgba(212,175,55,0.55)] hover:-translate-y-0.5 active:translate-y-0 self-start md:self-auto"
             >
-              <Camera className="h-4 w-4 transition-transform group-hover:scale-110" />
-              <span>{t.home.galleryCta} (11 Photos)</span>
-              <ArrowRight className="h-3.5 w-3.5 ml-0.5 transition-transform group-hover:translate-x-1" />
+              <Camera className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:scale-110" />
+              <span>{t.home.galleryCta}</span>
+              <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
 
