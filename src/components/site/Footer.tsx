@@ -78,20 +78,24 @@ export function Footer() {
 
         {/* Column 3: Stay & Rooms */}
         <div>
-          <h2 className="eyebrow mb-4 font-sans tracking-wider">Stay & Rooms</h2>
+          <h2 className="eyebrow mb-4 font-sans tracking-wider">
+            {lang === "ta" ? "தங்குமிடம் & அறைகள்" : "Stay & Rooms"}
+          </h2>
           <ul className="space-y-2.5 text-sm text-ink-foreground/75 mb-5">
             <li>
               <Link to="/rooms" className="hover:text-gold transition-colors">
-                • AC Deluxe Rooms
+                • {lang === "ta" ? "ஏசி டீலக்ஸ் அறைகள்" : "AC Deluxe Rooms"}
               </Link>
             </li>
             <li>
               <Link to="/rooms" className="hover:text-gold transition-colors">
-                • Non-AC Standard Rooms
+                • {lang === "ta" ? "நான்-ஏசி ஸ்டாண்டர்ட் அறைகள்" : "Non-AC Standard Rooms"}
               </Link>
             </li>
             <li>
-              <span className="text-ink-foreground/60">• Near Bhavani Amman Temple</span>
+              <span className="text-ink-foreground/60">
+                • {lang === "ta" ? "பவானி அம்மன் கோவில் அருகில்" : "Near Bhavani Amman Temple"}
+              </span>
             </li>
           </ul>
 
@@ -102,6 +106,7 @@ export function Footer() {
             {t.nav.book}
           </Link>
         </div>
+
 
         {/* Column 4: Contact & Location */}
         <div>
