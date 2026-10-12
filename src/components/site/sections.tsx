@@ -20,7 +20,7 @@ export type RoomType = "ac" | "nonac";
 
 export function RoomCard({ type }: { type: RoomType }) {
   const { t } = useI18n();
-  const img = galleryImages.find((g) => g.key === type) || galleryImages[0];
+  const img = (galleryImages.find((g) => g.key === type) || galleryImages[0])!;
   const isAc = type === "ac";
 
   const amenities = isAc
@@ -102,7 +102,7 @@ export function RoomCard({ type }: { type: RoomType }) {
 
 export function RoomDetail({ type, reverse }: { type: RoomType; reverse?: boolean }) {
   const { t } = useI18n();
-  const img = galleryImages.find((g) => g.key === type) || galleryImages[0];
+  const img = (galleryImages.find((g) => g.key === type) || galleryImages[0])!;
   const isAc = type === "ac";
   const feats = isAc ? t.rooms.acFeatures : t.rooms.nonacFeatures;
 
@@ -161,7 +161,7 @@ export function RoomDetail({ type, reverse }: { type: RoomType; reverse?: boolea
 
 export function LocationSection() {
   const { t } = useI18n();
-  const temple = galleryImages.find((g) => g.key === "temple") || galleryImages.find((g) => g.key === "surroundings") || galleryImages[0];
+  const temple = (galleryImages.find((g) => g.key === "temple") || galleryImages.find((g) => g.key === "surroundings") || galleryImages[0])!;
 
   return (
     <section className="bg-ink text-ink-foreground">
@@ -212,7 +212,7 @@ export function LocationSection() {
 
 export function CTASection() {
   const { t } = useI18n();
-  const img = galleryImages.find((g) => g.key === "corridor") || galleryImages[0];
+  const img = (galleryImages.find((g) => g.key === "corridor") || galleryImages[0])!;
 
   return (
     <section className="relative overflow-hidden bg-ink">
