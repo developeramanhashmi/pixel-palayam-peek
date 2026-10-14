@@ -6,7 +6,6 @@ import { btn } from "./ui";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/client-logo.jpeg";
 
-
 export function LanguageSelector({ light, drop = "down" }: { light?: boolean; drop?: "up" | "down" }) {
   const { lang, setLang, t } = useI18n();
   const [open, setOpen] = useState(false);
@@ -24,7 +23,6 @@ export function LanguageSelector({ light, drop = "down" }: { light?: boolean; dr
   }, []);
 
   const opts: { v: Lang; l: string }[] = [{ v: "en", l: "English" }, { v: "ta", l: "தமிழ்" }];
-
 
   return (
     <div ref={ref} className="relative">
@@ -93,7 +91,6 @@ export function Header() {
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isHome = pathname === "/";
-  // On home, transparent with dark glass; on other pages or scrolled, solid background
   const solid = scrolled || open || !isHome;
 
   return (
@@ -118,12 +115,11 @@ export function Header() {
               <span
                 className={cn(
                   "whitespace-nowrap font-serif text-lg sm:text-xl font-semibold tracking-wide drop-shadow-sm transition-colors",
-                  solid ? "text-foreground" : "text-ink-foreground"
+                  solid ? "text-foreground" : "text-white"
                 )}
               >
                 Veerapandiyaar
               </span>
-
               <span className="whitespace-nowrap text-[0.6rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.18em] text-gold">
                 Guest House
               </span>
@@ -137,30 +133,38 @@ export function Header() {
                 key={l.to}
                 to={l.to}
                 activeOptions={{ exact: l.to === "/" }}
-                className={cn(
-                  "whitespace-nowrap text-sm font-medium tracking-wide transition-colors hover:text-gold",
-                  solid ? "text-foreground/90" : "text-white/90 drop-shadow-sm"
-                )}
                 activeProps={{ className: "!text-gold font-semibold" }}
+                className={cn(
+                  "text-xs font-semibold uppercase tracking-wider transition-colors hover:text-gold",
+                  solid ? "text-foreground/80" : "text-ink-foreground/90"
+                )}
               >
                 {l.l}
               </Link>
             ))}
           </nav>
 
-          {/* Right side actions */}
-          <div className="flex items-center gap-2 md:gap-4">
+          {/* Right Actions */}
+          <div className="hidden items-center gap-3 lg:flex">
             <LanguageSelector light={!solid} />
-            <Link to="/booking" className={btn("gold", "hidden px-5 py-2 text-xs sm:inline-flex")}>
+            <Link to="/booking" className={btn("gold", "text-xs px-4 py-2")}>
               {t.nav.book}
             </Link>
+          </div>
+
+          {/* Mobile Right Controls */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageSelector light={!solid} />
             <button
               type="button"
-              className={cn("p-2 lg:hidden", solid ? "text-foreground" : "text-white")}
               aria-label={open ? t.nav.close : t.nav.menu}
               aria-expanded={open}
               aria-controls="mobile-nav"
               onClick={() => setOpen((o) => !o)}
+              className={cn(
+                "p-2 transition-colors",
+                solid ? "text-foreground" : "text-ink-foreground"
+              )}
             >
               {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -168,7 +172,7 @@ export function Header() {
         </div>
       </header>
 
-      {/* Backdrop for mobile drawer */}
+      {/* Backdrop overlay for mobile drawer */}
       <div
         aria-hidden="true"
         onClick={() => setOpen(false)}
