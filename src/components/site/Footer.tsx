@@ -4,9 +4,7 @@ import { useI18n, type Lang } from "@/lib/i18n";
 import { siteConfig, telHref, whatsappHref } from "@/lib/site-config";
 import { WhatsAppIcon } from "./ui";
 import { cn } from "@/lib/utils";
-// import logo from "@/assets/logo.png";
 import logo from "@/assets/client-logo.jpeg";
-
 
 export function Footer() {
   const { t, lang, setLang } = useI18n();
@@ -30,7 +28,6 @@ export function Footer() {
               <span className="font-serif text-xl tracking-wide text-ink-foreground font-semibold">
                 Veerapandiyaar
               </span>
-
               <span className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold">
                 Guest House
               </span>
@@ -109,7 +106,6 @@ export function Footer() {
             {t.nav.book}
           </Link>
         </div>
-
 
         {/* Column 4: Contact & Location */}
         <div>
