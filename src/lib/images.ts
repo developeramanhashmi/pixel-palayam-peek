@@ -50,12 +50,8 @@ export const galleryImages: { key: ImageKey; src: string; cat: GalleryCategory }
   { key: "nonac", src: img3, cat: "nonacRooms" },
   { key: "nonac", src: nonac, cat: "nonacRooms" },
 
-
-  // Common Areas, Lobby, Hallways & Facilities
+  // Common Areas, Lobby, Hallways & Facilities (clientLogo is first -> shows in Welcome Section & Gallery)
   { key: "common", src: clientLogo, cat: "common" },
-  { key: "corridor", src: img13, cat: "common" },
-  { key: "common", src: img14, cat: "common" },
-  // Common Areas, Lobby, Hallways & Facilities
   { key: "corridor", src: img13, cat: "common" },
   { key: "common", src: img14, cat: "common" },
   { key: "common", src: img15, cat: "common" },
