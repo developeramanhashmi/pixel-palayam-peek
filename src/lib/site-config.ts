@@ -1,7 +1,8 @@
 // Central business configuration
 export const siteConfig = {
-  name: "Periyapalayam Veerapandiyar Guest House",
-  shortName: "Veerapandiyar",
+  name: "Periyapalayam Veerapandiyaar Guest House",
+  shortName: "Veerapandiyaar",
+
 
   // Calling Phone Number (Client's calling contact)
   phone: "+918428338999",
