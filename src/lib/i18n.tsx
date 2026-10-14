@@ -25,7 +25,6 @@ const en = {
     learnMore: "Learn More",
     backHome: "Back to Home",
     viewRooms: "View Rooms",
-    // waGreeting: "Hello, I would like to enquire about a stay at Periyapalayam Veerapandiyar Guest House.",
     waGreeting: "Hello, I would like to enquire about a stay at Periyapalayam Veerapandiyaar Guest House.",
   },
   rooms: {
@@ -44,7 +43,6 @@ const en = {
     heroText: "Comfortable accommodation near Bhavani Amman Temple, Periyapalayam.",
     heroCta: "Book Your Stay",
     welcomeEyebrow: "Welcome",
-    // welcomeTitle: "Welcome to Periyapalayam Veerapandiyar Guest House",
     welcomeTitle: "Welcome to Periyapalayam Veerapandiyaar Guest House",
     welcomeText1: "We offer comfortable accommodation for families and visitors coming to Periyapalayam, close to Bhavani Amman Temple.",
     welcomeText2: "Choose between AC and Non-AC rooms, and reach us easily by call, WhatsApp or our simple enquiry form.",
@@ -70,12 +68,10 @@ const en = {
     { t: "Easy Enquiry", d: "Reach us by call, WhatsApp or form." },
   ],
   about: {
-    title: "About Periyapalayam Veerapandiyar Guest House",
-    sub: "A comfortable and convenient place to stay in Periyapalayam, near Bhavani Amman Temple.",
     title: "About Periyapalayam Veerapandiyaar Guest House",
+    sub: "A comfortable and convenient place to stay in Periyapalayam, near Bhavani Amman Temple.",
+    introTitle: "A Welcoming Place to Stay",
     intro1: "Periyapalayam Veerapandiyaar Guest House provides comfortable accommodation for visitors and families coming to Periyapalayam.",
-    // introTitle: "A Welcoming Place to Stay",
-    // intro1: "Periyapalayam Veerapandiyar Guest House provides comfortable accommodation for visitors and families coming to Periyapalayam.",
     intro2: "Our focus is simple: a clean, comfortable room, a convenient location and an easy way to get in touch.",
     locTitle: "Close to Bhavani Amman Temple",
     locText: "Being near Bhavani Amman Temple makes our guest house a practical choice for devotees and visitors to the area.",
@@ -103,39 +99,39 @@ const en = {
   images: {
     exterior: "Guest house exterior in the evening",
     ac: "AC room with bed and air conditioner",
-    nonac: "Non-AC room with ceiling fan and window",
-    common: "Guest house seating and reception area",
-    corridor: "Corridor with room doors",
-    temple: "Temple gopuram at sunset",
-    surroundings: "Village road with coconut palms",
+    nonac: "Non-AC room with bed and ceiling fan",
+    common: "Guest house corridor and common space",
+    temple: "Bhavani Amman Temple, Periyapalayam",
+    surroundings: "Surroundings and entrance of the guest house",
   },
   booking: {
-    title: "Make an Enquiry",
-    sub: "Tell us about your accommodation requirements and our team will get in touch with you.",
-    guestInfo: "Guest Information",
-    roomReq: "Room Requirements",
-    additional: "Additional Requirements",
+    title: "Make an Accommodation Enquiry",
+    sub: "Fill in the details below and we will get back to you shortly.",
     name: "Full Name",
-    address: "Address",
-    contact: "Contact Number",
+    namePlaceholder: "Your full name",
+    phone: "Phone Number",
+    phonePlaceholder: "Your 10-digit mobile number",
     roomType: "Room Type",
-    selectRoom: "Select room type",
-    numRooms: "Number of Rooms",
-    numGuests: "Total Number of Guests",
-    notes: "Additional Requirements",
-    optional: "Optional",
-    notesPh: "Any special requests or details",
+    roomTypePlaceholder: "Select room type",
+    roomsCount: "Number of Rooms",
+    roomsCountPlaceholder: "e.g., 1 or 2",
+    guestsCount: "Number of Guests",
+    guestsCountPlaceholder: "e.g., 2 adults, 1 child",
+    checkInDate: "Check-in Date",
+    checkOutDate: "Check-out Date",
+    notes: "Special Requests / Notes",
+    notesPlaceholder: "Any questions, preferred arrival time or special requests",
     submit: "Send Enquiry",
-    sending: "Sending…",
+    submitting: "Sending...",
+    disclaimer: "Submitting this form does not guarantee a booking. We will contact you to confirm room availability and details.",
     errName: "Please enter your name.",
-    errAddress: "Please enter your address.",
-    errContact: "Please enter a valid contact number.",
+    errContact: "Please enter a valid phone number.",
     errRoom: "Please select a room type.",
-    errRooms: "Please enter the number of rooms.",
-    errGuests: "Please enter the number of guests.",
-    errorSubmit: "Unable to submit your enquiry right now. Please try again or contact us directly on WhatsApp.",
+    errRooms: "Please specify the number of rooms.",
+    errGuests: "Please specify the number of guests.",
+    errorSubmit: "Could not send details right now. Please call or WhatsApp us directly.",
     thanks: "Thank You!",
-    success: "Your enquiry has been received successfully. We will contact you shortly.",
+    success: "Your enquiry has been received. We will get in touch with you shortly.",
     sendWa: "Also send these details on WhatsApp",
   },
   contact: {
@@ -235,52 +231,52 @@ const ta: Dict = {
     comfortText: "நீங்கள் ஏசி அல்லது நான்-ஏசி அறையை தேர்வு செய்தாலும், மனநிறைவான தங்குதலை நாங்கள் உறுதி செய்கிறோம்.",
   },
   roomsPage: {
-    title: "உங்கள் தங்குதலுக்கு வசதியான அறைகள்",
-    sub: "உங்கள் விருப்பத்திற்கேற்ப சிறந்த அறையை தேர்வு செய்யுங்கள்.",
-    features: "முக்கிய அம்சங்கள்",
+    title: "உங்கள் தங்குதலுக்கான வசதியான அறைகள்",
+    sub: "உங்கள் தேவைக்கேற்ற அறையை தேர்வு செய்யுங்கள்.",
+    features: "சிறப்பம்சங்கள்",
   },
   galleryPage: {
     title: "எங்கள் கெஸ்ட் ஹவுஸ் புகைப்படங்கள்",
-    sub: "அறைகள் மற்றும் சுற்றுப்புற காட்சிகளை காண்க.",
+    sub: "எங்கள் அறைகள் மற்றும் சூழலை பார்வையிடுங்கள்.",
     all: "அனைத்தும்",
-    exterior: "வெளிப்புற தோற்றம்",
+    exterior: "வெளிப்புறம்",
     acRooms: "ஏசி அறைகள்",
     nonacRooms: "நான்-ஏசி அறைகள்",
-    common: "வரவேற்பறை & பொது இடம்",
+    common: "பொது பகுதிகள்",
     surroundings: "சுற்றுப்புறம்",
     prev: "முந்தைய படம்",
     next: "அடுத்த படம்",
     close: "மூடு",
   },
   images: {
-    exterior: "மாலையில் கெஸ்ட் ஹவுஸ் வெளிப்புற தோற்றம்",
-    ac: "ஏசி வசதியுடன் கூடிய படுக்கை அறை",
+    exterior: "மாலை வேளையில் கெஸ்ட் ஹவுஸ் வெளிப்புற தோற்றம்",
+    ac: "குளிரூட்டப்பட்ட ஏசி அறை",
     nonac: "மின்விசிறி வசதியுடன் கூடிய நான்-ஏசி அறை",
-    common: "வரவேற்பறை மற்றும் அமரும் இடம்",
-    corridor: "அறை வாசல்களுடன் கூடிய நடைபாதை",
-    temple: "கோவில் கோபுரம்",
-    surroundings: "தென்னை மரங்கள் கொண்ட கிராமப்புற சாலை",
+    common: "கெஸ்ட் ஹவுஸ் நடைபாதை மற்றும் பொது பகுதி",
+    temple: "பெரியபாளையம் பவானி அம்மன் கோவில்",
+    surroundings: "கெஸ்ட் ஹவுஸ் நுழைவாயில் மற்றும் சுற்றுப்புறம்",
   },
   booking: {
-    title: "முன்பதிவு / தகவல் பெற",
-    sub: "உங்கள் தங்குதல் விவரங்களை பூர்த்தி செய்யுங்கள், எங்கள் குழுவினர் உங்களை தொடர்புகொள்வார்கள்.",
-    guestInfo: "விருந்தினர் விவரங்கள்",
-    roomReq: "அறை தேவைகள்",
-    additional: "கூடுதல் விவரங்கள்",
+    title: "அறை முன்பதிவு விசாரணை",
+    sub: "கீழே உள்ள விவரங்களை நிரப்பவும், நாங்கள் விரைவில் உங்களை தொடர்பு கொள்வோம்.",
     name: "முழு பெயர்",
-    address: "முகவரி",
-    contact: "தொலைபேசி எண்",
+    namePlaceholder: "உங்கள் பெயர்",
+    phone: "தொலைபேசி எண்",
+    phonePlaceholder: "10 இலக்க மொபைல் எண்",
     roomType: "அறை வகை",
-    selectRoom: "அறை வகையை தேர்வு செய்க",
-    numRooms: "அறைகளின் எண்ணிக்கை",
-    numGuests: "மொத்த விருந்தினர்கள் எண்ணிக்கை",
-    notes: "கூடுதல் தேவைகள்",
-    optional: "விருப்பத்தேர்வு",
-    notesPh: "சிறப்பு கோரிக்கைகள் அல்லது விவரங்கள்",
-    submit: "விவரங்களை அனுப்பவும்",
-    sending: "அனுப்பப்படுகிறது…",
+    roomTypePlaceholder: "அறை வகையை தேர்வு செய்க",
+    roomsCount: "அறைகளின் எண்ணிக்கை",
+    roomsCountPlaceholder: "உதாரணமாக: 1 அல்லது 2",
+    guestsCount: "விருந்தினர்களின் எண்ணிக்கை",
+    guestsCountPlaceholder: "உதாரணமாக: 2 பெரியவர்கள், 1 குழந்தை",
+    checkInDate: "வருகை தேதி (Check-in)",
+    checkOutDate: "வெளியேறும் தேதி (Check-out)",
+    notes: "கூடுதல் தேவைகள் / குறிப்புகள்",
+    notesPlaceholder: "வருகை நேரம் அல்லது ஏதேனும் கூடுதல் தேவைகள்",
+    submit: "விவரங்களை அனுப்புக",
+    submitting: "அனுப்பப்படுகிறது...",
+    disclaimer: "படிவத்தை அனுப்புவது உடனடியாக முன்பதிவை உறுதி செய்யாது. அறைகளின் நிலவரத்தை சரிபார்த்து நாங்கள் உங்களை தொடர்பு கொள்வோம்.",
     errName: "தயவுசெய்து உங்கள் பெயரை உள்ளிடவும்.",
-    errAddress: "தயவுசெய்து உங்கள் முகவரியை உள்ளிடவும்.",
     errContact: "சரியான தொலைபேசி எண்ணை உள்ளிடவும்.",
     errRoom: "அறை வகையை தேர்வு செய்யவும்.",
     errRooms: "அறைகளின் எண்ணிக்கையை குறிப்பிடவும்.",
@@ -317,27 +313,26 @@ const Ctx = createContext<{ lang: Lang; setLang: (l: Lang) => void; t: Dict }>({
 });
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("lang");
-    if (saved === "ta" || saved === "en") {
-      setLangState(saved);
-    } else if (saved === "te") {
-      // Auto-migrate old Telugu browser cache to Tamil
-      setLangState("ta");
-      localStorage.setItem("lang", "ta");
-    }
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.lang = lang;
-  }, [lang]);
+  const [lang, setLangState] = useState<Lang>(() => {
+    if (typeof window === "undefined") return "en";
+    const saved = localStorage.getItem("vp_lang");
+    if (saved === "en" || saved === "ta") return saved;
+    return "en";
+  });
 
   const setLang = (l: Lang) => {
     setLangState(l);
-    localStorage.setItem("lang", l);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("vp_lang", l);
+      document.documentElement.lang = l;
+    }
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      document.documentElement.lang = lang;
+    }
+  }, [lang]);
 
   return <Ctx.Provider value={{ lang, setLang, t: dicts[lang] }}>{children}</Ctx.Provider>;
 }
