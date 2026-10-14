@@ -4,7 +4,9 @@ import { useI18n, type Lang } from "@/lib/i18n";
 import { siteConfig, telHref, whatsappHref } from "@/lib/site-config";
 import { WhatsAppIcon } from "./ui";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/logo.png";
+// import logo from "@/assets/logo.png";
+import logo from "@/assets/client-logo.jpeg";
+
 
 export function Footer() {
   const { t, lang, setLang } = useI18n();
@@ -21,13 +23,14 @@ export function Footer() {
           <Link to="/" className="inline-flex items-center gap-3 group">
             <img
               src={logo}
-              alt="VP Logo"
-              className="h-11 w-11 rounded-full object-cover border border-gold/50 shadow-md group-hover:scale-105 transition-transform"
+              alt="Veerapandiyaar Guest House Logo"
+              className="h-11 w-11 rounded-full object-cover object-center border border-gold/50 shadow-md group-hover:scale-105 transition-transform"
             />
             <div className="flex flex-col leading-tight">
               <span className="font-serif text-xl tracking-wide text-ink-foreground font-semibold">
-                Veerapandiyar
+                Veerapandiyaar
               </span>
+
               <span className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold">
                 Guest House
               </span>
