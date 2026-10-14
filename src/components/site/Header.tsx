@@ -4,7 +4,8 @@ import { ChevronDown, Menu, X, Check } from "lucide-react";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { btn } from "./ui";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/client-logo.jpeg";
+
 
 export function LanguageSelector({ light, drop = "down" }: { light?: boolean; drop?: "up" | "down" }) {
   const { lang, setLang, t } = useI18n();
@@ -110,18 +111,19 @@ export function Header() {
           <Link to="/" className="flex items-center gap-2.5 sm:gap-3" onClick={() => setOpen(false)}>
             <img
               src={logo}
-              alt="VP Logo"
-              className="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover border border-gold/60 shadow-md"
+              alt="Veerapandiyaar Guest House Logo"
+              className="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover object-center border border-gold/60 shadow-md"
             />
             <div className="flex flex-col items-start leading-tight">
               <span
                 className={cn(
                   "whitespace-nowrap font-serif text-lg sm:text-xl font-semibold tracking-wide drop-shadow-sm transition-colors",
-                  solid ? "text-foreground" : "text-white"
+                  solid ? "text-foreground" : "text-ink-foreground"
                 )}
               >
-                Veerapandiyar
+                Veerapandiyaar
               </span>
+
               <span className="whitespace-nowrap text-[0.6rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.18em] text-gold">
                 Guest House
               </span>
