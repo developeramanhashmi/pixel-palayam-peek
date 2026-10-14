@@ -72,8 +72,10 @@ const en = {
   about: {
     title: "About Periyapalayam Veerapandiyar Guest House",
     sub: "A comfortable and convenient place to stay in Periyapalayam, near Bhavani Amman Temple.",
-    introTitle: "A Welcoming Place to Stay",
-    intro1: "Periyapalayam Veerapandiyar Guest House provides comfortable accommodation for visitors and families coming to Periyapalayam.",
+    title: "About Periyapalayam Veerapandiyaar Guest House",
+    intro1: "Periyapalayam Veerapandiyaar Guest House provides comfortable accommodation for visitors and families coming to Periyapalayam.",
+    // introTitle: "A Welcoming Place to Stay",
+    // intro1: "Periyapalayam Veerapandiyar Guest House provides comfortable accommodation for visitors and families coming to Periyapalayam.",
     intro2: "Our focus is simple: a clean, comfortable room, a convenient location and an easy way to get in touch.",
     locTitle: "Close to Bhavani Amman Temple",
     locText: "Being near Bhavani Amman Temple makes our guest house a practical choice for devotees and visitors to the area.",
