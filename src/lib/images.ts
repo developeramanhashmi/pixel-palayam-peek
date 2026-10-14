@@ -21,6 +21,7 @@ import img14 from "@/assets/img14.jpeg";
 import img15 from "@/assets/img15.jpeg";
 import img16 from "@/assets/img16.jpeg";
 import img17 from "@/assets/img17.jpeg";
+import clientLogo from "@/assets/client-logo.jpeg";
 import img18 from "@/assets/img18.jpeg";
 import img19 from "@/assets/img19.jpeg";
 import img20 from "@/assets/img20.jpeg";
@@ -49,6 +50,11 @@ export const galleryImages: { key: ImageKey; src: string; cat: GalleryCategory }
   { key: "nonac", src: img3, cat: "nonacRooms" },
   { key: "nonac", src: nonac, cat: "nonacRooms" },
 
+
+  // Common Areas, Lobby, Hallways & Facilities
+  { key: "common", src: clientLogo, cat: "common" },
+  { key: "corridor", src: img13, cat: "common" },
+  { key: "common", src: img14, cat: "common" },
   // Common Areas, Lobby, Hallways & Facilities
   { key: "corridor", src: img13, cat: "common" },
   { key: "common", src: img14, cat: "common" },
