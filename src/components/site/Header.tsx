@@ -103,24 +103,24 @@ export function Header() {
             : "border-b border-white/10 bg-black/40 shadow-sm backdrop-blur-md"
         )}
       >
-        <div className="container-x flex h-16 items-center justify-between gap-4 md:h-20">
-          {/* Logo & Brand text */}
-          <Link to="/" className="flex items-center gap-2.5 sm:gap-3" onClick={() => setOpen(false)}>
+        <div className="container-x flex h-16 items-center justify-between gap-3 sm:gap-4 md:h-20">
+          {/* Logo & Prominent Brand Text */}
+          <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0" onClick={() => setOpen(false)}>
             <img
               src={logo}
               alt="Veerapandiyaar Guest House Logo"
-              className="h-10 w-10 sm:h-11 sm:w-11 rounded-full object-cover object-center border border-gold/60 shadow-md"
+              className="h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full object-cover object-center border-2 border-gold/70 shadow-md transition-transform"
             />
-            <div className="flex flex-col items-start leading-tight">
+            <div className="flex flex-col items-start leading-none">
               <span
                 className={cn(
-                  "whitespace-nowrap font-serif text-lg sm:text-xl font-semibold tracking-wide drop-shadow-sm transition-colors",
+                  "whitespace-nowrap font-serif text-xl sm:text-2xl md:text-[1.7rem] font-bold tracking-tight sm:tracking-normal drop-shadow-sm transition-colors",
                   solid ? "text-foreground" : "text-white"
                 )}
               >
                 Veerapandiyaar
               </span>
-              <span className="whitespace-nowrap text-[0.6rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.18em] text-gold">
+              <span className="whitespace-nowrap text-[0.68rem] sm:text-xs font-extrabold uppercase tracking-[0.22em] text-gold mt-1">
                 Guest House
               </span>
             </div>
@@ -144,7 +144,7 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Right Actions */}
+          {/* Desktop Right Actions */}
           <div className="hidden items-center gap-3 lg:flex">
             <LanguageSelector light={!solid} />
             <Link to="/booking" className={btn("gold", "text-xs px-4 py-2")}>
@@ -199,21 +199,21 @@ export function Header() {
             type="button"
             aria-label={t.nav.close}
             onClick={() => setOpen(false)}
-            className="-mr-2 p-2 text-foreground/80 transition-colors hover:text-gold"
+            className="p-2 text-foreground hover:text-gold"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <ul className="flex-1 overflow-y-auto px-4 py-2">
+        <ul className="flex flex-col gap-1 p-4">
           {links.map((l) => (
             <li key={l.to}>
               <Link
                 to={l.to}
-                onClick={() => setOpen(false)}
                 activeOptions={{ exact: l.to === "/" }}
-                activeProps={{ className: "!text-gold font-semibold" }}
-                className="block border-b border-border/50 py-3 text-sm font-medium tracking-wide text-foreground/85 transition-colors hover:text-gold"
+                activeProps={{ className: "!text-gold !bg-gold/10 font-bold" }}
+                onClick={() => setOpen(false)}
+                className="flex items-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-muted"
               >
                 {l.l}
               </Link>
@@ -221,17 +221,11 @@ export function Header() {
           ))}
         </ul>
 
-        <div className="shrink-0 border-t px-4 py-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              {t.nav.language}
-            </span>
-            <LanguageSelector drop="up" />
-          </div>
+        <div className="mt-auto border-t p-4 flex flex-col gap-3">
           <Link
             to="/booking"
             onClick={() => setOpen(false)}
-            className={btn("gold", "mt-4 w-full px-4 py-2.5 text-xs")}
+            className={btn("gold", "w-full justify-center py-2.5 text-xs font-bold uppercase tracking-wider")}
           >
             {t.nav.book}
           </Link>
