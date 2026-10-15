@@ -42,7 +42,7 @@ const fieldClass =
 const GUEST_OPTIONS = [8, 16, 24, 32, 40, 48, 56];
 
 export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefined }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n(); // <-- lang add karein
   const b = t.booking;
 
   const todayStr = new Date().toISOString().split("T")[0];
@@ -345,10 +345,13 @@ ${v.notes.trim() ? `• *Requirements:* ${v.notes}` : ""}`;
           {errors.contact && <p className="mt-1 text-xs text-destructive">{errors.contact}</p>}
         </div>
 
-        {/* 4. Number of Rooms (Placed above Room Type) */}
+                {/* 4. Number of Rooms (Placed above Room Type) */}
         <div>
+          {lang === "ta" && (
+            <p className="mb-1 text-xs font-semibold text-gold">எத்தனை அறை வேண்டும்?</p>
+          )}
           <label htmlFor="f-rooms" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {b.numRooms} <span className="text-destructive">*</span>
+            {lang === "ta" ? "அறைகளின் எண்ணிக்கை" : "Number of Rooms"} <span className="text-destructive">*</span>
           </label>
           <input
             id="f-rooms"
@@ -365,11 +368,16 @@ ${v.notes.trim() ? `• *Requirements:* ${v.notes}` : ""}`;
 
         {/* 5. Total Number of Guests (Immediately below Number of Rooms, options: 8, 16, 24, 32, 40, 48, 56) */}
         <div>
+          {lang === "ta" && (
+            <p className="mb-1 text-xs font-semibold text-gold">எத்தனை பேர் வருகிறீர்கள்?</p>
+          )}
           <div className="mb-1.5 flex items-center justify-between">
             <label htmlFor="f-guests" className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              {b.numGuests} <span className="text-destructive">*</span>
+              {lang === "ta" ? "விருந்தினர்களின் எண்ணிக்கை" : "Total Number of Guests"} <span className="text-destructive">*</span>
             </label>
-            <span className="text-[0.7rem] text-muted-foreground">Max 8 guests per room</span>
+            <span className="text-[0.7rem] text-muted-foreground">
+              {lang === "ta" ? "அறைக்கு அதிகபட்சம் 8 பேர்" : "Max 8 guests per room"}
+            </span>
           </div>
           <div className="relative">
             <select
@@ -390,10 +398,13 @@ ${v.notes.trim() ? `• *Requirements:* ${v.notes}` : ""}`;
             <p className="mt-1.5 text-xs font-medium text-destructive">{errors.guests}</p>
           ) : (
             <p className="mt-1 text-[0.72rem] text-muted-foreground">
-              1 room accommodates up to 8 guests. For {v.guests} guests, you have selected {v.rooms} room(s).
+              {lang === "ta"
+                ? `1 அறைக்கு அதிகபட்சம் 8 விருந்தினர்கள். ${v.guests} விருந்தினர்களுக்கு, ${v.rooms} அறை(கள்) தேர்வு செய்யப்பட்டுள்ளது.`
+                : `1 room accommodates up to 8 guests. For ${v.guests} guests, you have selected ${v.rooms} room(s).`}
             </p>
           )}
         </div>
+
 
         {/* 6. Room Type (AC / NON-AC) */}
         <div>
