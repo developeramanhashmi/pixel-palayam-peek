@@ -21,6 +21,7 @@ import { RoomCard } from "@/components/site/sections";
 import { GalleryGrid } from "@/components/site/Gallery";
 import { BookingForm } from "@/components/site/BookingForm";
 import { seo } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -80,17 +81,31 @@ function Home() {
             </div>
           </div>
 
-          <h1 className="max-w-2xl font-serif text-3xl font-normal leading-[1.12] tracking-tight text-ink-foreground sm:text-5xl lg:text-6xl">
-            {t.home.heroTitle}
+          {/* Hero Title: Tamil is broken into 2 balanced lines & scaled so building name stays visible */}
+          <h1
+            className={cn(
+              "font-serif font-normal tracking-tight text-ink-foreground",
+              lang === "ta"
+                ? "max-w-xl text-2xl sm:text-4xl lg:text-5xl leading-tight sm:leading-snug"
+                : "max-w-2xl text-3xl sm:text-5xl lg:text-6xl leading-[1.12]"
+            )}
+          >
+            {lang === "ta" ? (
+              <>
+                <span className="block">பெரியபாளையத்தில்</span>
+                <span className="block mt-1">வசதியான தங்குமிடம்</span>
+              </>
+            ) : (
+              t.home.heroTitle
+            )}
           </h1>
 
           <p className="mt-2.5 max-w-lg text-sm font-light leading-relaxed text-ink-foreground/85 sm:mt-4 sm:text-base">
             {t.home.heroText}
           </p>
 
-          {/* Desktop CTAs - Dynamic & Interactive */}
+          {/* Desktop CTAs */}
           <div className="mt-7 hidden items-center gap-3.5 sm:flex">
-            {/* Book Your Stay - Gold Gradient Shimmer & Hover Lift */}
             <a
               href="#book"
               onClick={scrollToBook}
@@ -100,7 +115,6 @@ function Home() {
               <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
 
-            {/* Call Us - Emerald Tint & Tactile Pulse */}
             <a
               href={telHref()}
               className="group inline-flex items-center justify-center rounded-lg border border-white/20 bg-ink/70 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-white backdrop-blur-md shadow-md transition-all duration-300 hover:border-emerald-500 hover:bg-emerald-600 hover:shadow-[0_4px_20px_rgba(16,185,129,0.35)] hover:-translate-y-0.5 active:translate-y-0"
@@ -109,22 +123,20 @@ function Home() {
               <span>{t.common.call}</span>
             </a>
 
-            {/* Location - Amber Pill Accent */}
             <a
               href={siteConfig.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center rounded-lg border border-gold/40 bg-ink/70 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-white backdrop-blur-md shadow-md transition-all duration-300 hover:border-amber-400 hover:bg-amber-500 hover:text-ink hover:shadow-[0_4px_20px_rgba(245,158,11,0.35)] hover:-translate-y-0.5 active:translate-y-0"
+              className="group inline-flex items-center justify-center rounded-lg border border-amber-400/40 bg-ink/70 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-amber-200 backdrop-blur-md shadow-md transition-all duration-300 hover:border-amber-400 hover:bg-amber-500 hover:text-ink hover:shadow-[0_4px_20px_rgba(245,158,11,0.35)] hover:-translate-y-0.5 active:translate-y-0"
             >
-              <MapPin className="h-4 w-4 mr-2 text-gold transition-colors duration-200 group-hover:text-ink group-hover:scale-110" />
-              <span>Location</span>
+              <MapPin className="h-4 w-4 mr-2 text-amber-400 transition-colors duration-200 group-hover:text-ink" />
+              <span>{lang === "ta" ? "இடம்" : "Location"}</span>
             </a>
           </div>
         </div>
 
-        {/* Mobile Sticky Bar - High-End Floating Action Capsule with Tactile Feedback */}
+        {/* Mobile Sticky Bar */}
         <div className="fixed bottom-3 inset-x-3 z-50 flex items-center justify-between gap-2 rounded-2xl border border-white/20 bg-ink/95 p-2 shadow-[0_12px_45px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:hidden">
-          {/* Call Button */}
           <a
             href={telHref()}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-white shadow-[0_2px_12px_rgba(16,185,129,0.35)] transition-all active:scale-95 text-center leading-none"
@@ -133,7 +145,6 @@ function Home() {
             <span className="whitespace-nowrap">{t.common.call}</span>
           </a>
 
-          {/* Highlighted Location Button */}
           <a
             href={siteConfig.mapsUrl}
             target="_blank"
@@ -144,7 +155,6 @@ function Home() {
             <span className="whitespace-nowrap">{lang === "ta" ? "இடம்" : "Location"}</span>
           </a>
 
-          {/* Book Now Button - Perfectly Centered Full Tamil Text */}
           <a
             href="#book"
             onClick={scrollToBook}
@@ -163,27 +173,25 @@ function Home() {
             alt={t.images.common}
             loading="lazy"
             width={1280}
-            height={853}
-            className="w-full rounded-2xl object-cover shadow-2xl border border-border/40"
+            height={960}
+            className="aspect-[4/3] w-full rounded-2xl object-cover border border-border shadow-lg"
           />
         </Reveal>
         <Reveal>
-          <div>
-            <SectionHeading eyebrow={t.home.welcomeEyebrow} title={t.home.welcomeTitle} />
-            <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-              {t.home.welcomeText1}
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              {t.home.welcomeText2}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link to="/about" className={btn("outline")}>
-                {t.common.learnMore}
-              </Link>
-              <Link to="/rooms" className={btn("ghost")}>
-                {t.common.viewRooms} <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+          <span className="eyebrow">{t.home.welcomeEyebrow}</span>
+          <h2 className="mt-3 font-serif text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl">
+            {t.home.welcomeTitle}
+          </h2>
+          <div className="my-6 h-px w-20 bg-gold" />
+          <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">{t.home.welcomeText1}</p>
+          <p className="mt-4 text-sm sm:text-base leading-relaxed text-muted-foreground">{t.home.welcomeText2}</p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Link to="/about" className={btn("gold")}>
+              {t.common.learnMore}
+            </Link>
+            <Link to="/rooms" className={btn("outline")}>
+              {t.common.viewRooms}
+            </Link>
           </div>
         </Reveal>
       </section>
@@ -191,10 +199,7 @@ function Home() {
       {/* 3. ROOMS SECTION */}
       <section className="border-t bg-muted/40 py-20 md:py-32">
         <div className="container-x">
-          <SectionHeading
-            eyebrow={t.home.roomsEyebrow}
-            title={t.home.roomsTitle}
-          />
+          <SectionHeading eyebrow={t.home.roomsEyebrow} title={t.home.roomsTitle} />
           <div className="mt-12 grid gap-8 md:grid-cols-2">
             <RoomCard type="ac" />
             <RoomCard type="nonac" />
@@ -202,9 +207,9 @@ function Home() {
         </div>
       </section>
 
-      {/* 4. BOOKING FORM SECTION */}
-      <section id="book" className="scroll-mt-24 border-t bg-background py-16 md:py-24">
-        <div className="container-x">
+      {/* 4. ONLINE BOOKING & ENQUIRY FORM */}
+      <section id="book" className="border-t py-20 md:py-32 scroll-mt-20">
+        <div className="container-x max-w-4xl">
           <BookingForm />
         </div>
       </section>
@@ -212,17 +217,14 @@ function Home() {
       {/* 5. WHY STAY WITH US */}
       <section className="border-t py-20 md:py-32">
         <div className="container-x">
-          <SectionHeading
-            eyebrow={t.home.whyEyebrow}
-            title={t.home.whyTitle}
-          />
+          <SectionHeading eyebrow={t.home.whyEyebrow} title={t.home.whyTitle} />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {t.features.map((f, i) => {
-              const Icon = icons[i % icons.length]!;
+              const Icon = icons[i % icons.length];
               return (
                 <div
                   key={f.t}
-                  className="rounded-xl border border-border/70 bg-card p-6 shadow-sm transition-all hover:border-gold/40 hover:shadow-md"
+                  className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:border-gold/60 hover:shadow-md"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-gold/15 text-gold">
                     <Icon className="h-5 w-5" />
@@ -236,7 +238,7 @@ function Home() {
         </div>
       </section>
 
-      {/* 6. GALLERY PREVIEW - Premium Responsive Bento Grid with 8 High-Res Photos */}
+      {/* 6. GALLERY PREVIEW */}
       <section className="border-t bg-muted/30 py-20 md:py-32">
         <div className="container-x">
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
@@ -252,27 +254,27 @@ function Home() {
           </div>
 
           <div className="mt-10">
-            {/* Show 8 curated guest house photos in the enhanced balanced grid */}
             <GalleryGrid limit={8} />
           </div>
         </div>
       </section>
 
-      {/* 7. PROMINENT LOCATION SECTION (With இருப்பிடம் (Location) & Dynamic Location Button) */}
+      {/* 7. PROMINENT LOCATION SECTION (Section Above Footer - Fully Translated in English & Tamil) */}
       <section className="border-t bg-muted/20 py-12 md:py-16">
         <div className="container-x">
           <div className="flex flex-col items-center justify-between gap-6 rounded-2xl border border-border bg-card p-6 text-center sm:p-10 md:flex-row md:text-left shadow-sm">
             <div className="max-w-xl">
-              {/* Large, clearly visible badge with Tamil & English: இருப்பிடம் (Location) */}
               <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/15 px-4 py-1.5 text-sm font-bold text-gold">
                 <MapPin className="h-4 w-4 text-gold shrink-0" />
-                <span>இருப்பிடம் (Location)</span>
+                <span>{lang === "ta" ? "இருப்பிடம்" : "Location"}</span>
               </div>
               <h2 className="mt-3 font-serif text-2xl font-semibold text-foreground sm:text-3xl">
-                Stay Close to Bhavani Amman Temple
+                {lang === "ta" ? "பவானி அம்மன் கோவில் மிக அருகில்" : "Stay Close to Bhavani Amman Temple"}
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Near Bhavani Amman Temple, Periyapalayam. Our guest house is located right next to the temple — a convenient base for your visit.
+                {lang === "ta"
+                  ? "பெரியபாளையம் பவானி அம்மன் கோவிலுக்கு மிக அருகில் அமைந்துள்ள எங்கள் கெஸ்ட் ஹவுஸ் — உங்கள் ஆன்மீக பயணத்திற்கு மிக வசதியான தங்குமிடம்."
+                  : "Near Bhavani Amman Temple, Periyapalayam. Our guest house is located right next to the temple — a convenient base for your visit."}
               </p>
             </div>
 
@@ -282,11 +284,10 @@ function Home() {
                 onClick={scrollToBook}
                 className="group inline-flex items-center justify-center rounded-lg border border-border bg-background px-6 py-3.5 text-sm font-semibold shadow-sm transition-all duration-300 hover:border-gold hover:text-gold hover:-translate-y-0.5 active:translate-y-0 w-full sm:w-auto"
               >
-                <span>Enquire Now</span>
+                <span>{lang === "ta" ? "முன்பதிவு / விசாரணை" : "Enquire Now"}</span>
                 <ArrowRight className="h-4 w-4 ml-1.5 transition-transform group-hover:translate-x-1" />
               </a>
 
-              {/* Highlighted Location Button in English - Dynamic Accent */}
               <a
                 href={siteConfig.mapsUrl}
                 target="_blank"
@@ -294,7 +295,7 @@ function Home() {
                 className="group inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-gold via-[#F6E7B4] to-gold bg-[length:200%_auto] px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-ink shadow-[0_4px_18px_rgba(212,175,55,0.4)] transition-all duration-300 hover:shadow-[0_6px_25px_rgba(212,175,55,0.6)] hover:-translate-y-0.5 active:translate-y-0 w-full sm:w-auto"
               >
                 <Navigation className="h-4 w-4 fill-current shrink-0 transition-transform group-hover:rotate-45" />
-                <span>Location</span>
+                <span>{lang === "ta" ? "இருப்பிடம்" : "Location"}</span>
               </a>
             </div>
           </div>
