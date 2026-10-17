@@ -66,12 +66,17 @@ function Home() {
       <section className="relative flex min-h-[88svh] items-end overflow-hidden bg-ink pb-10 pt-28 sm:min-h-[100svh] sm:pb-24 sm:pt-32">
         <img
           src={heroImage}
-          alt={t.images.exterior}
+          alt={
+            lang === "ta"
+              ? "பெரியபாளையம் பவானி அம்மன் கோவில் அருகில் உள்ள வீரபாண்டியார் கெஸ்ட் ஹவுஸ் கட்டிட தோற்றம்"
+              : "Veerapandiyaar Guest House Building Exterior near Bhavani Amman Temple, Periyapalayam"
+          }
           width={1920}
           height={1088}
           className="absolute inset-0 h-full w-full object-cover object-top sm:object-center brightness-105 contrast-105"
           fetchPriority="high"
         />
+
         {/* Subtle bottom gradient only: Building remains bright, crisp & clearly visible */}
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 via-32% to-transparent" />
 
