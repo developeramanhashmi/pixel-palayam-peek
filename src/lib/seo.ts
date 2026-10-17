@@ -7,9 +7,9 @@ interface SeoOptions {
 }
 
 const SITE_URL = "https://www.periyapalayamrooms.in";
-const DEFAULT_IMAGE = `${SITE_URL}/favicon.png`;
+const DEFAULT_IMAGE = `${SITE_URL}/building.jpg`;
 const DEFAULT_KEYWORDS =
-  "Periyapalayam guest house, Bhavani Amman temple stay, rooms in Periyapalayam, Veerapandiyar guest house, AC rooms Periyapalayam, non ac rooms Periyapalayam, Periyapalayam lodge booking, temple devotee rooms";
+  "Periyapalayam guest house, Bhavani Amman temple stay, rooms in Periyapalayam, Veerapandiyaar guest house, AC rooms Periyapalayam, non ac rooms Periyapalayam, Periyapalayam lodge booking, temple devotee rooms";
 
 export function seo(
   titleOrOpts: string | SeoOptions,
@@ -39,16 +39,21 @@ export function seo(
       { name: "description", content: opts.description },
       { name: "keywords", content: opts.keywords ?? DEFAULT_KEYWORDS },
 
-      // Canonical and indexing signals
+      // Canonical and maximum image indexing signals for Google Search
       { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
 
       // Open Graph / WhatsApp / Facebook Preview
-      { property: "og:site_name", content: "Periyapalayam Veerapandiyar Guest House" },
+      { property: "og:site_name", content: "Periyapalayam Veerapandiyaar Guest House" },
       { property: "og:type", content: "website" },
       { property: "og:url", content: canonicalUrl },
       { property: "og:title", content: opts.title },
       { property: "og:description", content: opts.description },
       { property: "og:image", content: ogImage },
+      { property: "og:image:secure_url", content: ogImage },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "675" },
+      { property: "og:image:alt", content: "Veerapandiyaar Guest House Building Exterior near Bhavani Amman Temple" },
       { property: "og:locale", content: "en_IN" },
       { property: "og:locale:alternate", content: "ta_IN" },
 
@@ -57,6 +62,7 @@ export function seo(
       { name: "twitter:title", content: opts.title },
       { name: "twitter:description", content: opts.description },
       { name: "twitter:image", content: ogImage },
+      { name: "twitter:image:alt", content: "Veerapandiyaar Guest House Building Exterior near Bhavani Amman Temple" },
 
       // Local Geo Meta Tags (Periyapalayam, Tamil Nadu)
       { name: "geo.region", content: "IN-TN" },
