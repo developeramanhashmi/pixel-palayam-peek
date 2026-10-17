@@ -33,6 +33,19 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+export const Route = createFileRoute("/")({
+  head: () =>
+    seo({
+      title: "Periyapalayam Veerapandiyaar Guest House | AC & Non-AC Rooms Near Temple",
+      description:
+        "Comfortable AC and Non-AC rooms at Periyapalayam Veerapandiyaar Guest House, located right near Bhavani Amman Temple. Call +91 84283 38999 for instant booking & enquiry.",
+      path: "/",
+      image: "/building.jpg",
+    }),
+  component: Home,
+});
+
+
 const icons = [BedDouble, Snowflake, MapPin, Landmark, Heart, MessageCircle];
 
 function Home() {
