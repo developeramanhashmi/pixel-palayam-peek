@@ -25,16 +25,6 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () =>
-    seo(
-      "Guest House near Bhavani Amman Temple, Periyapalayam | Veerapandiyar",
-      "Comfortable AC and Non-AC rooms at Periyapalayam Veerapandiyar Guest House, near Bhavani Amman Temple. Enquire by call or online booking form.",
-      "/"
-    ),
-  component: Home,
-});
-
-export const Route = createFileRoute("/")({
-  head: () =>
     seo({
       title: "Periyapalayam Veerapandiyaar Guest House | AC & Non-AC Rooms Near Temple",
       description:
@@ -44,7 +34,6 @@ export const Route = createFileRoute("/")({
     }),
   component: Home,
 });
-
 
 const icons = [BedDouble, Snowflake, MapPin, Landmark, Heart, MessageCircle];
 
@@ -104,189 +93,191 @@ function Home() {
             className={cn(
               "font-serif font-normal tracking-tight text-ink-foreground",
               lang === "ta"
-                ? "max-w-xl text-2xl sm:text-4xl lg:text-5xl leading-tight sm:leading-snug"
-                : "max-w-2xl text-3xl sm:text-5xl lg:text-6xl leading-[1.12]"
+                ? "text-[1.75rem] leading-[1.25] sm:text-4xl md:text-5xl max-w-2xl"
+                : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl max-w-3xl"
             )}
           >
             {lang === "ta" ? (
               <>
-                <span className="block">பெரியபாளையத்தில்</span>
-                <span className="block mt-1">வசதியான தங்குமிடம்</span>
+                <span className="block font-medium">பெரியபாளையத்தில்</span>
+                <span className="block text-gold">வசதியான தங்குமிடம்</span>
               </>
             ) : (
-              t.home.heroTitle
+              t.hero.title
             )}
           </h1>
 
-          <p className="mt-2.5 max-w-lg text-sm font-light leading-relaxed text-ink-foreground/85 sm:mt-4 sm:text-base">
-            {t.home.heroText}
+          <p className="mt-2.5 max-w-xl text-xs text-ink-foreground/85 sm:text-sm md:text-base leading-relaxed">
+            {t.hero.subtitle}
           </p>
 
-          {/* Desktop CTAs */}
-          <div className="mt-7 hidden items-center gap-3.5 sm:flex">
+          {/* Desktop / tablet action dock */}
+          <div className="mt-5 hidden sm:flex sm:flex-wrap sm:items-center sm:gap-3">
             <a
               href="#book"
               onClick={scrollToBook}
-              className="group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-r from-gold via-[#F6E7B4] to-gold bg-[length:200%_auto] px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-ink shadow-[0_4px_20px_rgba(212,175,55,0.35)] transition-all duration-300 hover:bg-[position:right_center] hover:shadow-[0_6px_28px_rgba(212,175,55,0.6)] hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink shadow-md transition-all hover:bg-gold-light hover:shadow-lg active:scale-95"
             >
-              <span>{t.home.heroCta}</span>
-              <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+              {t.nav.book}
             </a>
 
             <a
               href={telHref()}
-              className="group inline-flex items-center justify-center rounded-lg border border-white/20 bg-ink/70 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-white backdrop-blur-md shadow-md transition-all duration-300 hover:border-emerald-500 hover:bg-emerald-600 hover:shadow-[0_4px_20px_rgba(16,185,129,0.35)] hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-ink/70 px-5 py-2.5 text-xs font-semibold text-ink-foreground backdrop-blur-md transition-all hover:border-gold hover:text-gold"
             >
-              <Phone className="h-4 w-4 mr-2 text-gold transition-colors duration-200 group-hover:text-white group-hover:rotate-12" />
-              <span>{t.common.call}</span>
+              <Phone className="h-3.5 w-3.5 text-gold" />
+              <span>{siteConfig.phoneDisplay}</span>
             </a>
 
             <a
               href={siteConfig.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center rounded-lg border border-amber-400/40 bg-ink/70 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-amber-200 backdrop-blur-md shadow-md transition-all duration-300 hover:border-amber-400 hover:bg-amber-500 hover:text-ink hover:shadow-[0_4px_20px_rgba(245,158,11,0.35)] hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-white/20 bg-ink/70 px-4 py-2.5 text-xs font-semibold text-ink-foreground backdrop-blur-md transition-all hover:border-gold hover:text-gold"
             >
-              <MapPin className="h-4 w-4 mr-2 text-amber-400 transition-colors duration-200 group-hover:text-ink" />
-              <span>{lang === "ta" ? "இடம்" : "Location"}</span>
+              <Navigation className="h-3.5 w-3.5 text-gold" />
+              <span>{lang === "ta" ? "இருப்பிடம்" : "Location"}</span>
             </a>
           </div>
         </div>
-
-        {/* Mobile Sticky Bar */}
-        <div className="fixed bottom-3 inset-x-3 z-50 flex items-center justify-between gap-2 rounded-2xl border border-white/20 bg-ink/95 p-2 shadow-[0_12px_45px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:hidden">
-          <a
-            href={telHref()}
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-white shadow-[0_2px_12px_rgba(16,185,129,0.35)] transition-all active:scale-95 text-center leading-none"
-          >
-            <Phone className="h-3.5 w-3.5 shrink-0 fill-current" />
-            <span className="whitespace-nowrap">{t.common.call}</span>
-          </a>
-
-          <a
-            href={siteConfig.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-ink shadow-[0_2px_12px_rgba(245,158,11,0.35)] transition-all active:scale-95 text-center border border-amber-300/40 leading-none"
-          >
-            <MapPin className="h-3.5 w-3.5 shrink-0 fill-current text-ink" />
-            <span className="whitespace-nowrap">{lang === "ta" ? "இடம்" : "Location"}</span>
-          </a>
-
-          <a
-            href="#book"
-            onClick={scrollToBook}
-            className="flex flex-1 items-center justify-center rounded-xl bg-gradient-to-r from-gold via-[#F6E7B4] to-gold px-1.5 py-2.5 text-[0.74rem] font-bold uppercase tracking-normal text-ink shadow-[0_2px_15px_rgba(212,175,55,0.45)] transition-all active:scale-95 text-center leading-none"
-          >
-            <span className="whitespace-nowrap">{t.nav.book}</span>
-          </a>
-        </div>
       </section>
 
-      {/* 2. WELCOME SECTION */}
-      <section className="container-x grid items-center gap-12 py-20 md:py-32 lg:grid-cols-2 lg:gap-20">
-        <Reveal>
-          <img
-            src={common?.src}
-            alt={t.images.common}
-            loading="lazy"
-            width={1280}
-            height={960}
-            className="aspect-[4/3] w-full rounded-2xl object-cover border border-border shadow-lg"
-          />
-        </Reveal>
-        <Reveal>
-          <span className="eyebrow">{t.home.welcomeEyebrow}</span>
-          <h2 className="mt-3 font-serif text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl">
-            {t.home.welcomeTitle}
-          </h2>
-          <div className="my-6 h-px w-20 bg-gold" />
-          <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">{t.home.welcomeText1}</p>
-          <p className="mt-4 text-sm sm:text-base leading-relaxed text-muted-foreground">{t.home.welcomeText2}</p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link to="/about" className={btn("gold")}>
-              {t.common.learnMore}
-            </Link>
-            <Link to="/rooms" className={btn("outline")}>
-              {t.common.viewRooms}
-            </Link>
+      {/* 2. WELCOME / ABOUT SECTION */}
+      <section className="section-padding bg-background">
+        <div className="container-x">
+          <div className="grid gap-10 md:grid-cols-2 md:items-center">
+            <Reveal>
+              <div>
+                <span className="text-xs font-bold uppercase tracking-widest text-gold">
+                  {t.nav.about}
+                </span>
+                <h2 className="mt-2 font-serif text-2xl sm:text-3xl md:text-4xl">
+                  {t.about.title}
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {t.about.body1}
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {t.about.body2}
+                </p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+                    ✓ {t.amenities.temple}
+                  </span>
+                  <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+                    ✓ {t.amenities.ac}
+                  </span>
+                  <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">
+                    ✓ {t.amenities.desk}
+                  </span>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={100}>
+              <div className="overflow-hidden rounded-2xl border border-border shadow-md">
+                <img
+                  src={common.src}
+                  alt={
+                    lang === "ta"
+                      ? "வீரபாண்டியார் கெஸ்ட் ஹவுஸ் முகப்பு வரவேற்பு தோற்றம்"
+                      : "Guest house corridor and common space"
+                  }
+                  loading="lazy"
+                  width={1280}
+                  height={960}
+                  className="aspect-[4/3] w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </section>
 
       {/* 3. ROOMS SECTION */}
-      <section className="border-t bg-muted/40 py-20 md:py-32">
+      <section className="section-padding bg-secondary/50">
         <div className="container-x">
-          <SectionHeading eyebrow={t.home.roomsEyebrow} title={t.home.roomsTitle} />
-          <div className="mt-12 grid gap-8 md:grid-cols-2">
-            <RoomCard type="ac" />
-            <RoomCard type="nonac" />
+          <SectionHeading
+            eyebrow={t.rooms.title}
+            title={t.rooms.subtitle}
+            description={t.rooms.capacityNote}
+          />
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <RoomCard
+              type="ac"
+              name={t.rooms.acTitle}
+              capacity={t.rooms.capacity}
+              desc={t.rooms.acDesc}
+              features={[t.amenities.ac, t.amenities.family, t.amenities.desk]}
+              onBook={scrollToBook}
+            />
+            <RoomCard
+              type="nonac"
+              name={t.rooms.nonacTitle}
+              capacity={t.rooms.capacity}
+              desc={t.rooms.nonacDesc}
+              features={[t.rooms.nonacTitle, t.amenities.family, t.amenities.desk]}
+              onBook={scrollToBook}
+            />
           </div>
         </div>
       </section>
 
-      {/* 4. ONLINE BOOKING & ENQUIRY FORM */}
-      <section id="book" className="border-t py-20 md:py-32 scroll-mt-20">
-        <div className="container-x max-w-4xl">
-          <BookingForm />
-        </div>
-      </section>
-
-      {/* 5. WHY STAY WITH US */}
-      <section className="border-t py-20 md:py-32">
+      {/* 4. GALLERY PREVIEW SECTION */}
+      <section className="section-padding bg-background">
         <div className="container-x">
-          <SectionHeading eyebrow={t.home.whyEyebrow} title={t.home.whyTitle} />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {t.features.map((f, i) => {
-              const Icon = icons[i % icons.length];
-              return (
-                <div
-                  key={f.t}
-                  className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:border-gold/60 hover:shadow-md"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-gold/15 text-gold">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="mt-4 font-serif text-lg font-semibold">{f.t}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.d}</p>
-                </div>
-              );
-            })}
+          <SectionHeading
+            eyebrow={t.nav.gallery}
+            title={t.gallery.title}
+            description={t.gallery.subtitle}
+          />
+
+          <div className="mt-8">
+            <GalleryGrid images={galleryImages.slice(0, 8)} />
           </div>
-        </div>
-      </section>
 
-      {/* 6. GALLERY PREVIEW */}
-      <section className="border-t bg-muted/30 py-20 md:py-32">
-        <div className="container-x">
-          <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-            <SectionHeading eyebrow={t.home.galleryEyebrow} title={t.home.galleryTitle} />
+          <div className="mt-8 text-center">
             <Link
               to="/gallery"
-              className="group inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-gold via-[#F6E7B4] to-gold bg-[length:200%_auto] px-6 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-ink shadow-[0_4px_18px_rgba(212,175,55,0.38)] transition-all duration-300 hover:bg-[position:right_center] hover:shadow-[0_6px_24px_rgba(212,175,55,0.55)] hover:-translate-y-0.5 active:translate-y-0 self-start md:self-auto"
+              className="group inline-flex items-center justify-center gap-2.5 rounded-xl bg-ink px-8 py-4 text-sm font-bold uppercase tracking-wider text-ink-foreground shadow-lg transition-all duration-300 hover:bg-gold hover:text-ink hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 border border-gold/30"
             >
-              <Camera className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:scale-110" />
-              <span>{t.home.galleryCta}</span>
-              <ArrowRight className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+              <Camera className="h-4 w-4 text-gold transition-transform duration-300 group-hover:scale-110 group-hover:text-ink" />
+              <span>{lang === "ta" ? "முழு கேலரியைப் பார்க்கவும்" : "View Full Gallery"}</span>
+              <ArrowRight className="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-          </div>
-
-          <div className="mt-10">
-            <GalleryGrid limit={8} />
           </div>
         </div>
       </section>
 
-      {/* 7. PROMINENT LOCATION SECTION (Section Above Footer - Fully Translated in English & Tamil) */}
-      <section className="border-t bg-muted/20 py-12 md:py-16">
+      {/* 5. BOOKING FORM SECTION */}
+      <section id="book" className="section-padding bg-secondary/40 scroll-mt-20">
         <div className="container-x">
-          <div className="flex flex-col items-center justify-between gap-6 rounded-2xl border border-border bg-card p-6 text-center sm:p-10 md:flex-row md:text-left shadow-sm">
-            <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/15 px-4 py-1.5 text-sm font-bold text-gold">
-                <MapPin className="h-4 w-4 text-gold shrink-0" />
+          <div className="mx-auto max-w-3xl">
+            <SectionHeading
+              eyebrow={t.booking.formTitle}
+              title={t.booking.formSubtitle}
+              description={t.hero.badge}
+            />
+
+            <div className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+              <BookingForm />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. ABOVE FOOTER: LOCATION SECTION */}
+      <section className="border-t border-border bg-secondary/30 py-12">
+        <div className="container-x">
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div className="max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gold">
+                <MapPin className="h-3.5 w-3.5" />
                 <span>{lang === "ta" ? "இருப்பிடம்" : "Location"}</span>
-              </div>
-              <h2 className="mt-3 font-serif text-2xl font-semibold text-foreground sm:text-3xl">
+              </span>
+              <h2 className="mt-1 font-serif text-xl sm:text-2xl font-semibold text-foreground">
                 {lang === "ta" ? "பவானி அம்மன் கோவில் மிக அருகில்" : "Stay Close to Bhavani Amman Temple"}
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
