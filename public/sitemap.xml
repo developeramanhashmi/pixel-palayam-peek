@@ -8,6 +8,21 @@
       <image:title>Periyapalayam Veerapandiyaar Guest House Building Front</image:title>
       <image:caption>Exterior front view of Veerapandiyaar Guest House located near Bhavani Amman Temple in Periyapalayam</image:caption>
     </image:image>
+    <image:image>
+      <image:loc>https://www.periyapalayamrooms.in/ac-room.jpeg</image:loc>
+      <image:title>Veerapandiyaar Guest House AC Deluxe Room</image:title>
+      <image:caption>Spacious AC room with split air conditioner near Bhavani Amman Temple</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.periyapalayamrooms.in/nonac-room.jpeg</image:loc>
+      <image:title>Veerapandiyaar Guest House Non-AC Room</image:title>
+      <image:caption>Clean and comfortable Non-AC room for pilgrims and families in Periyapalayam</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.periyapalayamrooms.in/reception.jpeg</image:loc>
+      <image:title>Veerapandiyaar Guest House Lobby and Facilities</image:title>
+      <image:caption>Clean common areas, hallway and reception at Veerapandiyaar Guest House</image:caption>
+    </image:image>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
