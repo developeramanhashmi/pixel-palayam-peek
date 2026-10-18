@@ -20,6 +20,13 @@ import { siteConfig } from "@/lib/site-config";
 const SITE_URL = "https://www.periyapalayamrooms.in";
 const OG_IMAGE_URL = `${SITE_URL}/building.jpg`;
 
+const GOOGLE_HOTEL_IMAGES = [
+  `${SITE_URL}/building.jpg`,
+  `${SITE_URL}/ac-room.jpeg`,
+  `${SITE_URL}/nonac-room.jpeg`,
+  `${SITE_URL}/reception.jpeg`,
+];
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -146,7 +153,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               name: "Veerapandiyaar Guest House",
               alternateName: "வீரபாண்டியார் மாளிகை (Veerapandiyaar Guest House)",
               url: SITE_URL,
-              image: OG_IMAGE_URL,
+              image: GOOGLE_HOTEL_IMAGES,
               telephone: siteConfig.phone || "+918428338999",
               email: siteConfig.email,
               priceRange: "₹₹",
