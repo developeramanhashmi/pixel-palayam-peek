@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MapPin, Phone, ExternalLink, ShieldCheck, Clock, ArrowRight } from "lucide-react";
+import { MapPin, Phone, Mail, ExternalLink, ShieldCheck, Clock, ArrowRight } from "lucide-react";
 import { useI18n, type Lang } from "@/lib/i18n";
 import { siteConfig, telHref, whatsappHref } from "@/lib/site-config";
 import { WhatsAppIcon } from "./ui";
@@ -133,6 +133,17 @@ export function Footer() {
                   <WhatsAppIcon className="h-3.5 w-3.5 text-[#25D366]" />
                 </span>
                 <span>{t.common.whatsapp}</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="group flex items-center gap-2.5 transition-colors hover:text-gold"
+              >
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 border border-white/10 group-hover:border-gold/50">
+                  <Mail className="h-3.5 w-3.5 text-gold" />
+                </span>
+                <span>{siteConfig.email}</span>
               </a>
             </li>
             <li>

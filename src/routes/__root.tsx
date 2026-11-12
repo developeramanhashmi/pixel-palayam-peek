@@ -92,25 +92,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Periyapalayam Veerapandiyaar Guest House | AC & Non-AC Rooms Near Temple" },
+      { title: "Periyapalayam Rooms | Veerapandiyaar Guest House Near Bhavani Amman Temple" },
       {
         name: "description",
         content:
-          "Comfortable AC and Non-AC guest rooms at Periyapalayam Veerapandiyaar Guest House, located near Bhavani Amman Temple. Call +91 84283 38999 for instant booking.",
+          "Book clean and comfortable Periyapalayam rooms at Veerapandiyaar Guest House. AC & Non-AC accommodation located near Bhavani Amman Temple. Instant booking: +91 84283 38999.",
       },
       {
         name: "keywords",
         content:
-          "Periyapalayam guest house, Bhavani Amman temple stay, rooms in Periyapalayam, Veerapandiyaar guest house, AC rooms Periyapalayam, non ac lodge Periyapalayam, Periyapalayam lodge booking",
+          "Periyapalayam rooms, rooms in Periyapalayam, Periyapalayam guest house, Periyapalayam lodge, Bhavani Amman temple stay, Veerapandiyaar guest house, AC rooms Periyapalayam, lodge in Periyapalayam",
       },
       { property: "og:site_name", content: "Veerapandiyaar Guest House" },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${SITE_URL}/` },
-      { property: "og:title", content: "Periyapalayam Veerapandiyaar Guest House | AC & Non-AC Rooms" },
+      { property: "og:title", content: "Periyapalayam Rooms | Veerapandiyaar Guest House Near Bhavani Amman Temple" },
       {
         property: "og:description",
         content:
-          "Comfortable rooms near Bhavani Amman Temple in Periyapalayam. AC & Non-AC options with easy phone and WhatsApp booking. Call +91 84283 38999.",
+          "Book clean and comfortable Periyapalayam rooms at Veerapandiyaar Guest House. AC & Non-AC accommodation located near Bhavani Amman Temple. Instant booking: +91 84283 38999.",
       },
       { property: "og:image", content: OG_IMAGE_URL },
       { property: "og:image:secure_url", content: OG_IMAGE_URL },
@@ -119,10 +119,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: "Veerapandiyaar Guest House Building Near Bhavani Amman Temple" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Periyapalayam Veerapandiyaar Guest House" },
+      { name: "twitter:title", content: "Periyapalayam Rooms | Veerapandiyaar Guest House Near Bhavani Amman Temple" },
       {
         name: "twitter:description",
-        content: "AC & Non-AC rooms near Bhavani Amman Temple in Periyapalayam. Call +91 84283 38999.",
+        content:
+          "Book clean and comfortable Periyapalayam rooms at Veerapandiyaar Guest House. AC & Non-AC accommodation located near Bhavani Amman Temple. Instant booking: +91 84283 38999.",
       },
       { name: "twitter:image", content: OG_IMAGE_URL },
       { name: "geo.region", content: "IN-TN" },
@@ -150,8 +151,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             {
               "@type": "LodgingBusiness",
               "@id": `${SITE_URL}/#lodging`,
-              name: "Veerapandiyaar Guest House",
-              alternateName: "வீரபாண்டியார் மாளிகை (Veerapandiyaar Guest House)",
+              name: "Periyapalayam Rooms - Veerapandiyaar Guest House",
+              alternateName: ["Periyapalayam Rooms", "Veerapandiyaar Guest House"],
               url: SITE_URL,
               image: GOOGLE_HOTEL_IMAGES,
               telephone: siteConfig.phone || "+918428338999",
@@ -188,6 +189,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@type": "FAQPage",
               "@id": `${SITE_URL}/#faq`,
               mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "How to book Periyapalayam rooms near Bhavani Amman Temple?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Call +91 84283 38999, message Veerapandiyaar Guest House on WhatsApp, or submit an enquiry through the website form. The team will follow up about your requested room and details; an enquiry does not guarantee a booking.",
+                  },
+                },
                 {
                   "@type": "Question",
                   name: "How far is Veerapandiyaar Guest House from Bhavani Amman Temple?",

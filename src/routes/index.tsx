@@ -25,9 +25,11 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   head: () =>
     seo({
-      title: "Periyapalayam Veerapandiyaar Guest House | AC & Non-AC Rooms Near Temple",
+      title: "Periyapalayam Rooms | Veerapandiyaar Guest House Near Bhavani Amman Temple",
       description:
-        "Comfortable AC and Non-AC rooms at Periyapalayam Veerapandiyaar Guest House, located right near Bhavani Amman Temple. Call +91 84283 38999 for instant booking & enquiry.",
+        "Book clean and comfortable Periyapalayam rooms at Veerapandiyarguest House. AC & Non-AC accommodation located near Bhavani Amman Temple. Instant booking: +91 84283 38999.",
+      keywords:
+        "Periyapalayam rooms, rooms in Periyapalayam, Periyapalayam guest house, Periyapalayam lodge, Bhavani Amman temple stay, Veerapandiyaar guest house, AC rooms Periyapalayam, lodge in Periyapalayam",
       path: "/",
       image: "/building.jpg",
     }),
@@ -96,10 +98,7 @@ function Home() {
             )}
           >
             {lang === "ta" ? (
-              <>
-                <span className="block">பெரியபாளையத்தில்</span>
-                <span className="block mt-1">வசதியான தங்குமிடம்</span>
-              </>
+              <span className="block">{t.home.heroTitle}</span>
             ) : (
               t.home.heroTitle
             )}
