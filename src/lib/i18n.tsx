@@ -39,7 +39,7 @@ const en = {
     pricing: "Please contact us for current rates.",
   },
   home: {
-    heroTitle: "A Comfortable Stay in Periyapalayam",
+    heroTitle: "Periyapalayam Rooms",
     heroText: "Comfortable accommodation near Bhavani Amman Temple, Periyapalayam.",
     heroCta: "Book Your Stay",
     welcomeEyebrow: "Welcome",
@@ -191,7 +191,7 @@ const ta: Dict = {
     pricing: "தற்போதைய கட்டண விவரங்களுக்கு எங்களை தொடர்பு கொள்ளவும்.",
   },
   home: {
-    heroTitle: "பெரியபாளையத்தில் வசதியான தங்குமிடம்",
+    heroTitle: "பெரியபாளையம் அறைகள்",
     heroText: "பெரியபாளையம் பவானி அம்மன் கோவில் அருகில் குடும்பங்கள் தங்குவதற்கு ஏற்ற சிறந்த வசதியான அறைகள்.",
     heroCta: "முன்பதிவு",
     welcomeEyebrow: "நல்வரவு",

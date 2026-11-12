@@ -136,6 +136,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
           access_key: siteConfig.web3FormsKey,
           subject: `🛎️ New Booking: ${v.name.trim()} • ${roomTitle} (${v.rooms} Room, ${v.guests} Guests)`,
           from_name: "Veerapandiyar Guest House Reception",
+          "Reception Email": siteConfig.email,
           "Guest Name": v.name.trim(),
           "City & Address": v.address.trim(),
           "Phone / Mobile": v.contact.trim(),

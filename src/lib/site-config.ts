@@ -10,7 +10,7 @@ export const siteConfig = {
   // WhatsApp Number
   whatsapp: "+918428338999",
 
-  email: "veerapandiyarguesthouse@gmail.com",
+  email: "veerapandiyaar@periyapalayamrooms.in",
 
   web3FormsKey: "2e350fee-0a3f-42bf-933c-16d07391d47b",
 
