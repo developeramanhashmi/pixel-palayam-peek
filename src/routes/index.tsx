@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
     seo({
       title: "Periyapalayam Rooms | Veerapandiyaar Guest House Near Bhavani Amman Temple",
       description:
-        "Book clean and comfortable Periyapalayam rooms at Veerapandiyarguest House. AC & Non-AC accommodation located near Bhavani Amman Temple. Instant booking: +91 84283 38999.",
+        "Book clean and comfortable Periyapalayam rooms at Veerapandiyaar Guest House. AC & Non-AC accommodation located near Bhavani Amman Temple. Instant booking: +91 84283 38999.",
       keywords:
         "Periyapalayam rooms, rooms in Periyapalayam, Periyapalayam guest house, Periyapalayam lodge, Bhavani Amman temple stay, Veerapandiyaar guest house, AC rooms Periyapalayam, lodge in Periyapalayam",
       path: "/",
