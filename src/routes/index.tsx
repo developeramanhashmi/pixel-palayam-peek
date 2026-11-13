@@ -40,7 +40,7 @@ const icons = [BedDouble, Snowflake, MapPin, Landmark, Heart, MessageCircle];
 
 function Home() {
   const { t, lang } = useI18n();
-  const common = galleryImages.find((g) => g.key === "common") || galleryImages[0];
+  const commonImage = galleryImages.find((g) => g.key === "common")?.src ?? heroImage;
 
   const scrollToBook = (e: React.MouseEvent) => {
     const el = document.getElementById("book");
@@ -173,7 +173,7 @@ function Home() {
       <section className="container-x grid items-center gap-12 py-20 md:grid-cols-2 md:py-32">
         <Reveal>
           <img
-            src={common.src}
+            src={commonImage}
             alt={t.images.common}
             loading="lazy"
             width={1280}
@@ -224,7 +224,7 @@ function Home() {
           <SectionHeading eyebrow={t.home.whyEyebrow} title={t.home.whyTitle} />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {t.features.map((f, i) => {
-              const Icon = icons[i % icons.length];
+              const Icon = icons[i % icons.length] ?? BedDouble;
               return (
                 <div
                   key={f.t}

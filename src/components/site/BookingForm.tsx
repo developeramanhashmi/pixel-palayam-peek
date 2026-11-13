@@ -45,7 +45,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
   const { t, lang } = useI18n(); // <-- lang add karein
   const b = t.booking;
 
-  const todayStr = new Date().toISOString().split("T")[0];
+  const todayStr = new Date().toISOString().split("T")[0] || "";
 
   const [v, setV] = useState<Enquiry>({
     name: "",
@@ -54,7 +54,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
     rooms: "1",
     guests: "8",
     room: initialRoom ?? "ac",
-    checkIn: todayStr,
+    checkIn: todayStr || "",
     checkInTime: "12:00",
     checkOut: "",
     checkOutTime: "11:00",
@@ -100,7 +100,7 @@ export function BookingForm({ initialRoom }: { initialRoom?: RoomType | undefine
 
   const formatTime12 = (timeStr: string) => {
     if (!timeStr) return "";
-    const [h, m] = timeStr.split(":");
+    const [h = "", m = ""] = timeStr.split(":");
     const numH = parseInt(h, 10);
     if (isNaN(numH)) return timeStr;
     const ampm = numH >= 12 ? "PM" : "AM";
@@ -417,7 +417,11 @@ ${v.notes.trim() ? `• *Requirements:* ${v.notes}` : ""}`;
               type="button"
               onClick={() => {
                 setV((p) => ({ ...p, room: "ac" }));
-                if (errors.room) setErrors((prev) => ({ ...prev, room: undefined }));
+                if (errors.room) setErrors((prev) => {
+                  const next = { ...prev };
+                  delete next.room;
+                  return next;
+                });
               }}
               className={cn(
                 "relative flex flex-col items-center justify-center rounded-xl border p-4 text-center transition-all cursor-pointer",
@@ -437,7 +441,11 @@ ${v.notes.trim() ? `• *Requirements:* ${v.notes}` : ""}`;
               type="button"
               onClick={() => {
                 setV((p) => ({ ...p, room: "nonac" }));
-                if (errors.room) setErrors((prev) => ({ ...prev, room: undefined }));
+                if (errors.room) setErrors((prev) => {
+                  const next = { ...prev };
+                  delete next.room;
+                  return next;
+                });
               }}
               className={cn(
                 "relative flex flex-col items-center justify-center rounded-xl border p-4 text-center transition-all cursor-pointer",
