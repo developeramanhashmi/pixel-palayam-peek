@@ -1,0 +1,2 @@
+- [ ] Finish professional email and Periyapalayam Rooms SEO updates; verify visible contact and metadata.
+- [ ] Fix all current typecheck errors and implement the requested floating desktop/mobile navigation without changing booking behavior.
