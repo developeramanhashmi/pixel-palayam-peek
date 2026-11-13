@@ -33,8 +33,8 @@ export function LanguageSelector({ light, drop = "down" }: { light?: boolean; dr
         aria-label={t.nav.language}
         onClick={() => setOpen((o) => !o)}
         className={cn(
-          "inline-flex items-center gap-1 rounded-sm px-2 py-1 text-xs font-semibold tracking-widest transition-colors",
-          light ? "text-ink-foreground hover:text-gold" : "text-foreground hover:text-gold"
+          "inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-xs font-semibold tracking-wider transition-colors hover:bg-white/10",
+          light ? "text-white hover:text-gold" : "text-foreground hover:text-gold"
         )}
       >
         {lang.toUpperCase()} <ChevronDown className="h-3 w-3" />
@@ -43,7 +43,7 @@ export function LanguageSelector({ light, drop = "down" }: { light?: boolean; dr
         <ul
           role="listbox"
           className={cn(
-            "absolute right-0 z-50 w-36 overflow-hidden rounded-sm border bg-popover py-1 text-sm text-popover-foreground shadow-lg",
+            "absolute right-0 z-50 w-36 overflow-hidden rounded-xl border border-border bg-popover py-1 text-sm text-popover-foreground shadow-2xl backdrop-blur-xl",
             drop === "up" ? "bottom-full mb-2" : "top-full mt-2"
           )}
         >
@@ -94,11 +94,11 @@ export function Header() {
 
   return (
     <>
-      <header
-        className="fixed inset-x-3 top-3 z-50 mx-auto max-w-6xl transition-all duration-300"
-      >
-        <div className="flex h-14 items-center justify-between gap-2 rounded-full border border-ink-foreground/20 bg-ink/80 px-3 shadow-2xl backdrop-blur-xl sm:h-16 sm:gap-4 sm:px-5">
-          {/* Logo & Prominent Brand Text */}
+      <header className="fixed inset-x-3 top-3 z-50 mx-auto max-w-6xl transition-all duration-300">
+        {/* V10 Floating Frosted Glass Capsule */}
+        <div className="flex h-14 items-center justify-between gap-2 rounded-full border border-white/20 bg-black/45 px-3.5 shadow-[0_8px_32px_rgba(0,0,0,0.37)] backdrop-blur-xl sm:h-16 sm:gap-4 sm:px-5">
+          
+          {/* Logo & Brand Text */}
           <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0" onClick={() => setOpen(false)}>
             <img
               src={logo}
@@ -106,30 +106,26 @@ export function Header() {
               className="h-9 w-9 rounded-full border border-gold/70 object-cover object-center shadow-md transition-transform sm:h-11 sm:w-11"
             />
             <div className="flex flex-col items-start leading-none">
-              <span
-                className="whitespace-nowrap font-serif text-sm font-bold sm:text-lg"
-                style={{ color: "var(--color-ink-foreground)" }}
-              >
+              <span className="whitespace-nowrap font-serif text-sm font-bold text-white sm:text-lg">
                 Veerapandiyaar
               </span>
-              <span className="mt-1 whitespace-nowrap text-[0.55rem] font-bold uppercase tracking-[0.16em] text-gold sm:text-[0.62rem] sm:tracking-[0.2em]">
+              <span className="mt-0.5 whitespace-nowrap text-[0.55rem] font-bold uppercase tracking-[0.18em] text-gold sm:text-[0.62rem]">
                 Guest House
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav aria-label="Main" className="hidden items-center gap-1 rounded-full border border-ink-foreground/10 bg-ink-foreground/5 p-1 lg:flex">
+          {/* Desktop Navigation Links (Pill Container) */}
+          <nav aria-label="Main" className="hidden items-center gap-1 rounded-full border border-white/15 bg-white/5 p-1 backdrop-blur-md lg:flex">
             {links.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 activeOptions={{ exact: l.to === "/" }}
-                activeProps={{ className: "!bg-gold/15 !text-gold" }}
                 className={cn(
-                  "rounded-full px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-wide text-ink-foreground/80 transition-colors hover:bg-ink-foreground/10 hover:text-gold",
-                  pathname === l.to || (l.to !== "/" && pathname.startsWith(`${l.to}/`))
-                    ? "bg-gold/15 text-gold"
+                  "rounded-full px-3.5 py-1.5 text-[0.7rem] font-semibold uppercase tracking-wider text-white/80 transition-all hover:bg-white/10 hover:text-white",
+                  (pathname === l.to || (l.to !== "/" && pathname.startsWith(`${l.to}/`)))
+                    ? "bg-white/20 !text-gold shadow-sm"
                     : ""
                 )}
               >
@@ -138,10 +134,13 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Desktop Right Actions */}
+          {/* Desktop Right Actions (Glowing Pill Button like Services in V10) */}
           <div className="hidden items-center gap-3 lg:flex">
             <LanguageSelector light />
-            <Link to="/booking" className={cn(btn("gold", "!rounded-full px-5 py-2.5 text-xs font-bold shadow-lg shadow-gold/20"))}>
+            <Link
+              to="/booking"
+              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-400 to-amber-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-neutral-950 shadow-[0_0_20px_rgba(245,158,11,0.35)] transition-all hover:scale-105 hover:brightness-110 active:scale-95"
+            >
               {t.nav.book}
             </Link>
           </div>
@@ -155,7 +154,7 @@ export function Header() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               onClick={() => setOpen((o) => !o)}
-              className="rounded-full p-2 text-ink-foreground transition-colors hover:bg-ink-foreground/10 hover:text-gold"
+              className="rounded-full border border-white/15 bg-white/5 p-2 text-white transition-colors hover:bg-white/10 hover:text-gold"
             >
               {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -168,7 +167,7 @@ export function Header() {
         aria-hidden="true"
         onClick={() => setOpen(false)}
         className={cn(
-          "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
+          "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
           open ? "opacity-100" : "pointer-events-none opacity-0"
         )}
       />
@@ -180,7 +179,7 @@ export function Header() {
         aria-hidden={!open}
         inert={!open}
         className={cn(
-          "fixed inset-y-0 right-0 z-[60] flex w-3/4 max-w-xs flex-col border-l border-border bg-background shadow-2xl transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden",
+          "fixed inset-y-0 right-0 z-[60] flex w-3/4 max-w-xs flex-col border-l border-border bg-background shadow-2xl transition-transform duration-300 ease-out lg:hidden",
           open ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -204,7 +203,7 @@ export function Header() {
                 activeOptions={{ exact: l.to === "/" }}
                 activeProps={{ className: "!text-gold !bg-gold/10 font-bold" }}
                 onClick={() => setOpen(false)}
-                className="flex items-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors hover:bg-muted"
+                className="flex rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted hover:text-gold"
               >
                 {l.l}
               </Link>
