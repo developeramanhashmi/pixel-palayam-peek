@@ -68,17 +68,18 @@ export function LanguageSelector({ light, drop = "down" }: { light?: boolean; dr
 export function Header() {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const f = () => setScrolled(window.scrollY > 30);
-    f();
-    window.addEventListener("scroll", f, { passive: true });
-    return () => window.removeEventListener("scroll", f);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
   const links = [
@@ -90,53 +91,46 @@ export function Header() {
   ] as const;
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isHome = pathname === "/";
-  const solid = scrolled || open || !isHome;
 
   return (
     <>
       <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-40 transition-all duration-300",
-          solid
-            ? "border-b border-border bg-background/95 shadow-sm backdrop-blur-md"
-            : "border-b border-white/10 bg-black/40 shadow-sm backdrop-blur-md"
-        )}
+        className="fixed inset-x-3 top-3 z-50 mx-auto max-w-6xl transition-all duration-300"
       >
-        <div className="container-x flex h-16 items-center justify-between gap-3 sm:gap-4 md:h-20">
+        <div className="flex h-14 items-center justify-between gap-2 rounded-full border border-ink-foreground/20 bg-ink/80 px-3 shadow-2xl backdrop-blur-xl sm:h-16 sm:gap-4 sm:px-5">
           {/* Logo & Prominent Brand Text */}
           <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0" onClick={() => setOpen(false)}>
             <img
               src={logo}
               alt="Veerapandiyaar Guest House Logo"
-              className="h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full object-cover object-center border-2 border-gold/70 shadow-md transition-transform"
+              className="h-9 w-9 rounded-full border border-gold/70 object-cover object-center shadow-md transition-transform sm:h-11 sm:w-11"
             />
             <div className="flex flex-col items-start leading-none">
               <span
-                className={cn(
-                  "whitespace-nowrap font-serif text-xl sm:text-2xl md:text-[1.7rem] font-bold tracking-tight sm:tracking-normal drop-shadow-sm transition-colors",
-                  solid ? "text-foreground" : "text-white"
-                )}
+                className="whitespace-nowrap font-serif text-sm font-bold sm:text-lg"
+                style={{ color: "var(--color-ink-foreground)" }}
               >
                 Veerapandiyaar
               </span>
-              <span className="whitespace-nowrap text-[0.68rem] sm:text-xs font-extrabold uppercase tracking-[0.22em] text-gold mt-1">
+              <span className="mt-1 whitespace-nowrap text-[0.55rem] font-bold uppercase tracking-[0.16em] text-gold sm:text-[0.62rem] sm:tracking-[0.2em]">
                 Guest House
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav aria-label="Main" className="hidden items-center gap-7 lg:flex">
+          <nav aria-label="Main" className="hidden items-center gap-1 rounded-full border border-ink-foreground/10 bg-ink-foreground/5 p-1 lg:flex">
             {links.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 activeOptions={{ exact: l.to === "/" }}
-                activeProps={{ className: "!text-gold font-semibold" }}
+                activeProps={{ className: "!bg-gold/15 !text-gold" }}
                 className={cn(
-                  "text-xs font-semibold uppercase tracking-wider transition-colors hover:text-gold",
-                  solid ? "text-foreground/80" : "text-ink-foreground/90"
+                  "rounded-full px-3 py-2 text-[0.68rem] font-semibold uppercase tracking-wide text-ink-foreground/80 transition-colors hover:bg-ink-foreground/10 hover:text-gold",
+                  pathname === l.to || (l.to !== "/" && pathname.startsWith(`${l.to}/`))
+                    ? "bg-gold/15 text-gold"
+                    : ""
                 )}
               >
                 {l.l}
@@ -146,25 +140,22 @@ export function Header() {
 
           {/* Desktop Right Actions */}
           <div className="hidden items-center gap-3 lg:flex">
-            <LanguageSelector light={!solid} />
-            <Link to="/booking" className={btn("gold", "text-xs px-4 py-2")}>
+            <LanguageSelector light />
+            <Link to="/booking" className={cn(btn("gold", "!rounded-full px-5 py-2.5 text-xs font-bold shadow-lg shadow-gold/20"))}>
               {t.nav.book}
             </Link>
           </div>
 
           {/* Mobile Right Controls */}
           <div className="flex items-center gap-2 lg:hidden">
-            <LanguageSelector light={!solid} />
+            <LanguageSelector light />
             <button
               type="button"
               aria-label={open ? t.nav.close : t.nav.menu}
               aria-expanded={open}
               aria-controls="mobile-nav"
               onClick={() => setOpen((o) => !o)}
-              className={cn(
-                "p-2 transition-colors",
-                solid ? "text-foreground" : "text-ink-foreground"
-              )}
+              className="rounded-full p-2 text-ink-foreground transition-colors hover:bg-ink-foreground/10 hover:text-gold"
             >
               {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -177,7 +168,7 @@ export function Header() {
         aria-hidden="true"
         onClick={() => setOpen(false)}
         className={cn(
-          "fixed inset-0 z-40 bg-black/55 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
+          "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
           open ? "opacity-100" : "pointer-events-none opacity-0"
         )}
       />
@@ -189,7 +180,7 @@ export function Header() {
         aria-hidden={!open}
         inert={!open}
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-3/4 max-w-xs flex-col border-l border-border bg-background shadow-2xl transition-transform duration-300 ease-out lg:hidden",
+          "fixed inset-y-0 right-0 z-[60] flex w-3/4 max-w-xs flex-col border-l border-border bg-background shadow-2xl transition-transform duration-300 ease-out motion-reduce:transition-none lg:hidden",
           open ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -222,10 +213,13 @@ export function Header() {
         </ul>
 
         <div className="mt-auto border-t p-4 flex flex-col gap-3">
+          <div className="flex justify-end">
+            <LanguageSelector drop="up" />
+          </div>
           <Link
             to="/booking"
             onClick={() => setOpen(false)}
-            className={btn("gold", "w-full justify-center py-2.5 text-xs font-bold uppercase tracking-wider")}
+            className={btn("gold", "w-full justify-center !rounded-full py-2.5 text-xs font-bold uppercase tracking-wider")}
           >
             {t.nav.book}
           </Link>
