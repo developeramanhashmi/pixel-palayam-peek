@@ -10,6 +10,7 @@ import {
   Star,
   Phone,
   Navigation,
+  Sparkles,
 } from "lucide-react";
 import React from "react";
 import { useI18n } from "@/lib/i18n";
@@ -53,7 +54,7 @@ function Home() {
   return (
     <>
       {/* 1. HERO SECTION */}
-      <section className="relative flex min-h-[88svh] items-end overflow-hidden bg-ink pb-10 pt-28 sm:min-h-[100svh] sm:pb-24 sm:pt-32">
+      <section className="relative flex min-h-[90svh] items-end overflow-hidden bg-ink pb-12 pt-28 sm:min-h-[100svh] sm:pb-24 sm:pt-32">
         <img
           src={heroImage}
           alt={
@@ -67,44 +68,63 @@ function Home() {
           fetchPriority="high"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 via-32% to-transparent" />
+        {/* Dynamic Multi-layered Vignette Overlay for crisp readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 via-42% to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/30 to-transparent hidden sm:block" />
 
         <div className="container-x relative z-10 w-full page-in">
-          {/* Micro badges */}
-          <div className="mb-3.5 flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-ink/80 px-2.5 py-1 text-[0.68rem] font-medium text-ink-foreground backdrop-blur-md">
-              <Star className="h-3 w-3 fill-gold text-gold" />
-              <span><strong className="text-gold">4.5</strong> Rating</span>
+          {/* Eyebrow Pill */}
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/60 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-gold shadow-md backdrop-blur-md">
+              <Sparkles className="h-3 w-3 text-gold animate-pulse" />
+              {lang === "ta" ? "பவானி அம்மன் கோவில் அருகில்" : "Near Bhavani Amman Temple"}
+            </span>
+          </div>
+
+          {/* Luxury Micro Badges */}
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/60 px-3 py-1 text-[0.72rem] font-medium text-white shadow-md backdrop-blur-md">
+              <Star className="h-3.5 w-3.5 fill-gold text-gold" />
+              <span><strong className="text-gold font-bold">4.5</strong> Rating</span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-ink/70 px-2.5 py-1 text-[0.68rem] font-medium text-ink-foreground/90 backdrop-blur-md">
-              <Snowflake className="h-3 w-3 text-gold" />
-              <span>AC & Non-AC</span>
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/50 px-3 py-1 text-[0.72rem] font-medium text-white/95 shadow-md backdrop-blur-md">
+              <Snowflake className="h-3.5 w-3.5 text-sky-400" />
+              <span>AC & Non-AC Rooms</span>
             </div>
 
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-ink/70 px-2.5 py-1 text-[0.68rem] font-medium text-ink-foreground/80 backdrop-blur-md">
-              <MapPin className="h-3 w-3 text-gold" />
-              <span>{t.common.nearTemple}</span>
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/50 px-3 py-1 text-[0.72rem] font-medium text-white/90 shadow-md backdrop-blur-md">
+              <MapPin className="h-3.5 w-3.5 text-amber-400" />
+              <span>Walkable to Temple</span>
             </div>
           </div>
 
-          {/* Hero Title: Tamil is broken into 2 balanced lines so building name remains visible */}
+          {/* Hero Title: Dynamic & High Contrast */}
           <h1
             className={cn(
-              "font-serif font-normal tracking-tight text-ink-foreground",
+              "font-serif tracking-tight text-white drop-shadow-[0_4px_22px_rgba(0,0,0,0.9)]",
               lang === "ta"
-                ? "max-w-xl text-2xl sm:text-4xl lg:text-5xl leading-tight sm:leading-snug"
-                : "max-w-2xl text-3xl sm:text-5xl lg:text-6xl leading-[1.12]"
+                ? "max-w-xl text-2xl sm:text-4xl lg:text-5xl font-bold leading-tight sm:leading-snug"
+                : "max-w-3xl text-3xl sm:text-5xl lg:text-6xl font-bold sm:font-extrabold leading-[1.12]"
             )}
           >
             {lang === "ta" ? (
-              <span className="block">{t.home.heroTitle}</span>
+              <span className="block drop-shadow-[0_2px_16px_rgba(0,0,0,0.95)]">
+                {t.home.heroTitle}
+              </span>
             ) : (
-              t.home.heroTitle
+              <>
+                <span className="block drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
+                  Periyapalayam Rooms
+                </span>
+                <span className="mt-1 block text-xl sm:text-2xl lg:text-3xl font-sans font-medium text-gold tracking-normal drop-shadow-md">
+                  Veerapandiyaar Guest House
+                </span>
+              </>
             )}
           </h1>
 
-          <p className="mt-2.5 max-w-lg text-sm font-light leading-relaxed text-ink-foreground/85 sm:mt-4 sm:text-base">
+          <p className="mt-3.5 max-w-xl text-sm sm:text-base font-normal leading-relaxed text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
             {t.home.heroText}
           </p>
 
@@ -113,7 +133,7 @@ function Home() {
             <a
               href="#book"
               onClick={scrollToBook}
-              className="group inline-flex items-center justify-center rounded-lg bg-gold px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-ink shadow-[0_4px_14px_rgba(212,175,55,0.35)] transition-all duration-300 hover:bg-gold-light hover:shadow-[0_6px_20px_rgba(212,175,55,0.5)] hover:-translate-y-0.5 active:translate-y-0"
+              className="group inline-flex items-center justify-center rounded-lg bg-gold px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-ink shadow-[0_4px_16px_rgba(212,175,55,0.4)] transition-all duration-300 hover:bg-gold-light hover:shadow-[0_6px_22px_rgba(212,175,55,0.6)] hover:-translate-y-0.5 active:translate-y-0"
             >
               <span>{t.nav.book}</span>
               <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
@@ -121,7 +141,7 @@ function Home() {
 
             <a
               href={telHref()}
-              className="group inline-flex items-center justify-center rounded-lg border border-white/20 bg-ink/70 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-white backdrop-blur-md shadow-md transition-all duration-300 hover:border-emerald-500 hover:bg-emerald-600 hover:shadow-[0_4px_20px_rgba(16,185,129,0.35)] hover:-translate-y-0.5 active:translate-y-0"
+              className="group inline-flex items-center justify-center rounded-lg border border-white/20 bg-black/60 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-white backdrop-blur-md shadow-md transition-all duration-300 hover:border-emerald-500 hover:bg-emerald-600 hover:shadow-[0_4px_20px_rgba(16,185,129,0.35)] hover:-translate-y-0.5 active:translate-y-0"
             >
               <Phone className="h-4 w-4 mr-2 text-emerald-400 transition-colors duration-200 group-hover:text-white" />
               <span>{t.common.call}</span>
@@ -131,7 +151,7 @@ function Home() {
               href={siteConfig.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center rounded-lg border border-amber-400/40 bg-ink/70 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-amber-200 backdrop-blur-md shadow-md transition-all duration-300 hover:border-amber-400 hover:bg-amber-500 hover:text-ink hover:shadow-[0_4px_20px_rgba(245,158,11,0.35)] hover:-translate-y-0.5 active:translate-y-0"
+              className="group inline-flex items-center justify-center rounded-lg border border-amber-400/40 bg-black/60 px-6 py-3.5 text-xs sm:text-sm font-semibold tracking-wide text-amber-200 backdrop-blur-md shadow-md transition-all duration-300 hover:border-amber-400 hover:bg-amber-500 hover:text-ink hover:shadow-[0_4px_20px_rgba(245,158,11,0.35)] hover:-translate-y-0.5 active:translate-y-0"
             >
               <MapPin className="h-4 w-4 mr-2 text-amber-400 transition-colors duration-200 group-hover:text-ink" />
               <span>{lang === "ta" ? "இடம்" : "Location"}</span>
